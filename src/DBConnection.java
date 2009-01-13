@@ -1,8 +1,9 @@
-/*
-**@author Tyler Schindel
-** Connecting Blackjack Class
-** 1/12/09
-*/
+/**
+ * Database connection layer
+ * @author Tyler Schindel, Emilien Girault
+ * @date 1/12/09
+ */
+
 
 import java.sql.*;
 import java.util.Date;
@@ -12,21 +13,29 @@ import java.text.SimpleDateFormat;
 public class DBConnection
 {
 
-	Connection connect;
-
-
-	static String DRIVER = "com.mysql.jdbc.Driver";
-	static String URL = "jdbc:mysql://localhost/blackjack";
-	static String UID = "blackjack";
-	static String PASS = "blackjack";
-
-  static DBConnection instance = null;
+  /**
+   * Static configuration variables
+   */
+  private static String DRIVER = "com.mysql.jdbc.Driver";
+  private static String URL = "jdbc:mysql://localhost/blackjack";
+  private static String UID = "blackjack";
+  private static String PASS = "blackjack";
 
   /**
-   * Singleton Design Pattern
+   * The unique instance of the class (Singleton Design Pattern)
+   */
+  private static DBConnection instance = null;
+
+  /**
+   * Connection object
+   */
+  Connection connect;
+
+  /**
+   * Return the unique instance of the class (Singleton Design Pattern)
    * @return DBConnection instance
    */
-  public static DBConnection instance(){
+  public static DBConnection instance() throws SQLException {
     if(instance == null){
       instance = new DBConnection();
     }
@@ -36,78 +45,65 @@ public class DBConnection
   /**
    * Private constructor (use instance() instead)
    */
-	private DBConnection()
-	{
+	private DBConnection() throws SQLException {
     connect();
 	}
 
   /**
    * Connect to the database
    */
-  private void connect(){
-    try{
+  private void connect() throws SQLException {
+    try {
       Class.forName(DRIVER).newInstance();
-      connect = DriverManager.getConnection(URL, UID, PASS);
-    } catch(Exception e){
-      System.out.println("Connection Error: " + e.getMessage());
+    } catch(Exception e) {
+      System.out.println(e.getMessage());
     }
+    connect = DriverManager.getConnection(URL, UID, PASS);
   }
 
-	public void executeNonQuery(String query){
-    try {
-      Statement st = connect.createStatement();
-      st.execute(query);
-    } catch(SQLException e){
-      System.out.println(e.getMessage());
-    }
+  /**
+   * Close the connection
+   */
+  public void close() throws SQLException{
+    connect.close();
+  }
+
+	public void executeNonQuery(String query) throws SQLException {
+    Statement st = connect.createStatement();
+    st.execute(query);
 	}
 
-	public ResultSet executeQuery(String query){
+	public ResultSet executeQuery(String query) throws SQLException {
     ResultSet rs = null;
-    try {
-      Statement st = connect.createStatement();
-      rs = st.executeQuery(query);
-    } catch(SQLException e){
-      System.out.println(e.getMessage());
-    }
+    Statement st = connect.createStatement();
+    rs = st.executeQuery(query);
 		return rs;
 	}
 
-	//
-	// Methods
-	//
-	public void register(String s){
-		String query = "INSERT users (userName, password, fName, lName) VALUES (***********)";
-    executeNonQuery(query);
-	}
-
-	//
-	// Accessors
-	//
-	public Object getMaxUserID(){
-		String query = "SELECT MAX(UserID) FROM Users";
-		executeQuery(query);
-    return new Object();
-	}
 
 
-	public void close(){
-		try	{
-			connect.close();
-		} catch(Exception e){
-			System.out.println("Close Connections Error: " + e.getMessage());
-		}
-	}
-
+/*
+//To remove if not used
 	private String getDateTime(){
     DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     Date date = new Date();
     return dateFormat.format(date);
   }
+*/
 
 	// For testing purposes
 	public static void main(String args[]){
-		DBConnection db = instance();
-		db.close();
+    try {
+      //Connect
+      DBConnection db = instance();
+      System.out.println("Connection opened successfully");
+
+      //Close
+      db.close();
+      System.out.println("Connection closed successfully");
+
+    } catch(SQLException e) {
+      System.out.println(e.getMessage());
+    }
 	}
 }
