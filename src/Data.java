@@ -9,19 +9,20 @@ import java.sql.*;
 public class Data {
 
     /**
-    * The unique instance of the class (Singleton Design Pattern)
-    */
+     * The unique instance of the class (Singleton Design Pattern)
+     */
     private static Data instance = null;
 
     /**
-    * Database connection
-    */
+     * Database connection
+     */
     private DBConnection db;
 
     /**
-    * Return the unique instance of the class (Singleton Design Pattern)
-    * @return Data instance
-    */
+     * Return the unique instance of the class (Singleton Design Pattern)
+     * @return Data instance
+     * @throws java.sql.SQLException
+     */
     public static Data instance() throws SQLException {
         if(instance == null){
             instance = new Data();
@@ -33,7 +34,7 @@ public class Data {
     * Private constructor (use instance() instead)
     */
     private Data() throws SQLException {
-        db = DBConnection.instance();
+        db = new DBConnection();
     }
 
 
@@ -42,12 +43,40 @@ public class Data {
     //
 
     /**
-    * Register a user
-    * TODO
-    */
-    public synchronized void register(String s) throws SQLException {
-        String query = "INSERT users (userName, password, fName, lName) VALUES (***********)";
-        db.executeNonQuery(query);
+     * Register a new user
+     * @param userName the user's login
+     * @param password the user's password
+     * @param fName his first name
+     * @param lName his last name
+     * @return true if he has been successfully registered, false if the login already exists
+     * @throws java.sql.SQLException
+     */
+    public synchronized boolean register(String userName, String password, String fName, String lName) throws SQLException {
+
+        boolean ok = false;
+        PreparedStatement pst;
+        ResultSet rs;
+
+        //Check if the username does not already exist
+        pst = db.newPreparedStatement("SELECT COUNT(userID) FROM Users WHERE userName = (?)");
+        pst.setString(1, userName);
+        rs = pst.executeQuery();
+        if(rs.next()){
+            ok = (rs.getInt(1) == 0);
+        }
+
+        //Insert the new user
+        if(ok){
+            pst = db.newPreparedStatement(
+                    "INSERT INTO Users (userName, password, joinDate, fName, lName) VALUES (?, ?, NOW(), ?, ?)"
+                    );
+            pst.setString(1, userName);
+            pst.setString(2, password);
+            pst.setString(3, fName);
+            pst.setString(4, lName);
+            pst.executeUpdate();
+        }
+        return ok;
     }
 
     /**
@@ -55,8 +84,18 @@ public class Data {
     * TODO
     */
     public synchronized Object getMaxUserID() throws SQLException {
+        
         String query = "SELECT MAX(UserID) FROM Users";
         return db.executeQuery(query);
+
+        /* TODO delete this test
+        ResultSet rs = db.executeQuery("SELECT * FROM Users");
+        String ret = "rien";
+        if(rs.next()){
+            ret = rs.getString("userName");
+        }
+        return ret;
+         * */
     }
 
 

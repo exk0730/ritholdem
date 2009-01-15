@@ -6,52 +6,39 @@
 
 
 import java.sql.*;
+/* //TODO delete if unused
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+*/
 
 public class DBConnection
 {
 
     /**
-    * Static configuration variables
-    */
+     * Static configuration variables
+     */
     private static String DRIVER = "com.mysql.jdbc.Driver";
     private static String URL = "jdbc:mysql://localhost/blackjack";
     private static String UID = "blackjack";
     private static String PASS = "blackjack";
 
     /**
-    * The unique instance of the class (Singleton Design Pattern)
-    */
-    private static DBConnection instance = null;
-
-    /**
-    * Connection object
-    */
+     * Connection object
+     */
     Connection connect;
 
     /**
-    * Return the unique instance of the class (Singleton Design Pattern)
-    * @return DBConnection instance
-    */
-    public static DBConnection instance() throws SQLException {
-        if(instance == null){
-            instance = new DBConnection();
-        }
-        return instance;
-    }
-
-    /**
-    * Private constructor (use instance() instead)
-    */
-    private DBConnection() throws SQLException {
+     * Constructor
+     */
+    public DBConnection() throws SQLException {
         connect();
     }
 
     /**
-    * Connect to the database
-    */
+     * Connect to the database
+     * @throws java.sql.SQLException
+     */
     private void connect() throws SQLException {
         try {
             Class.forName(DRIVER).newInstance();
@@ -62,22 +49,43 @@ public class DBConnection
     }
 
     /**
-    * Close the connection
-    */
+     * Close the connection
+     * @throws java.sql.SQLException
+     */
     public void close() throws SQLException{
         connect.close();
     }
 
+    /**
+     * Execute a query that doesn't return a result
+     * @param query the query
+     * @throws java.sql.SQLException
+     */
     public void executeNonQuery(String query) throws SQLException {
         Statement st = connect.createStatement();
         st.execute(query);
     }
 
+    /**
+     * Execute a query that returns a result
+     * @param query the query
+     * @return the resultset
+     * @throws java.sql.SQLException
+     */
     public ResultSet executeQuery(String query) throws SQLException {
         ResultSet rs = null;
         Statement st = connect.createStatement();
         rs = st.executeQuery(query);
         return rs;
+    }
+
+    /**
+     * Create a new prepared statement (to prevent SQL injections)
+     * @param s
+     * @throws java.sql.SQLException
+     */
+    public PreparedStatement newPreparedStatement(String query) throws SQLException {
+        return connect.prepareStatement(query);
     }
 
 
@@ -95,7 +103,7 @@ private String getDateTime(){
 	public static void main(String args[]){
         try {
             //Connect
-            DBConnection db = instance();
+            DBConnection db = new DBConnection();
             System.out.println("Connection opened successfully");
 
             //Close
