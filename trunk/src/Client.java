@@ -23,32 +23,50 @@ public class Client {
         try {
             server = (RMIInterface) Naming.lookup(SERVER_NAME);
         } catch(Exception e) {
-            System.out.println("The client cannot resolve the server. Did you launch it?");
+            System.err.println("The client cannot resolve the server. Did you launch it?");
             System.exit(1);
         }
     }
+
+
+    /**
+     * Login test method
+     * TODO To be removed after deliverable 2
+     * @param userName
+     * @param password
+     * @return
+     */
+    public int test_login(String userName, String password){
+        int userID = RMIInterface.LOGIN_FAILED;
+        try {
+            System.out.println("Trying to login with "+userName+" : "+password+"...");
+            if((userID = server.login(userName, password)) != RMIInterface.LOGIN_FAILED){
+                System.out.println("Login successful, userID = " + userID);
+            } else {
+                System.out.println("Login failed!");
+            }
+        } catch(RemoteException e) {
+            System.err.println("Client error: " + e.getMessage());
+        }
+        return userID;
+    }
+
 
     /**
      * Main program
      * @param args
      */
     public static void main(String[] args){
-
         /**
          * This is a test program for deliverable 2
          * It only call some methods to get data from and to the database.
          */
-        Client client = new Client();
         
+        Client client = new Client();
+        int userID;
+        userID = client.test_login("john", "doe");
 
-        try {
-            System.out.println("register = " + client.server.register("emilien", "p4ss", "Emilien", "Girault", "bla@bla.com", "1456", 8));
-            System.out.println("lll");
-
-        } catch(Exception e){
-            System.out.println("The client encountered an error. The message is: " + e.getMessage());
-            e.printStackTrace();
-        }
+        
     }
 
 }
