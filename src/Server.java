@@ -9,10 +9,6 @@ import java.sql.*;
 
 public class Server extends java.rmi.server.UnicastRemoteObject implements RMIInterface {
 
-    /**
-     * The server RMI name
-     */
-    public static String SERVER_NAME = "BlackJackServer";
 
     /**
      * Database
@@ -44,24 +40,40 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         return instance;
     }
 
+    /**
+     * Bind to the RMI Registry
+     */
+    public void bind(){
+        try {
+            //System.out.println("name = " + server.data.getMaxUserID());
+            //System.out.println("register = " + server.register("emilien", "mypass", "Emilien", "Girault", "bob@sponge.com", "", ""));
+            Naming.rebind(SERVER_NAME, this);
+
+        } catch(Exception e){
+            System.out.println("Server error: Impossible to bind object to registry.");
+            System.out.println("Did you launch 'rmiregistry' in the 'classes' folder of the project?");
+            System.exit(1);
+        }
+    }
+
 
     @Override
-    public Card hit(String login) throws RemoteException {
+    public Card hit(int userID) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void stand(String login) throws RemoteException {
+    public void stand(int userID) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public Card dble(String login, double bet) throws RemoteException {
+    public Card dble(int userID, double bet) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void highStakes(String login) throws RemoteException {
+    public void highStakes(int userID) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -77,6 +89,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @return
      * @throws java.rmi.RemoteException
      */
+    @Override
     public boolean register(String loginID, String password, String fName,
                             String lName, String email, String creditCard, double startingCash) throws RemoteException {
         boolean ok = false;
@@ -86,18 +99,31 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
              */
             ok = data.register(loginID, password, fName, lName, email);
         } catch(SQLException e) {
-            ok = false;
+            System.err.println("Error in register(): " + e.getMessage());
         }
         return ok;
     }
 
+    /**
+     * Attempt to login
+     * @param loginID
+     * @param password
+     * @return LOGIN_FAILED if failed, otherwise the userID
+     * @throws java.rmi.RemoteException
+     */
     @Override
-    public void login(String loginID, String password) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public int login(String userName, String password) throws RemoteException {
+        int userID = LOGIN_FAILED;
+        try {
+            userID = data.login(userName, password);
+        } catch(SQLException e) {
+            System.err.println("Error in login(): " + e.getMessage());
+        }
+        return userID;
     }
 
     @Override
-    public double getMoney(String loginID) throws RemoteException {
+    public double getMoney(int userID) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -107,7 +133,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     }
 
     @Override
-    public AccountInformation query(String login) throws RemoteException {
+    public AccountInformation query(int userID) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -121,20 +147,14 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         try {
             server = instance();
         } catch(Exception e) {
-            System.out.println("The server encountered an error while trying to tonnect to the database.");
-            System.out.println("The error is: " + e.getMessage());
+            System.err.println("The server encountered an error while trying to connect to the database.");
+            System.err.println("The error is: " + e.getMessage());
             System.exit(1);
         }
-        try {
-            //System.out.println("name = " + server.data.getMaxUserID());
-            //System.out.println("register = " + server.register("emilien", "mypass", "Emilien", "Girault", "bob@sponge.com", "", ""));
-            Naming.rebind(SERVER_NAME, server);
 
-        } catch(Exception e){
-            System.out.println("Server error: Impossible to bind object to registry.");
-            System.out.println("Did you launch 'rmiregistry' in the 'classes' folder of the project?");
-            System.exit(1);
-        }
+        System.out.println("Starting the server.");
+        server.bind();
+        
     }
 
 }

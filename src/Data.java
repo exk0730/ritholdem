@@ -81,6 +81,7 @@ public class Data {
             }
         }
 
+        //Insert the user infos
         if(ok){
             pst = db.newPreparedStatement(
                     "INSERT INTO UserInfo (userID, fName, lName, email, dateJoined) VALUES (?, ?, ?, ?, NOW())"
@@ -96,6 +97,37 @@ public class Data {
     }
 
     /**
+     * Attempt to login a user
+     * @param userID
+     * @param password
+     * @return true if OK, false if the userID/password don't match
+     * @throws java.sql.SQLException
+     */
+    public synchronized int login(String userName, String password) throws SQLException {
+        int userID = RMIInterface.LOGIN_FAILED;
+        PreparedStatement pst;
+        ResultSet rs;
+
+        //Check username and password
+        pst = db.newPreparedStatement("SELECT userID FROM Users WHERE userName = (?) AND pwd = (?)");
+        pst.setString(1, userName);
+        pst.setString(2, password);
+        rs = pst.executeQuery();
+        if(rs.next()){
+            userID = rs.getInt(1);
+        }
+
+        //Update the dateLastPlayed field in UserInfo
+        if((userID != RMIInterface.LOGIN_FAILED)){
+            pst = db.newPreparedStatement("UPDATE UserInfo SET dateLastPlayed = NOW() WHERE userID = (?)");
+            pst.setInt(1, userID);
+            pst.executeUpdate();
+        }
+
+        return userID;
+    }
+
+    /**
     * Get the maximum user ID
     * TODO
     */
@@ -103,15 +135,6 @@ public class Data {
         
         String query = "SELECT MAX(UserID) FROM Users";
         return db.executeQuery(query);
-
-        /* TODO delete this test
-        ResultSet rs = db.executeQuery("SELECT * FROM Users");
-        String ret = "rien";
-        if(rs.next()){
-            ret = rs.getString("userName");
-        }
-        return ret;
-         * */
     }
 
 
