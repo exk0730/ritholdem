@@ -85,7 +85,7 @@ public class DBConnection
      * @throws java.sql.SQLException
      */
     public PreparedStatement newPreparedStatement(String query) throws SQLException {
-        return connect.prepareStatement(query);
+        return connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
     }
 
 

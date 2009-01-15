@@ -1,4 +1,8 @@
-//BlackjackInterface
+/**
+ * RMI Interface for the server
+ * @author Eric Kisner, Emilien Girault
+ * @date 1/12/09
+ */
 import java.rmi.*;
 
 public interface RMIInterface extends Remote
@@ -24,8 +28,8 @@ public interface RMIInterface extends Remote
 	public void highStakes(String login) throws RemoteException;
 	
 	//method to register
-	public boolean register(String fname, String lname, String password,
-									String creditCard, String loginID, double startingCash) throws RemoteException;
+	public boolean register(String loginID, String password, String fName, String lName, String email,
+			/** TODO Handle these params !*/	String creditCard, double startingCash) throws RemoteException;
 	
 	//method to log in
 	public void login(String loginID, String password) throws RemoteException;

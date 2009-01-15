@@ -51,11 +51,12 @@ public class Data {
      * @return true if he has been successfully registered, false if the login already exists
      * @throws java.sql.SQLException
      */
-    public synchronized boolean register(String userName, String password, String fName, String lName) throws SQLException {
+    public synchronized boolean register(String userName, String password, String fName, String lName, String email) throws SQLException {
 
         boolean ok = false;
         PreparedStatement pst;
         ResultSet rs;
+        int userID = -1;
 
         //Check if the username does not already exist
         pst = db.newPreparedStatement("SELECT COUNT(userID) FROM Users WHERE userName = (?)");
@@ -67,14 +68,29 @@ public class Data {
 
         //Insert the new user
         if(ok){
-            pst = db.newPreparedStatement(
-                    "INSERT INTO Users (userName, password, joinDate, fName, lName) VALUES (?, ?, NOW(), ?, ?)"
-                    );
+            pst = db.newPreparedStatement("INSERT INTO Users (userName, pwd) VALUES(?, ?);");
             pst.setString(1, userName);
             pst.setString(2, password);
-            pst.setString(3, fName);
-            pst.setString(4, lName);
             pst.executeUpdate();
+
+            //Get the AUTO_INCREMENT value
+            rs = pst.getGeneratedKeys();
+            if(rs.next()){
+                userID = rs.getInt(1);
+                ok = (userID != -1);
+            }
+        }
+
+        if(ok){
+            pst = db.newPreparedStatement(
+                    "INSERT INTO UserInfo (userID, fName, lName, email, dateJoined) VALUES (?, ?, ?, ?, NOW())"
+                    );
+            pst.setInt(1, userID);
+            pst.setString(2, fName);
+            pst.setString(3, lName);
+            pst.setString(4, email);
+            pst.executeUpdate();
+
         }
         return ok;
     }
