@@ -28,7 +28,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * Private constructor (use instance() instead)
      * @throws java.sql.SQLException
      */
-    private Server() throws Exception {
+    private Server() throws SQLException, RemoteException {
         data = Data.instance();
     }
 
@@ -65,9 +65,30 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
-    public boolean register(String loginID, String password, String fName, String lName, String email, String creditCard, double startingCash) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    /**
+     * Register a user
+     * @param loginID
+     * @param password
+     * @param fName
+     * @param lName
+     * @param email
+     * @param creditCard
+     * @param startingCash
+     * @return
+     * @throws java.rmi.RemoteException
+     */
+    public boolean register(String loginID, String password, String fName,
+                            String lName, String email, String creditCard, double startingCash) throws RemoteException {
+        boolean ok = false;
+        try {
+            /**
+             * TODO: handle the last 2 params
+             */
+            ok = data.register(loginID, password, fName, lName, email);
+        } catch(SQLException e) {
+            ok = false;
+        }
+        return ok;
     }
 
     @Override
@@ -90,35 +111,29 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-        /**
+    /**
      * The main program
+     * /!\ Be sure to run rmiregistry in the class path before running this program
      * @param args arguments
      */
     public static void main(String args[]){
+        Server server = null;
         try {
-            Server s = instance();
-            //System.out.println("name = " + s.data.getMaxUserID());
-            System.out.println("register = " + s.data.register("emilien", "mypass", "Emilien", "Girault", "bob@sponge.com"));
-            //Naming.rebind(SERVER_NAME, s);
-
-
-            /**
-             *
-             * TODO
-             *
-             * Run rmic 
-             * Run rmiregistery
-             * (howto in Netbeans ??)
-             *
-             *
-             *
-             *
-             *
-             */
+            server = instance();
+        } catch(Exception e) {
+            System.out.println("The server encountered an error while trying to tonnect to the database.");
+            System.out.println("The error is: " + e.getMessage());
+            System.exit(1);
+        }
+        try {
+            //System.out.println("name = " + server.data.getMaxUserID());
+            //System.out.println("register = " + server.register("emilien", "mypass", "Emilien", "Girault", "bob@sponge.com", "", ""));
+            Naming.rebind(SERVER_NAME, server);
 
         } catch(Exception e){
-            System.out.println("Server error: "+e.getMessage());
-            e.printStackTrace();
+            System.out.println("Server error: Impossible to bind object to registry.");
+            System.out.println("Did you launch 'rmiregistry' in the 'classes' folder of the project?");
+            System.exit(1);
         }
     }
 

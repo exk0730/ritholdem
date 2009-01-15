@@ -4,6 +4,7 @@
  * @date 1/12/09
  */
 import java.rmi.*;
+import java.sql.SQLException;
 
 public interface RMIInterface extends Remote
 {
