@@ -1,14 +1,15 @@
 //BlackjackInterface
 import java.rmi.*;
-import java.util.*;
 
 public interface RMIInterface extends Remote
 {
+    /* //TO BE ADDED LATER
 	//method to deal cards
 	public PlayerCards deal(String login, double bet) throws RemoteException;
 	
 	//method to get dealer's cards
 	public DealerCards deal() throws RemoteException;
+    */
 	
 	//method to hit
 	public Card hit(String login) throws RemoteException;
