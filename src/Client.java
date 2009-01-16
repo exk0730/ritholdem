@@ -6,6 +6,7 @@
 
 import java.rmi.*;
 
+
 public class Client {
 
     /**
@@ -14,6 +15,10 @@ public class Client {
      */
     public RMIInterface server;
 
+    /**
+     * Constructor
+     * TODO: Singleton Design Pattern?
+     */
     public Client(){
         try {
             server = (RMIInterface) Naming.lookup(RMIInterface.SERVER_NAME);
@@ -96,15 +101,31 @@ public class Client {
      * Test method for getInfos()
      * @param userID
      */
-    public void test_getInfos(int userID){
+    public AccountInformation test_getInfos(int userID){
+        AccountInformation ai = null;
         try {
             System.out.println("\nFetching informations for user ID "+userID+"...");
-            AccountInformation ai = server.getInfos(userID);
+            ai = server.getInfos(userID);
             if(ai == null){
                 System.out.println("Impossible to get the informations; please check the user ID");
             } else {
                 System.out.println(ai);
             }
+        } catch(RemoteException e) {
+            System.err.println("Client error: " + e.getMessage());
+        }
+        return ai;
+    }
+
+    /**
+     * Test method for getInfos()
+     * @param userID
+     */
+    public void test_writeInfos(int userID, AccountInformation ai){
+        try {
+            System.out.println("\nWriting informations for user ID "+userID+"...");
+            server.writeInfos(userID, ai);
+            System.out.println("Writing successful!");
         } catch(RemoteException e) {
             System.err.println("Client error: " + e.getMessage());
         }
@@ -120,24 +141,46 @@ public class Client {
          * This is a test program for deliverable 2
          * It only call some methods to get data from and to the database.
          */
-        
-        Client client = new Client();
 
+        //Create a client
+        Client client = new Client();
+        AccountInformation ai;
+        int userID;
+
+        //Login with an existing account
+        userID = client.test_login("MountainMan", "isleepwithbears");
+
+        //Get the informations of this account
+        ai = client.test_getInfos(userID);
+
+        //Change the user's last name and email
+        ai.setLastName("Bob");
+        ai.setEmail("bob@sponge.com");
+        client.test_writeInfos(userID, ai);
+
+        //Get the informations back
+        ai = client.test_getInfos(userID);
+
+        
+
+        //Try to login with a fake account, it should not work
         client.test_login("john", "doe");
 
+        //Register a new account
         client.test_register("john", "doe", "John", "Doe", "john.doe@gmail.com");
 
-        int userID = client.test_login("john", "doe");
+        //Login with this new account, this should work
+        userID = client.test_login("john", "doe");
 
-
+        //Get the informations of this account
         client.test_getInfos(userID);
 
-        client.test_deleteAccount(userID, "john", "wrong_pass");
-        
+        //Try to delete this account with fake credentials, this should not work
+        client.test_deleteAccount(userID, "john", "wrong_password");
+
+        //Really delete the account
         client.test_deleteAccount(userID, "john", "doe");
 
-
-        
     }
 
 }

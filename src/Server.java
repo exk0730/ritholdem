@@ -166,6 +166,21 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         return ai;
     }
 
+    /**
+     * Write a user's infos to the database
+     * @param userID
+     * @param ai user's infos
+     * @throws java.rmi.RemoteException
+     */
+    @Override
+    public void writeInfos(int userID, AccountInformation ai) throws RemoteException {
+        try {
+            data.writeInfos(userID, ai);
+        } catch(SQLException e){
+            System.err.println("Error in writeInfos(): " + e.getMessage());
+        }
+    }
+
 
     /**
      * The main program

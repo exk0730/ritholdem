@@ -3,14 +3,8 @@
  * @author Tyler Schindel, Emilien Girault
  * @date 1/12/09
  */
-
-
 import java.sql.*;
-/* //TODO delete if unused
-import java.util.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-*/
+
 
 public class DBConnection
 {
@@ -18,10 +12,12 @@ public class DBConnection
     /**
      * Static configuration variables
      */
-    private static String DRIVER = "com.mysql.jdbc.Driver";
-    private static String URL = "jdbc:mysql://localhost/blackjack";
-    private static String UID = "blackjack";
-    private static String PASS = "blackjack";
+    public static String HOST = "localhost";
+    public static String DATABASE = "blackjack";
+    public static String UID = "blackjack";
+    public static String PASS = "blackjack";
+    public static String DRIVER = "com.mysql.jdbc.Driver";
+    public static String URL = "jdbc:mysql://"+HOST+"/"+DATABASE;
 
     /**
      * Connection object
@@ -88,16 +84,6 @@ public class DBConnection
         return connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
     }
 
-
-
-/*
-//To remove if not used
-private String getDateTime(){
-    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-    Date date = new Date();
-    return dateFormat.format(date);
-}
-*/
 
 	// For testing purposes
 	public static void main(String args[]){
