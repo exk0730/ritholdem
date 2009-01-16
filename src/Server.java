@@ -127,9 +127,21 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     * Delete a user account
+     * @param userID
+     * @param password
+     * @throws java.rmi.RemoteException
+     */
     @Override
-    public void delete(String loginID, String password) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet.");
+	public boolean deleteAccount(int userID, String userName, String password) throws RemoteException {
+        boolean ok = false;
+        try {
+            ok = data.deleteAccount(userID, userName, password);
+        } catch(SQLException e){
+            System.err.println("Error in deleteAccount(): " + e.getMessage());
+        }
+        return ok;
     }
 
     @Override

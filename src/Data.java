@@ -52,7 +52,6 @@ public class Data {
      * @throws java.sql.SQLException
      */
     public synchronized boolean register(String userName, String password, String fName, String lName, String email) throws SQLException {
-
         boolean ok = false;
         PreparedStatement pst;
         ResultSet rs;
@@ -128,14 +127,19 @@ public class Data {
     }
 
     /**
-    * Get the maximum user ID
-    * TODO
-    */
-    public synchronized Object getMaxUserID() throws SQLException {
-        
-        String query = "SELECT MAX(UserID) FROM Users";
-        return db.executeQuery(query);
+     * Delete a user account
+     * @param userID
+     * @param userName
+     * @param password
+     * @return true if the account has been successfully deleted, false otherwise
+     * @throws java.sql.SQLException
+     */
+    public synchronized boolean deleteAccount(int userID, String userName, String password) throws SQLException {
+        //Check if the username does not already exist
+        PreparedStatement pst = db.newPreparedStatement("DELETE FROM Users WHERE userID = (?) AND userName = (?) AND pwd = (?)");
+        pst.setInt(1, userID);
+        pst.setString(2, userName);
+        pst.setString(3, password);
+        return (pst.executeUpdate() == 1);
     }
-
-
 }

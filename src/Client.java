@@ -30,7 +30,7 @@ public class Client {
 
 
     /**
-     * Login test method
+     * Test method for login()
      * TODO To be removed after deliverable 2
      * @param userName
      * @param password
@@ -39,9 +39,9 @@ public class Client {
     public int test_login(String userName, String password){
         int userID = RMIInterface.LOGIN_FAILED;
         try {
-            System.out.println("Trying to login with "+userName+" : "+password+"...");
+            System.out.println("\nTrying to login with username '"+userName+"' and password '"+password+"'...");
             if((userID = server.login(userName, password)) != RMIInterface.LOGIN_FAILED){
-                System.out.println("Login successful, userID = " + userID);
+                System.out.println("Login successful, your user ID is " + userID);
             } else {
                 System.out.println("Login failed!");
             }
@@ -49,6 +49,52 @@ public class Client {
             System.err.println("Client error: " + e.getMessage());
         }
         return userID;
+    }
+
+    /**
+     * Test method for register()
+     * TODO To be removed after deliverable 2
+     * @param loginID
+     * @param password
+     * @param fName
+     * @param lName
+     * @param email
+     */
+    public boolean test_register(String userName, String password, String fName, String lName, String email){
+        boolean ok = false;
+        try {
+            System.out.println("\nRegistering "+userName+" with password "+password+"...");
+            if(!(ok = server.register(userName, password, fName, lName, email, "", 0))){
+                System.out.println("Impossible to register; the specified login is already taken. Try another one.");
+            } else {
+                System.out.println("Registration succesful!");
+            }
+        } catch(RemoteException e) {
+            System.err.println("Client error: " + e.getMessage());
+        }
+        return ok;
+    }
+
+    /**
+     * Test method for deleteAccount()
+     * @param userID
+     * @param userName
+     * @param password
+     * @return
+     */
+    public boolean test_deleteAccount(int userID, String userName, String password){
+        boolean ok = false;
+        try {
+            System.out.println("\nDeleting "+userName+"'s account with password '"+password+"' and user ID "+userID+"...");
+            if(!(ok = server.deleteAccount(userID, userName, password))){
+                System.out.println("Impossible to delete the account; check your username/password.");
+            } else {
+                System.out.println("The account have been deleted. Bye!");
+            }
+        } catch(RemoteException e) {
+            System.err.println("Client error: " + e.getMessage());
+        }
+        return ok;
     }
 
 
@@ -63,8 +109,16 @@ public class Client {
          */
         
         Client client = new Client();
-        int userID;
-        userID = client.test_login("john", "doe");
+
+        client.test_login("john", "doe");
+
+        client.test_register("john", "doe", "John", "Doe", "john.doe@gmail.com");
+
+        int userID = client.test_login("john", "doe");
+
+        client.test_deleteAccount(userID, "john", "wrong_pass");
+        
+        client.test_deleteAccount(userID, "john", "doe");
 
         
     }
