@@ -128,6 +128,7 @@ public class Data {
 
     /**
      * Delete a user account
+     * TODO: delete also the other tables
      * @param userID
      * @param userName
      * @param password
@@ -142,4 +143,26 @@ public class Data {
         pst.setString(3, password);
         return (pst.executeUpdate() == 1);
     }
+
+    /**
+     * Get a user's informations
+     * @param userID
+     * @return the user's informations
+     * @throws java.sql.SQLException
+     */
+    public AccountInformation getInfos(int userID) throws SQLException {
+        AccountInformation ai = null;
+        PreparedStatement pst = db.newPreparedStatement("SELECT * FROM Users, UserInfo WHERE Users.userID = (?) AND UserInfo.userID = Users.userID");
+        pst.setInt(1, userID);
+        ResultSet rs = pst.executeQuery();
+
+        if(rs.next()){
+            ai = new AccountInformation(rs.getString("userName"), rs.getString("fName"), rs.getString("lName"),
+                    rs.getString("email"), rs.getDate("dateLastPlayed"), rs.getDate("dateJoined"));
+
+        }
+
+        return ai;
+    }
+
 }

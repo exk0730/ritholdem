@@ -57,6 +57,10 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     }
 
 
+    //
+    // RMI Methods
+    //
+
     @Override
     public Card hit(int userID) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -144,10 +148,24 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         return ok;
     }
 
-    @Override
-    public AccountInformation query(int userID) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet.");
+
+    /**
+     * Get the informations of a user
+     * @param userID
+     * @return
+     * @throws java.rmi.RemoteException
+     */
+	@Override
+    public AccountInformation getInfos(int userID) throws RemoteException {
+        AccountInformation ai = null;
+        try {
+            ai = data.getInfos(userID);
+        } catch(SQLException e){
+            System.err.println("Error in getInfos(): " + e.getMessage());
+        }
+        return ai;
     }
+
 
     /**
      * The main program
