@@ -1,23 +1,32 @@
-import java.io.*;
-
 /**
-*Mock handling of user information
-*Database classes should do these methods
-*/
+ * Account information - Represent the informations of a user account
+ * @author Eric Kisner, Emilien Girault
+ * @date 1/12/09
+ */
+
+import java.io.*;
+import java.util.Date;
+
 public class AccountInformation implements Serializable
 {
-	private String fName, lName, creditCard, loginID, password;
+	private String userName, fName, lName, email;/*, creditCard;*/
+    private Date dateLastPlayed, dateJoined;
+
+    /*
 	private double totalCash, totalTimePlaying, totalTimeConnected, longestWinningStreak,
 						mostMoneyWon, totalHandsPlayed, amountOfWins, amountOfLosses;
+     * */
 	
-	public AccountInformation(String firstName, String lastName, String cCard,
-									String log, String passwd, double cash)
+	public AccountInformation(String login, String firstName, String lastName, String mail, Date dLastPlayed, Date dJoined)
 	{
+		userName = login;
 		fName = firstName;
 		lName = lastName;
+        email = mail;
+        dateLastPlayed = dLastPlayed;
+        dateJoined = dJoined;
+        /*
 		creditCard = cCard;
-		loginID = log;
-		password = passwd;
 		totalCash = cash;
 		totalTimePlaying = 0;
 		totalTimeConnected = 0;
@@ -26,45 +35,27 @@ public class AccountInformation implements Serializable
 		totalHandsPlayed = 0;
 		amountOfWins = 0;
 		amountOfLosses = 0;
+         * */
 	}
 	
-	public String getLogin()
+	public String getUserName()
 	{
-		return loginID;
+		return userName;
 	}
 	
-	public String getPassword()
-	{
-		return password;
-	}
-	
+	/*
 	public double getTotalCash()
 	{
 		return totalCash;
 	}
+     * */
 	
-	/**
-	*Decreases or increases a player's amount of money
-	*/
-	public void setCash(double dbl, boolean win, boolean blackJack)
-	{
-		if(win)
-		{
-			totalCash += dbl;
-		}
-		else if(blackJack)
-		{
-			totalCash += dbl * 1.5;
-		}
-		else
-		{
-			totalCash -= dbl;
-		}
-	}
-	
+		
+    @Override
 	public String toString()
 	{
-		String temp = lName + ", " + fName + " with CreditCardNumber: " + creditCard + " has " + totalCash + " total money.";
+		String temp = "Name: "+ fName + " " + lName + "; Login: " + userName + "; email: " + email +
+                "; Created:" + dateJoined + "; Last game: " + dateLastPlayed;
 		return temp;
 	}
 }

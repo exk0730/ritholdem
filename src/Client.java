@@ -7,11 +7,6 @@
 import java.rmi.*;
 
 public class Client {
-    
-    /**
-     * The server RMI name
-     */
-    public static String SERVER_NAME = "BlackJackServer";
 
     /**
      * Server RMI object
@@ -21,7 +16,7 @@ public class Client {
 
     public Client(){
         try {
-            server = (RMIInterface) Naming.lookup(SERVER_NAME);
+            server = (RMIInterface) Naming.lookup(RMIInterface.SERVER_NAME);
         } catch(Exception e) {
             System.err.println("The client cannot resolve the server. Did you launch it?");
             System.exit(1);
@@ -97,6 +92,24 @@ public class Client {
         return ok;
     }
 
+    /**
+     * Test method for getInfos()
+     * @param userID
+     */
+    public void test_getInfos(int userID){
+        try {
+            System.out.println("\nFetching informations for user ID "+userID+"...");
+            AccountInformation ai = server.getInfos(userID);
+            if(ai == null){
+                System.out.println("Impossible to get the informations; please check the user ID");
+            } else {
+                System.out.println(ai);
+            }
+        } catch(RemoteException e) {
+            System.err.println("Client error: " + e.getMessage());
+        }
+    }
+
 
     /**
      * Main program
@@ -116,9 +129,13 @@ public class Client {
 
         int userID = client.test_login("john", "doe");
 
+
+        client.test_getInfos(userID);
+
         client.test_deleteAccount(userID, "john", "wrong_pass");
         
         client.test_deleteAccount(userID, "john", "doe");
+
 
         
     }
