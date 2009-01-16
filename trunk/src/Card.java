@@ -1,3 +1,9 @@
+/**
+ * Card class - Not used for deliverable 2
+ * @author Eric Kisner
+ * @date 1/12/09
+ */
+
 import javax.swing.*;
 import java.io.*;
 
