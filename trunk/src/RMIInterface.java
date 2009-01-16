@@ -61,6 +61,15 @@ public interface RMIInterface extends Remote
      */
 	public AccountInformation getInfos(int userID) throws RemoteException;
 
+    /**
+     * Write a user's infos to the database
+     * @param userID
+     * @param ai user's infos
+     * @throws java.rmi.RemoteException
+     */
+    public void writeInfos(int userID, AccountInformation ai) throws RemoteException;
+    
+
 
     /*
      TODO TO BE ADDED LATER

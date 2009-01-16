@@ -128,7 +128,7 @@ public class Data {
 
     /**
      * Delete a user account
-     * TODO: delete also the other tables
+     * TODO: delete also in the other tables
      * @param userID
      * @param userName
      * @param password
@@ -136,12 +136,13 @@ public class Data {
      * @throws java.sql.SQLException
      */
     public synchronized boolean deleteAccount(int userID, String userName, String password) throws SQLException {
-        //Check if the username does not already exist
-        PreparedStatement pst = db.newPreparedStatement("DELETE FROM Users WHERE userID = (?) AND userName = (?) AND pwd = (?)");
+        //Multi-table DELETE (check http://dev.mysql.com/doc/refman/5.0/en/delete.html for syntax)
+        PreparedStatement pst = db.newPreparedStatement("DELETE Users, UserInfo FROM Users INNER JOIN UserInfo " +
+                "WHERE Users.userID = (?) AND userName = (?) AND pwd = (?) AND UserInfo.userID = Users.userID");
         pst.setInt(1, userID);
         pst.setString(2, userName);
         pst.setString(3, password);
-        return (pst.executeUpdate() == 1);
+        return (pst.executeUpdate() > 0);
     }
 
     /**
@@ -155,14 +156,33 @@ public class Data {
         PreparedStatement pst = db.newPreparedStatement("SELECT * FROM Users, UserInfo WHERE Users.userID = (?) AND UserInfo.userID = Users.userID");
         pst.setInt(1, userID);
         ResultSet rs = pst.executeQuery();
-
         if(rs.next()){
-            ai = new AccountInformation(rs.getString("userName"), rs.getString("fName"), rs.getString("lName"),
-                    rs.getString("email"), rs.getDate("dateLastPlayed"), rs.getDate("dateJoined"));
+            ai = new AccountInformation(rs.getString("userName"), rs.getString("pwd"), rs.getString("fName"),
+                    rs.getString("lName"), rs.getString("email"), rs.getDate("dateLastPlayed"), rs.getDate("dateJoined"));
 
         }
-
         return ai;
+    }
+
+    /**
+     * Write the user's infos to the database
+     * @param userID
+     * @param ai the user's infos
+     * @throws java.sql.SQLException
+     */
+    public void writeInfos(int userID, AccountInformation ai) throws SQLException {
+        PreparedStatement pst = db.newPreparedStatement("UPDATE Users, UserInfo "+
+                "SET pwd = ?, userName = ?, fName = ?, lName = ?, email = ?, dateLastPlayed = ?, dateJoined  = ? " +
+                "WHERE Users.userID = ? AND UserInfo.userID = Users.userID");
+        pst.setString(1, ai.getPassword());
+        pst.setString(2, ai.getUserName());
+        pst.setString(3, ai.getFirstName());
+        pst.setString(4, ai.getLastName());
+        pst.setString(5, ai.getEmail());
+        pst.setDate(6, ai.getDateLastPlayed());
+        pst.setDate(7, ai.getDateJoined());
+        pst.setInt(8, userID);
+        pst.executeUpdate();
     }
 
 }
