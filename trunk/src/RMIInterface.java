@@ -53,7 +53,16 @@ public interface RMIInterface extends Remote
      */
 	public boolean register(String userName, String password, String fName, String lName, String email,
 			/** TODO Handle these params !*/	String creditCard, double startingCash) throws RemoteException;
-	
+
+    /**
+     * Delete a user account
+     * @param userID
+     * @param password
+     * @throws java.rmi.RemoteException
+     */
+	public boolean deleteAccount(int userID, String userName, String password) throws RemoteException;
+
+
 	/**
      * Attempt to login
      * @param loginID
@@ -66,8 +75,7 @@ public interface RMIInterface extends Remote
 	//return bank money
 	public double getMoney(int userID) throws RemoteException;
 	
-	//delete this client's account
-	public void delete(String userID, String password) throws RemoteException;
+	
 	
 	//request account information
 	public AccountInformation query(int userID) throws RemoteException;
