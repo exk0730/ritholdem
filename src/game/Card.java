@@ -16,9 +16,13 @@ public class Card implements Serializable
 	private final String DIAMONDS_STRING = "diamond";
 	private final String CLUBS_STRING = "club";
 	private final String JPG = "JPG";
+
+    //For resolving relative paths
+    private ClassLoader cldr;
 	
 	public Card(int suit, int number)
 	{
+        cldr = this.getClass().getClassLoader();
 		this.suit = suit;
 		this.number = number;
 	}
@@ -60,8 +64,8 @@ public class Card implements Serializable
 	
 	public JLabel getCardImage()
 	{
-		//TODO make this relative path
-		String location = "G:/RITBlackjack/src/game/cards/";
+		
+		String location = "game/cards/";
 		switch (getSuit())
 		{
 			case CLUBS:
@@ -83,10 +87,10 @@ public class Card implements Serializable
 		//if the card is 0,0 we want the card_back image
 		if (getSuit() == 0 && getNumber(true) == 0)
 		{
-			location = "G:/RITBlackjack/src/game/cards/card_back." + JPG;
+			location = "game/cards/card_back." + JPG;
 		}
 		System.out.println(location);
-		return new JLabel(new ImageIcon(location));
+		return new JLabel(new ImageIcon(cldr.getResource(location)));
    }
 	
 	public String toString()
