@@ -10,9 +10,9 @@ public class JMSLayer {
 	public static final String DESTINATION = "";
 	
 	
-	private Context jdniContext;
-	private TopicConnectionFactory tcf;
-	private Destination dest;
+	protected Context jndiContext;
+	protected TopicConnectionFactory cf;
+	protected Destination dest;
 	
 
 

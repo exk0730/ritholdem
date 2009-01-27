@@ -1,6 +1,6 @@
 package deliverable3;
 
-public class JMSClient {
+public class JMSSubscriber {
 
 
 }
