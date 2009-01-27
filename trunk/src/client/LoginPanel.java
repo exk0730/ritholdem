@@ -25,7 +25,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 		initComponents();
 		initRMI();
 		initCashStr = "";
-		initCash = 0;
+		initCash = 10000;
 	}
 	
 	//---------------------------
