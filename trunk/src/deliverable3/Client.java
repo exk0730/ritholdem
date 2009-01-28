@@ -1,24 +1,27 @@
 /**
- * Client class - Client Test class for deliverable 3
+ * @class Client
+ * @brief Client Test class for deliverable 3
  * @date 1/27/09
  */
 
 package deliverable3;
 
-/**
- *
- * @author Trance
- */
 public class Client {
 
     /**
-     * Loop for a very longtime
+     * Wait for messages
      */
     public static void waitForMessages(){
-        try{
-            Thread.sleep(100000);
+        // loop to create and send the messages
+        int counter = 0;
+        while(true) {
+            try {
+                Thread.sleep(1000);
+            } catch(InterruptedException e) {}
+            counter++;
+            if(counter > 100) break;
         }
-        catch(InterruptedException ie){ }
+
     }
 
 
@@ -35,7 +38,9 @@ public class Client {
         System.out.println("Waiting for messages...");
 
         waitForMessages();
-        
+
+        jms.close();
+
     }
 
 }

@@ -1,5 +1,6 @@
 /**
- * JMSPublisher class - Provide methods to publish messages through JMS
+ * @class JMSPublisher
+ * @brief Provide methods to publish messages through JMS
  * @author Emilien Girault
  * @date 1/27/09
  */
@@ -11,34 +12,16 @@ import javax.jms.*;
 
 public class JMSPublisher extends JMSLayer {
 
-	protected TopicConnection conn;
-	protected TopicSession sess;
 	protected TopicPublisher pub;
 	
 
     /**
-     * Constructor
+     * Constructor. Initialize the publisher.
      */
 	public JMSPublisher(){
 
         //Call parent constructor to initialize connection
 		super();
-
-        try {
-            //Create the connection
-            conn = cf.createTopicConnection();
-           } catch(JMSException e){
-            System.err.println("Unable to create a topic connection");
-			System.exit(1);
-        }
-
-        try {
-            //Create the session
-            sess = conn.createTopicSession(false,Session.AUTO_ACKNOWLEDGE);
-        } catch(JMSException e){
-            System.err.println("Unable to create a topic session.");
-			System.exit(1);
-        }
 
         try {
             //Create a producer
@@ -59,31 +42,13 @@ public class JMSPublisher extends JMSLayer {
 			//create a text message
 			TextMessage text = sess.createTextMessage();
 			text.setText(msg);
-			pub.publish(text);
-			
-		}
-		catch(JMSException je) {
+			pub.publish(text);	
+		} catch(JMSException je) {
 			System.err.println("Unable to send the message: " + je.getMessage());
 			System.exit(1);
 		}
 		
 	}
-	
-	/**
-	 * Close the connection
-	 */
-	public void close(){				  
-		//close everything down
-		if(conn != null) {
-			try {
-                conn.close();
-            } catch(JMSException je){
-                System.err.println("Unable to close the connection: " + je.getMessage());
-                System.exit(1);
-            }
-		}
-	}
-
 
 
 }
