@@ -21,7 +21,7 @@ public class Server {
 
         //TODO we should find something else more interesting to send...
         for(int i = 1; i < 10; i++){
-            jms.publish("Hello client, this is message "+i);
+            jms.publish("Top player "+i);
             try{
                 Thread.sleep(1000);
             } catch(InterruptedException e) {}
