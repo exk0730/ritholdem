@@ -1,5 +1,6 @@
 /**
- * JMSLayer class - Provide basic access to JMS methods
+ * @class JMSLayer
+ * @brief Provide basic access to JMS methods for Publish/Subscribe
  * @author Emilien Girault
  * @date 1/27/09
  */
@@ -13,16 +14,16 @@ import javax.jms.*;
 public abstract class JMSLayer {
 
     /**
-     * TODO Constants you need to change
+     * Glassfish Constants
      */
-	public static final String CONNECTION_FACTORY = "";
-	public static final String TOPIC = "";
-	public static final String DESTINATION = "";
-	
+	public static final String CONNECTION_FACTORY = "jms/BlackjackConnectionFactory";
+	public static final String TOPIC = "jms/BlackjackTopic";
 	
 	protected Context jndiContext;
 	protected TopicConnectionFactory cf;
 	protected Topic dest;
+	protected TopicConnection conn;
+	protected TopicSession sess;
 	
     /**
      * Constructor. Initialize the connection to Glassfish.
@@ -48,14 +49,45 @@ public abstract class JMSLayer {
 
         //Lookup the topic
 		try{
-			dest = (Topic)jndiContext.lookup(DESTINATION);
+			dest = (Topic)jndiContext.lookup(TOPIC);
 		}
 		catch(Exception exc) {
 			System.err.println("Unable to get a Destination. Msg: " + exc.getMessage());
 			System.exit(1);
  		}
+
+        try {
+            //Create the connection
+            conn = cf.createTopicConnection();
+           } catch(JMSException e){
+            System.err.println("Unable to create a topic connection");
+			System.exit(1);
+        }
+
+        try {
+            //Create the session
+            sess = conn.createTopicSession(false,Session.AUTO_ACKNOWLEDGE);
+        } catch(JMSException e){
+            System.err.println("Unable to create a topic session.");
+			System.exit(1);
+        }
 	
 	}
 
+
+	/**
+	 * Close the connection
+	 */
+	public void close(){
+		//close everything down
+		if(conn != null) {
+			try {
+                conn.close();
+            } catch(JMSException je){
+                System.err.println("Unable to close the connection: " + je.getMessage());
+                System.exit(1);
+            }
+		}
+	}
 
 }

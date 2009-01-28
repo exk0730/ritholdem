@@ -1,5 +1,6 @@
 /**
- * JMSAsyncSubscriber class - Provide methods to receive JMS messages asynchronously
+ * @class JMSAsyncSubscriber
+ * @brief Provide methods to receive JMS messages asynchronously
  * @author Emilien Girault
  * @date 1/27/09
  */
@@ -10,31 +11,16 @@ import javax.jms.*;
 
 public class JMSAsyncSubscriber extends JMSLayer {
     
-    protected TopicConnection conn;
-	protected TopicSession sess;
 	protected TopicSubscriber sub;
 
-
+    /**
+     * Constructor. Initialize the subscriber and start it.
+     * @param listener message listener
+     */
     public JMSAsyncSubscriber(MessageListener listener){
 
         //Call parent constructor to initialize connection
         super();
-
-        try {
-            //Create the connection
-            conn = cf.createTopicConnection();
-        } catch(JMSException e){
-            System.err.println("Unable to create a topic connection.");
-			System.exit(1);
-        }
-
-        try {
-            //Create the session
-            sess = conn.createTopicSession(false,Session.AUTO_ACKNOWLEDGE);
-        } catch(JMSException e){
-            System.err.println("Unable to create a topic session.");
-			System.exit(1);
-        }
 
         try {
             //Create a producer
@@ -52,23 +38,15 @@ public class JMSAsyncSubscriber extends JMSLayer {
 			System.exit(1);
         }
 
+        try {
+            // start receiving messages
+            conn.start();
+        } catch(JMSException je){
+            System.err.println("Unable to start the connection.");
+			System.exit(1);
+        }
 
     }
 
-    /**
-	 * Close the connection
-	 */
-	public void close(){
-		//close everything down
-		if(conn != null) {
-			try {
-                conn.close();
-            } catch(JMSException je){
-                System.err.println("Unable to close the connection: " + je.getMessage());
-                System.exit(1);
-            }
-		}
-	}
-
-
+ 
 }

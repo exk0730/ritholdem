@@ -1,5 +1,6 @@
 /**
- * TextListener class - Basic text message listener (from Day 9 Sample Code)
+ * @class TextListener
+ * @brief Basic text message listener (from Day 9 Sample Code)
  * @author Emilien Girault
  * @date 1/27/09
  */
@@ -23,11 +24,16 @@ public class ClientTextListener implements MessageListener {
      */
     @Override
     public void onMessage(Message message) {
-        TextMessage msg = null;
         try {
             if(message instanceof TextMessage){
-              msg = (TextMessage)message;
-              System.out.println("Received: " + msg.getText());
+              String msg = ((TextMessage)message).getText();
+
+              //TODO this is just for deliv 3
+              if(msg.equals("END")) {
+                  System.exit(0);
+              }
+              
+              System.out.println("Received: " + msg);
             }
         }
         catch(JMSException jmse){
