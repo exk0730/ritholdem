@@ -50,6 +50,7 @@ public class Data {
      * @param fName his first name
      * @param lName his last name
      * @return true if he has been successfully registered, false if the login already exists
+     * TODO add params startingCash and creditCard
      * @throws java.sql.SQLException
      */
     public synchronized boolean register(String userName, String password, String fName, String lName, String email) throws SQLException {
