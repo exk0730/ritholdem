@@ -37,7 +37,7 @@ public interface RMIInterface extends Remote
      * @throws java.rmi.RemoteException
      */
 	public boolean register(String userName, String password, String fName, String lName, String email,
-			/** TODO Handle these params !*/	String creditCard, double startingCash) throws RemoteException;
+                        	String creditCard, double startingCash) throws RemoteException;
 
 
 	/**
@@ -67,6 +67,14 @@ public interface RMIInterface extends Remote
 	public AccountInformation getInfos(int userID) throws RemoteException;
 
     /**
+     * Get the bank of a user
+     * @param userID
+     * @return monetary amount
+     * @throws java.rmi.RemoteException
+     */
+    public double getBank(int userID) throws RemoteException;
+
+    /**
      * Write a user's infos to the database
      * @param userID
      * @param ai user's infos
@@ -93,7 +101,4 @@ public interface RMIInterface extends Remote
 
 	//method for high-stakes
 	public void highStakes(int userID) throws RemoteException;
-
-	//return bank money
-	public double getMoney(int userID) throws RemoteException;
 }
