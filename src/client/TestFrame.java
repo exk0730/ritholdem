@@ -1,35 +1,23 @@
+/*
+ * TestFrame.java
+ *
+ * Created on 29 Январь 2009 г., 16:16
+ */
+
 package client;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-/*
- * TestFrame.java
- *
- * Created on 10 Январь 2009 г., 16:43
- */
-
-
-
 /**
  *
  * @author  Admin
  */
-public class TestFrame extends javax.swing.JFrame implements WindowListener
-{
+public class TestFrame extends javax.swing.JFrame implements WindowListener{
+
     /** Creates new form TestFrame */
     public TestFrame() {
         initComponents();
-        this.setResizable(false);
-        
-        try
-        {
-            this.addWindowListener(this);
-        }
-        catch(Exception e)
-        {
-            System.out.println(e.getMessage());
-        }
     }
 
     /** This method is called from within the constructor to
@@ -41,10 +29,26 @@ public class TestFrame extends javax.swing.JFrame implements WindowListener
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        loginPanel1 = new LoginPanel();
+        loginPanel1 = new client.LoginPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().add(loginPanel1, java.awt.BorderLayout.CENTER);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(loginPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(loginPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -59,11 +63,9 @@ public class TestFrame extends javax.swing.JFrame implements WindowListener
             }
         });
     }
-    
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private LoginPanel loginPanel1;
+    private client.LoginPanel loginPanel1;
     // End of variables declaration//GEN-END:variables
 
     public void windowOpened(WindowEvent e) {
@@ -71,7 +73,7 @@ public class TestFrame extends javax.swing.JFrame implements WindowListener
     }
 
     public void windowClosing(WindowEvent e) {
-        System.out.println("Something before closing");
+         System.out.println("Something before closing");
         //throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -94,4 +96,5 @@ public class TestFrame extends javax.swing.JFrame implements WindowListener
     public void windowDeactivated(WindowEvent e) {
         //throw new UnsupportedOperationException("Not supported yet.");
     }
+
 }
