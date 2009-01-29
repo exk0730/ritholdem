@@ -124,10 +124,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
                             String lName, String email, String creditCard, double startingCash) throws RemoteException {
         boolean ok = false;
         try {
-            /**
-             * TODO: handle the last 2 params
-             */
-            ok = data.register(loginID, password, fName, lName, email);
+            ok = data.register(loginID, password, fName, lName, email, creditCard, startingCash);
         } catch(SQLException e) {
             System.err.println("Error in register(): " + e.getMessage());
         }
@@ -153,8 +150,18 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     }
 
     @Override
-    public double getMoney(int userID) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public double getBank(int userID) throws RemoteException {
+        double bank = 0;
+        try {
+            bank = data.getBank(userID);
+        }
+        catch(SQLException sqle){
+            System.err.println("Error in retreiving bank: " + sqle.getMessage());
+        }
+        if(bank == -1){
+            System.out.println("Error");
+        }
+        return bank;
     }
 
     /**

@@ -15,7 +15,6 @@ import java.rmi.*;
  */
 public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 {
-	private String initCashStr;
 	private double initCash;
 	private RMIInterface server;
 	public boolean ok = false;
@@ -24,8 +23,6 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 	{
 		initComponents();
 		initRMI();
-		initCashStr = "";
-		initCash = 10000;
 	}
 	
 	//---------------------------
@@ -68,6 +65,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 		{
 			if((userID = server.login(userNameTextField.getText(), String.valueOf(passwordField.getPassword()))) != RMIInterface.LOGIN_FAILED)
 			{
+                initCash = server.getBank(userID);
 				this.removeAll();
 				Table table1 = new Table(initCash, userID, server);
 				this.setLayout(new java.awt.BorderLayout());
@@ -140,7 +138,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 			System.out.println(String.valueOf(regPasswordField.getPassword()) + " " + String.valueOf(regPasswordTwoField.getPassword()));
 			while(true)
 			{
-				initCashStr = JOptionPane.showInputDialog(null, "How much money would you like to put into your account?");
+				String initCashStr = JOptionPane.showInputDialog(null, "How much money would you like to put into your account?");
 				try
 				{
 					initCash = Double.parseDouble(initCashStr);
@@ -503,7 +501,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 		add(jSplitPane,	java.awt.BorderLayout.CENTER);
 	}// </editor-fold>//GEN-END:initComponents
 	
-	// Variables declaration - do not modify//GEN-BEGIN:variables
+	// Variables declaration - do not modify                     
 	private	javax.swing.JLabel creditCardLabel;
 	private	javax.swing.JTextField creditCardTextField;
 	private	javax.swing.JLabel emailLabel;

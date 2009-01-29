@@ -49,11 +49,12 @@ public class Data {
      * @param password the user's password
      * @param fName his first name
      * @param lName his last name
+     * @param creditCard user's credit card
+     * @param initCash start amount of money
      * @return true if he has been successfully registered, false if the login already exists
-     * TODO add params startingCash and creditCard
      * @throws java.sql.SQLException
      */
-    public synchronized boolean register(String userName, String password, String fName, String lName, String email) throws SQLException {
+    public synchronized boolean register(String userName, String password, String fName, String lName, String email, String creditCard, double initCash) throws SQLException {
         boolean ok = false;
         PreparedStatement pst;
         ResultSet rs;
@@ -93,6 +94,21 @@ public class Data {
             pst.setString(4, email);
             pst.executeUpdate();
 
+        }
+
+        //Insert into financial data
+        if(ok)
+        {
+            pst = db.newPreparedStatement(
+                    "INSERT INTO FinancialData (userID, bank, creditCardNum, allowEmergencyFunding" +
+                                                ", emergencyFundAmt) VALUES (?, ?, ?, ?, ?)"
+                    );
+            pst.setInt(1, userID);
+            pst.setDouble(2, initCash);
+            pst.setString(3, creditCard);
+            pst.setInt(4, 0);
+            pst.setDouble(5, 0.00);
+            pst.executeUpdate();
         }
         return ok;
     }
@@ -164,6 +180,43 @@ public class Data {
 
         }
         return ai;
+    }
+
+    /**
+     * Get a user's bank amount
+     * @param int userID
+     * @return user's money
+     * @throws SQLException
+     */
+    public double getBank(int userID) throws SQLException{
+        double temp = -1;
+        if(userExists(userID))
+        {
+            PreparedStatement pst = db.newPreparedStatement("SELECT bank FROM FinancialData WHERE FinancialData.userID = (?)");
+            pst.setInt(1, userID);
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()){
+                temp = rs.getDouble("bank");
+            }
+        }
+        return temp;
+    }
+
+    /**
+     * Checks if user exists
+     * @param userID
+     * @return false if this userID does not exist in FinancialData
+     * @throws java.sql.SQLException
+     */
+    public boolean userExists(int userID) throws SQLException{
+        boolean ok = false;
+        PreparedStatement pst = db.newPreparedStatement("SELECT userID FROM FinancialData WHERE FinancialData.userID = (?)");
+        pst.setInt(1, userID);
+        ResultSet rs = pst.executeQuery();
+        if(rs.next()){
+            ok = true;
+        }
+        return ok;
     }
 
     /**
