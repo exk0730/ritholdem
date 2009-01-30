@@ -16,7 +16,7 @@ public abstract class Cards implements Serializable
 	*Creates a new array of cards
 	*/
 	public Cards()
-   {
+    {
 		reset();
 	}
 	

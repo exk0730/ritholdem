@@ -86,6 +86,7 @@ public class Client {
         }
         catch(RemoteException re) {
             System.err.println("There was an error receiving player's hand: " + re.getMessage());
+			re.printStackTrace();
             System.exit(1);
         }
         return hand;

@@ -15,14 +15,13 @@ public class Card implements Serializable
 	private final String HEARTS_STRING = "heart";
 	private final String DIAMONDS_STRING = "diamond";
 	private final String CLUBS_STRING = "club";
-	private final String JPG = "JPG";
+	private final String JPG = "jpg";
 
     //For resolving relative paths
-    private ClassLoader cldr;
+    //private ClassLoader cldr;
 	
 	public Card(int suit, int number)
 	{
-        cldr = this.getClass().getClassLoader();
 		this.suit = suit;
 		this.number = number;
 	}
@@ -89,8 +88,7 @@ public class Card implements Serializable
 		{
 			location = "game/cards/card_back." + JPG;
 		}
-		System.out.println(location);
-		return new JLabel(new ImageIcon(cldr.getResource(location)));
+		return new JLabel(new ImageIcon(getClass().getClassLoader().getResource(location)));
    }
 	
 	public String toString()
