@@ -30,6 +30,103 @@ public class Client {
         }
     }
 
+    public int login(String userName, String pwd) {
+        int userID = RMIInterface.LOGIN_FAILED;
+        try {
+            userID = server.login(userName, pwd);
+        }
+        catch(RemoteException re){
+            System.err.println("There was an error logging in: " + re.getMessage());
+            System.exit(1);
+        }
+        return userID;
+    }
+
+    public double getBank(int userID) {
+        double bank = 0;
+        try {
+            bank = server.getBank(userID);
+        }
+        catch(RemoteException re){
+            System.err.println("There was an error retreiving bank: " + re.getMessage());
+            System.exit(1);
+        }
+        return bank;
+    }
+
+    public double updateBank(int userID, double money) {
+        double bank = 0;
+        try {
+            bank = server.updateBank(userID, money);
+        }
+        catch(RemoteException re) {
+            System.err.println("There was an error updating the bank: " + re.getMessage());
+            System.exit(1);
+        }
+        return bank;
+    }
+
+    public boolean register(String loginID, String password, String fName,
+                            String lName, String email, String creditCard, double startingCash){
+        boolean ok = false;
+        try {
+            ok = server.register(loginID, password, fName, lName, email, creditCard, startingCash);
+        }
+        catch(RemoteException re){
+            System.err.println("There was an error registering: " + re.getMessage());
+            System.exit(1);
+        }
+        return ok;
+    }
+
+    public PlayerCards deal(int userID, double bet){
+        PlayerCards hand = null;
+        try {
+            hand = server.deal(userID, bet);
+        }
+        catch(RemoteException re) {
+            System.err.println("There was an error receiving player's hand: " + re.getMessage());
+            System.exit(1);
+        }
+        return hand;
+    }
+
+    public DealerCards deal() {
+        DealerCards dealer = null;
+        try {
+            dealer = server.deal();
+        }
+        catch(RemoteException re) {
+            System.err.println("There was an error receiving dealer's hand: " + re.getMessage());
+            System.exit(1);
+        }
+        return dealer;
+    }
+
+    public Card hit(int userID){
+        Card temp = null;
+        try {
+            temp = server.hit(userID);
+        }
+        catch(RemoteException re) {
+            System.err.println("There was an error receiving a card: " + re.getMessage());
+            System.exit(1);
+        }
+        return temp;
+    }
+
+    public Card hit(){
+        Card temp = null;
+        try {
+            temp = server.hit();
+        }
+        catch(RemoteException re) {
+            System.err.println("There was an error receiving a card: " + re.getMessage());
+            System.exit(1);
+        }
+        return temp;
+    }
+
 
     /**
      * Test method for login()
