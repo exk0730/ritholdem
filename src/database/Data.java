@@ -203,6 +203,30 @@ public class Data {
     }
 
     /**
+     * Updates the user's amount of money
+     * @param int userID
+     * @param double money
+     * @return the updated bank
+     */
+    public double updateBank(int userID, double money) throws SQLException {
+        double temp = -1;
+        if(userExists(userID))
+        {
+            PreparedStatement pst = db.newPreparedStatement("SELECT bank FROM FinancialData WHERE FinancialData.userID = (?)");
+            pst.setInt(1, userID);
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()){
+                temp = rs.getDouble("bank");
+                temp += money;
+                pst = db.newPreparedStatement("UPDATE FinancialData SET bank = temp WHERE userID = (?)");
+                pst.setInt(1, userID);
+                pst.executeUpdate();
+            }
+        }
+        return temp;
+    }
+
+    /**
      * Checks if user exists
      * @param userID
      * @return false if this userID does not exist in FinancialData

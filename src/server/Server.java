@@ -17,8 +17,8 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      */
     public Data data; //TODO change into private
     public Deck deck; //TODO catch IndexOutOfBoundsExceptions - deck runs out of cards
-    public PlayerCards playerHand;
-    public DealerCards dealer;
+    private PlayerCards playerHand;
+    private DealerCards dealer;
     /**
      * Unique instance (Singleton Design Pattern)
      */
@@ -74,6 +74,15 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     	 */
    		return deck.getNextCard();
     }
+
+    /**
+     * Hit method for new dealer card
+     * @return
+     * @throws java.rmi.RemoteException
+     */
+    public Card hit() throws RemoteException {
+        return deck.getNextCard();
+    }
     
     @Override
     public DealerCards deal() throws RemoteException 
@@ -81,14 +90,16 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     	dealer.nextHand();
     	return dealer;
     }
-    
+
+    @Override
     public PlayerCards deal(int userID, double bet)throws RemoteException 
     {
     	/**
-    	 * TODO subtract bet from database (FinancialData)
     	 * TODO use userID somewhere
     	 */
+        System.out.println("attempting to deal cards");
     	playerHand.nextHand();
+        System.out.println("attempting to return playerHand: " + playerHand.toString());
     	return playerHand;
     }
 
@@ -150,6 +161,11 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     }
 
     @Override
+    /**
+     * returns the user's money
+     * @param int userID
+     * @return double
+     */
     public double getBank(int userID) throws RemoteException {
         double bank = 0;
         try {
@@ -162,6 +178,24 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
             System.out.println("Error");
         }
         return bank;
+    }
+
+    /**
+     * updates a user's bank
+     * @param userID
+     * @param money
+     * @return bank money
+     * @throws java.rmi.RemoteException
+     */
+    public double updateBank(int userID, double money) throws RemoteException {
+        double temp = -1;
+        try {
+            temp = data.updateBank(userID, money);
+        }
+        catch(SQLException sqle){
+            System.err.println("Error in updating bank: " + sqle.getMessage());
+        }
+        return temp;
     }
 
     /**

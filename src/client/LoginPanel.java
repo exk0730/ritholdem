@@ -16,13 +16,13 @@ import java.rmi.*;
 public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 {
 	private double initCash;
-	private RMIInterface server;
 	public boolean ok = false;
+    private Client client;
 	/** Creates new form LoginPanel	*/
 	public LoginPanel()
 	{
+        client = new Client();
 		initComponents();
-		initRMI();
 	}
 	
 	//---------------------------
@@ -33,56 +33,36 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 	Timer	expandTimer, minimizeTimer;
 	int currentDividerLoc;
 	int iterator =	0;
-	
-	private void initRMI()
-	{
-		server = null;
-		try
-		{
-			server = (RMIInterface)Naming.lookup(RMIInterface.SERVER_NAME);
-			System.out.println("Connected to Server");
-		}
-		catch(Exception e)
-		{
-			System.out.println("Server Not Found");
-			e.printStackTrace();
-		}
-	}
+
 
 	@SuppressWarnings("deprecation")
 	private void loginBtnActionPerformed(java.awt.event.ActionEvent evt)
 	{
-		int userID = RMIInterface.LOGIN_FAILED;
+		int userID = 0;
 		if(userNameTextField.getText().equals(""))
 		{
 			JOptionPane.showMessageDialog(null, "Enter your user name");
 		}
-		else if(passwordField.getPassword().equals(""))
+		else if(String.valueOf(passwordField.getPassword()).equals(""))
 		{
 			JOptionPane.showMessageDialog(null, "Enter your password");
 		}
-		try
-		{
-			if((userID = server.login(userNameTextField.getText(), String.valueOf(passwordField.getPassword()))) != RMIInterface.LOGIN_FAILED)
-			{
-                initCash = server.getBank(userID);
-				this.removeAll();
-				Table table1 = new Table(initCash, userID, server);
-				this.setLayout(new java.awt.BorderLayout());
-				this.add(table1,	java.awt.BorderLayout.CENTER);
-				JLabel statusLabel = new JLabel("...");
-				this.add(statusLabel, java.awt.BorderLayout.SOUTH);
-				this.revalidate();
-			}
-			else
-			{
-				JOptionPane.showMessageDialog(null, "Login failed!");
-			}
-		}
-		catch(RemoteException re)
-		{
-			System.err.println("Client error: " + re.getMessage());
-		}
+        else {
+            userID = client.login(userNameTextField.getText(), String.valueOf(passwordField.getPassword()));
+            if(userID == RMIInterface.LOGIN_FAILED) {
+                JOptionPane.showMessageDialog(null, "Wrong login!");
+            }
+            else {
+                initCash = client.getBank(userID);
+                this.removeAll();
+                Table table1 = new Table(initCash, userID, client);
+                this.setLayout(new java.awt.BorderLayout());
+                this.add(table1,	java.awt.BorderLayout.CENTER);
+                JLabel statusLabel = new JLabel("...");
+                this.add(statusLabel, java.awt.BorderLayout.SOUTH);
+                this.revalidate();
+            }
+        }
 	}
 
 	private void registerBtnActionPerformed(java.awt.event.ActionEvent evt)
@@ -108,11 +88,11 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 		{
 			JOptionPane.showMessageDialog(null, "Enter an email");
 		}
-		else if(regPasswordField.getPassword().equals(""))
+		else if(String.valueOf((regPasswordField.getPassword())).equals(""))
 		{
 			JOptionPane.showMessageDialog(null, "Enter a password");
 		}
-		else if(regPasswordTwoField.getPassword().equals(""))
+		else if(String.valueOf((regPasswordTwoField.getPassword())).equals(""))
 		{
 			JOptionPane.showMessageDialog(null, "Repeat your password");
 		}
@@ -142,24 +122,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 				try
 				{
 					initCash = Double.parseDouble(initCashStr);
-					if(methodRegistration() == false)
-					{
-						JOptionPane.showMessageDialog(null, "Impossible to register, this login is already taken. Try another");
-						clearFields();
-					}
-					else
-					{
-						JOptionPane.showMessageDialog(null, "Registration successful!");
-						expanding = true;
-						if(expandTimer != null)
-						{
-							expandTimer.stop();
-						}
-						expandTimer =	new Timer(10, this);
-						iterator =	10;
-						expandTimer.start();
-					}
-				}
+                }
 				catch(NumberFormatException nfe)
 				{
 					JOptionPane.showMessageDialog(null, "You have entered an invalid number.");
@@ -170,19 +133,32 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 					JOptionPane.showMessageDialog(null, "You need to enter a number.");
 					continue;
 				}
-				catch(RemoteException re)
-				{
-					System.out.println("Client error: " + re.getMessage());
-					System.out.println(re.getStackTrace());
-				}
+                
+                if(methodRegistration() == false)
+                {
+                    JOptionPane.showMessageDialog(null, "Impossible to register, this login is already taken. Try another");
+                    clearFields();
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Registration successful!");
+                    expanding = true;
+                    if(expandTimer != null)
+                    {
+                        expandTimer.stop();
+                    }
+                    expandTimer =	new Timer(10, this);
+                    iterator =	10;
+                    expandTimer.start();
+                }
 				break;
 			}
 		}
 	}
 	
-	private boolean methodRegistration() throws RemoteException
+	private boolean methodRegistration()
 	{
-		ok = server.register(regUserNameTextField.getText(), String.valueOf(regPasswordField.getPassword()),
+		ok = client.register(regUserNameTextField.getText(), String.valueOf(regPasswordField.getPassword()),
 						firstNameTextField.getText(), lastNameTextField.getText(), 
 						emailTextField.getText(), creditCardTextField.getText(), initCash);
 		return ok;

@@ -1,18 +1,23 @@
 package game;
-import game.Card;
-import game.Deck;
-import java.util.ArrayList;
-
 
 public class CheckLogic
 {
-	private ArrayList<Card> playerHand, dealerHand;
+	private PlayerCards playerHand;
+    private DealerCards dealerHand;
 	
-	public CheckLogic(ArrayList<Card> player, ArrayList<Card> dealer)
+	public CheckLogic(PlayerCards player, DealerCards dealer)
 	{
 		playerHand = player;
 		dealerHand = dealer;
 	}
+
+    public void updatePlayer(Card card){
+        playerHand.addCard(card);
+    }
+
+    public void updateDealer(Card card){
+        dealerHand.addCard(card);
+    }
 	
 	public boolean checkPush()
 	{
@@ -21,7 +26,7 @@ public class CheckLogic
 	
 	public boolean checkBlackJack()
 	{
-		return(getCombinedPlayerHand() == 21 && playerHand.size() == 2);
+		return(getCombinedPlayerHand() == 21 && playerHand.getSize() == 2);
 	}
 	
 	public boolean checkLoss()
@@ -38,15 +43,15 @@ public class CheckLogic
 	{
 		boolean aceExists = false;
 		int temp = 0;
-		for(int i = 0; i < playerHand.size(); i++)
+		for(int i = 0; i < playerHand.getSize(); i++)
 		{
-			if(playerHand.get(i).getNumber(false) == 1)
+			if(playerHand.getCardAt(i).getNumber(false) == 1)
 			{
 				aceExists = true;
 				temp += 0;
 			}
 			else
-				temp += playerHand.get(i).getNumber(false);
+				temp += playerHand.getCardAt(i).getNumber(false);
 		}
 		if(aceExists)
 		{
@@ -59,15 +64,15 @@ public class CheckLogic
 	{
 		boolean aceExists = false;
 		int temp = 0;
-		for(int i = 0; i < dealerHand.size(); i++)
+		for(int i = 0; i < dealerHand.getSize(); i++)
 		{
-			if(dealerHand.get(i).getNumber(false) == 1)
+			if(dealerHand.getCardAt(i).getNumber(false) == 1)
 			{
 				aceExists = true;
 				temp += 0;
 			}
 			else
-				temp += dealerHand.get(i).getNumber(false);
+				temp += dealerHand.getCardAt(i).getNumber(false);
 		}
 		if(aceExists)
 		{
@@ -103,14 +108,15 @@ public class CheckLogic
 		}
 		return temp;
 	}
+}
 	
-	public static void main(String [] args)
+/**	public static void main(String [] args)
 	{
 		/**Card card1 = new Card(1,9);
 		Card card2 = new Card(1,1);
 		Card card3 = new Card(2,10);
 		Card card4 = new Card(2,1);
-		*/
+		
 		ArrayList<Card> player = new ArrayList<Card>();
 		//player.add(card1); player.add(card2);
 		ArrayList<Card> dealer = new ArrayList<Card>();
@@ -137,4 +143,4 @@ public class CheckLogic
 		
 		System.out.println("\n\nWin Type: " + cl.returnTypeOfWin());
 	}
-}
+}*/

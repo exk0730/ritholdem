@@ -1,9 +1,6 @@
 package game;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import game.Card;
-import game.AccountInformation;
-
 /**
  * RMI interface for the server
  * @author Eric Kisner, Emilien Girault
@@ -75,6 +72,15 @@ public interface RMIInterface extends Remote
     public double getBank(int userID) throws RemoteException;
 
     /**
+     * Updates the money in a user's bank
+     * @param userID
+     * @param money
+     * @return the user's updated bank
+     * @throws java.rmi.RemoteException
+     */
+    public double updateBank(int userID, double money) throws RemoteException;
+
+    /**
      * Write a user's infos to the database
      * @param userID
      * @param ai user's infos
@@ -92,6 +98,9 @@ public interface RMIInterface extends Remote
 
 	//method to hit
 	public Card hit(int userID) throws RemoteException;
+
+    //method for dealer hit
+    public Card hit() throws RemoteException;
 
 	//mtethod to stand
 	public void stand(int userID) throws RemoteException;

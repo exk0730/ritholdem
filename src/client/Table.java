@@ -7,7 +7,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RadialGradientPaint;
 import java.awt.geom.Point2D;
-import java.rmi.*;
 
 /**
  *
@@ -24,19 +23,23 @@ public class Table extends javax.swing.JPanel
 	*Card height
 	*/
 	private final int CARD_HEIGHT = 100;
-	private int bet, cardCount;
-	private double initCash;
-	private RMIInterface server;
+	private int cardCount, userID;
+	private double initCash, bet;
+    private CheckLogic checkLogic;
+	private Client client;
+    private PlayerCards hand;
+    private DealerCards dealer;
 	private boolean dealt;
-	public Card dealerCard;
-	public int userID;
+	private Card dealerCard;
+    private JLabel jl;
 	
     /** Creates new form Table */
-   public Table(double startCash, int userID, final RMIInterface server)
+   public Table(double startCash, int userID, Client client)
 	{
 		initCash = startCash;
 		initComponents();
-		this.server = server;
+        this.userID = userID;
+		this.client = client;
 		bet = 0;
 		cardCount = 0;
 		dealt = false;
@@ -123,50 +126,43 @@ public class Table extends javax.swing.JPanel
 		}
 		else if(!dealt)
 		{
-			PlayerCards hand = null;
-			DealerCards dealer = null;
 			this.setLayout(null);
-			try
-			{
-				cardCount = 0;
-				hand = server.deal(userID, bet);
-				renderPlayerHand(hand);
-				
-				dealer = server.deal();
-				renderDealerHand(dealer);
-				dealt = true;
-			}
-			catch(RemoteException re) { re.printStackTrace(); }
+            cardCount = 0;
+            hand = client.deal(userID, bet);
+            renderPlayerHand(hand);
+
+            dealer = client.deal();
+            renderDealerHand(dealer);
+
+            checkLogic = new CheckLogic(hand, dealer);
+            dealt = true;
 		}
 	}
 
 	private void hitButtonActionPerformed(java.awt.event.ActionEvent evt)
 	{
 		/*
-		check if it is their turn (this includes if they have stood or doubled - meaning they can't receive another card)
-		check if they have already busted
+         * TODO
+         * check if it is their turn (this includes if they have stood or doubled - meaning they can't receive another card)
+		 * check if they have already busted
 		*/
 		if(!dealt)
 		{
 			JOptionPane.showMessageDialog(null, "You have not received any cards yet");
 		}
 		else
-		{
-			try
-			{
-				Card temp = server.hit(userID);
-				renderHitCard(temp);
-				/*
-				render card
-				increase deck
-				*/
-			}
-			catch(RemoteException re) { re.printStackTrace(); }
+        {
+            Card temp = client.hit(userID);
+            checkLogic.updatePlayer(temp);
+            renderHitCard(temp, true);
 		}
 	}
 
 	private void standButtonActionPerformed(java.awt.event.ActionEvent evt)
 	{
+        cardCount = 2;
+        renderDealerCard();
+        dealerActions();
 		dealt = false;
 	}
 
@@ -180,18 +176,45 @@ public class Table extends javax.swing.JPanel
 	
 	}
 	
-	
+	private void dealerActions() {
+        while( (checkLogic.getCombinedDealerHand() <= 16) && (!checkLogic.checkBlackJack()) ){
+            Card temp = client.hit();
+            renderHitCard(temp, false);
+            checkLogic.updateDealer(temp);
+        }
+        switch(checkLogic.returnTypeOfWin())
+        {
+            case -1:
+                bet *= -1;
+                JOptionPane.showMessageDialog(null, "You lose.");
+                break;
+            case 1:
+                JOptionPane.showMessageDialog(null, "You win!");
+                break;
+            case 2:
+                bet = bet * 1.5;
+                JOptionPane.showMessageDialog(null, "Winner, winner, chicken dinner!");
+                break;
+            default:
+                bet = 0;
+                JOptionPane.showMessageDialog(null, "Push.");
+                break;
+        }
+        double temp = client.updateBank(userID, bet);
+        cashAmountLabel.setText("" + temp);
+    }
+
 	private void renderPlayerHand(PlayerCards hand)
 	{
 		for(int i = 0; i < hand.getSize(); i++)
 		{
 			Card cardP = hand.getCardAt(i);
 			System.out.println(cardP.toString());
-			JLabel jlPlayer = cardP.getCardImage();
-			jlPlayer.setBounds(400 + (cardCount * CARD_WIDTH),400,CARD_WIDTH,CARD_HEIGHT);
+			jl = cardP.getCardImage();
+			jl.setBounds(400 + (cardCount * CARD_WIDTH),400,CARD_WIDTH,CARD_HEIGHT);
 			cardCount++;
-			jlPlayer.setVisible(true);
-			this.add(jlPlayer);
+			jl.setVisible(true);
+			this.add(jl);
 		}
 		update();
 	}
@@ -202,27 +225,41 @@ public class Table extends javax.swing.JPanel
 		Card cardD = dealer.getCardAt(1);
 		Card back = new Card(0,0);
 		JLabel jlD = cardD.getCardImage();
-		JLabel jlB = back.getCardImage();
-		jlB.setBounds(400+CARD_WIDTH,100,CARD_WIDTH,CARD_HEIGHT);
-		jlB.setVisible(true);
+		jl = back.getCardImage();
+		jl.setBounds(400+CARD_WIDTH,100,CARD_WIDTH,CARD_HEIGHT);
+		jl.setVisible(true);
 		jlD.setBounds(400,100,CARD_WIDTH,CARD_HEIGHT);
 		jlD.setVisible(true);
 		this.add(jlD);
-		this.add(jlB);
-		update();
-	}
-	
-	private void renderHitCard(Card c)
-	{
-		Card card = c;
-		JLabel jl = card.getCardImage();
-		jl.setBounds(400+(CARD_WIDTH*cardCount), 100, CARD_WIDTH, CARD_HEIGHT);
-		cardCount++;
-		jl.setVisible(true);
 		this.add(jl);
 		update();
 	}
 	
+	private void renderHitCard(Card c, boolean playerOrDealer)
+	{
+		Card card = c;
+		JLabel jlHit = card.getCardImage();
+        if(playerOrDealer) {
+            jlHit.setBounds(400+(CARD_WIDTH*cardCount), 400, CARD_WIDTH, CARD_HEIGHT);
+        }
+        else{
+            jlHit.setBounds(400+(CARD_WIDTH*cardCount), 100, CARD_WIDTH, CARD_HEIGHT);
+        }
+		cardCount++;
+		jlHit.setVisible(true);
+		this.add(jlHit);
+		update();
+	}
+
+    private void renderDealerCard() {
+        this.remove(jl);
+        jl = dealerCard.getCardImage();
+        jl.setBounds(400+CARD_WIDTH,100,CARD_WIDTH,CARD_HEIGHT);
+        jl.setVisible(true);
+        this.add(jl);
+        update();
+    }
+
 	private void update()
 	{
 		this.validate();
