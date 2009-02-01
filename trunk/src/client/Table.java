@@ -155,6 +155,9 @@ public class Table extends javax.swing.JPanel
             Card temp = client.hit(userID);
             checkLogic.updatePlayer(temp);
             renderHitCard(temp, true);
+            if(checkLogic.checkBust(true)) {
+                playerBust();
+            }
 		}
 	}
 
@@ -175,12 +178,25 @@ public class Table extends javax.swing.JPanel
 	{
 	
 	}
-	
+
+    private void playerBust() {
+        JOptionPane.showMessageDialog(null, "You busted");
+        bet *= -1;
+        double temp = client.updateBank(userID, bet);
+        cashAmountLabel.setText("" + temp);
+        bet = 0;
+        betAmountLabel.setText("" + bet);
+        dealt = false;
+    }
+
 	private void dealerActions() {
         while( (checkLogic.getCombinedDealerHand() <= 16) && (!checkLogic.checkBlackJack()) ){
             Card temp = client.hit();
             renderHitCard(temp, false);
             checkLogic.updateDealer(temp);
+            if(checkLogic.checkBust(false)) {
+                break;
+            }
         }
         switch(checkLogic.returnTypeOfWin())
         {
@@ -202,6 +218,8 @@ public class Table extends javax.swing.JPanel
         }
         double temp = client.updateBank(userID, bet);
         cashAmountLabel.setText("" + temp);
+        bet = 0;
+        betAmountLabel.setText("" + bet);
     }
 
 	private void renderPlayerHand(PlayerCards hand)
@@ -260,6 +278,7 @@ public class Table extends javax.swing.JPanel
         update();
     }
 
+    //TODO add "removeAll" method to take away all jlabels
 	private void update()
 	{
 		this.validate();
