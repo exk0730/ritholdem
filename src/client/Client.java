@@ -248,38 +248,39 @@ public class Client {
         int userID;
 
         //Login with an existing account
-        userID = client.test_login("MountainMan", "isleepwithbears");
+        userID = client.test_login("eric", "admin");
+        client.test_deleteAccount(userID, "eric", "admin");
 
         //Get the informations of this account
-        ai = client.test_getInfos(userID);
+        //ai = client.test_getInfos(userID);
 
         //Change the user's last name and email
-        ai.setLastName("Bob");
-        ai.setEmail("bob@sponge.com");
-        client.test_writeInfos(userID, ai);
+//        ai.setLastName("Bob");
+//        ai.setEmail("bob@sponge.com");
+//        client.test_writeInfos(userID, ai);
 
         //Get the informations back
-        ai = client.test_getInfos(userID);
+//        ai = client.test_getInfos(userID);
 
         
 
         //Try to login with a fake account, it should not work
-        client.test_login("john", "doe");
-
-        //Register a new account
-        client.test_register("john", "doe", "John", "Doe", "john.doe@gmail.com");
-
-        //Login with this new account, this should work
-        userID = client.test_login("john", "doe");
+//        client.test_login("john", "doe");
+//
+//        //Register a new account
+//        client.test_register("john", "doe", "John", "Doe", "john.doe@gmail.com");
+//
+//        //Login with this new account, this should work
+//        userID = client.test_login("john", "doe");
 
         //Get the informations of this account
-        client.test_getInfos(userID);
-
-        //Try to delete this account with fake credentials, this should not work
-        client.test_deleteAccount(userID, "john", "wrong_password");
-
-        //Really delete the account
-        client.test_deleteAccount(userID, "john", "doe");
+//        client.test_getInfos(userID);
+//
+//        //Try to delete this account with fake credentials, this should not work
+//        client.test_deleteAccount(userID, "john", "wrong_password");
+//
+//        //Really delete the account
+//        client.test_deleteAccount(userID, "john", "doe");
 
     }
 
