@@ -1,6 +1,7 @@
 package client;
 
 import game.*;
+import java.util.ArrayList;
 import javax.swing.*;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -23,6 +24,7 @@ public class Table extends javax.swing.JPanel
 	*Card height
 	*/
 	private final int CARD_HEIGHT = 100;
+    private ArrayList<JLabel> labels = new ArrayList<JLabel>();
 	private int cardCount, userID;
 	private double initCash, bet;
     private CheckLogic checkLogic;
@@ -156,6 +158,7 @@ public class Table extends javax.swing.JPanel
             checkLogic.updatePlayer(temp);
             renderHitCard(temp, true);
             if(checkLogic.checkBust(true)) {
+                renderDealerCard();
                 playerBust();
             }
 		}
@@ -171,6 +174,21 @@ public class Table extends javax.swing.JPanel
 
 	private void doubleButtonActionPerformed(java.awt.event.ActionEvent evt)
 	{
+        bet *= 2;
+        betAmountLabel.setText("" + bet);
+        Card temp = client.hit(userID);
+        checkLogic.updatePlayer(temp);
+        renderHitCard(temp, true);
+        if(checkLogic.checkBust(true)) {
+            renderDealerCard();
+            playerBust();
+        }
+        else{
+            cardCount = 2;
+            renderDealerCard();
+            dealerActions();
+        }
+        dealt = false;
 	
 	}
 
@@ -186,6 +204,7 @@ public class Table extends javax.swing.JPanel
         cashAmountLabel.setText("" + temp);
         bet = 0;
         betAmountLabel.setText("" + bet);
+        wipe();
         dealt = false;
     }
 
@@ -220,6 +239,7 @@ public class Table extends javax.swing.JPanel
         cashAmountLabel.setText("" + temp);
         bet = 0;
         betAmountLabel.setText("" + bet);
+        wipe();
     }
 
 	private void renderPlayerHand(PlayerCards hand)
@@ -229,6 +249,7 @@ public class Table extends javax.swing.JPanel
 			Card cardP = hand.getCardAt(i);
 			System.out.println(cardP.toString());
 			jl = cardP.getCardImage();
+            labels.add(jl);
 			jl.setBounds(400 + (cardCount * CARD_WIDTH),400,CARD_WIDTH,CARD_HEIGHT);
 			cardCount++;
 			jl.setVisible(true);
@@ -243,13 +264,14 @@ public class Table extends javax.swing.JPanel
 		Card cardD = dealer.getCardAt(1);
 		Card back = new Card(0,0);
 		JLabel jlD = cardD.getCardImage();
+        labels.add(jlD);
+        labels.add(jl);
 		jl = back.getCardImage();
 		jl.setBounds(400+CARD_WIDTH,100,CARD_WIDTH,CARD_HEIGHT);
 		jl.setVisible(true);
 		jlD.setBounds(400,100,CARD_WIDTH,CARD_HEIGHT);
 		jlD.setVisible(true);
 		this.add(jlD);
-		this.add(jl);
 		update();
 	}
 	
@@ -257,6 +279,7 @@ public class Table extends javax.swing.JPanel
 	{
 		Card card = c;
 		JLabel jlHit = card.getCardImage();
+        labels.add(jlHit);
         if(playerOrDealer) {
             jlHit.setBounds(400+(CARD_WIDTH*cardCount), 400, CARD_WIDTH, CARD_HEIGHT);
         }
@@ -272,13 +295,19 @@ public class Table extends javax.swing.JPanel
     private void renderDealerCard() {
         this.remove(jl);
         jl = dealerCard.getCardImage();
+        labels.add(jl);
         jl.setBounds(400+CARD_WIDTH,100,CARD_WIDTH,CARD_HEIGHT);
         jl.setVisible(true);
         this.add(jl);
         update();
     }
 
-    //TODO add "removeAll" method to take away all jlabels
+    private void wipe(){
+        for(JLabel jlabels : labels){
+            this.remove(jlabels);
+        }
+        update();
+    }
 	private void update()
 	{
 		this.validate();
