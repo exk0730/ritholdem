@@ -19,6 +19,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     public Deck deck; //TODO catch IndexOutOfBoundsExceptions - deck runs out of cards
     private PlayerCards playerHand;
     private DealerCards dealer;
+    private CheckLogic checkLogic;
     /**
      * Unique instance (Singleton Design Pattern)
      */
@@ -30,9 +31,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      */
     private Server() throws SQLException, RemoteException {
         data = Data.instance();
-        deck = new Deck();
-        playerHand = new PlayerCards(deck);
-        dealer = new DealerCards(deck);
+        initGame();
     }
 
     /**
@@ -62,6 +61,13 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
             System.exit(1);
         }
     }
+
+    private void initGame(){
+        deck = new Deck();
+        playerHand = new PlayerCards(deck);
+        dealer = new DealerCards(deck);
+        checkLogic = new CheckLogic(playerHand, dealer);
+    }
     //
     // RMI Methods
     //
@@ -72,7 +78,9 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     	/**
     	 * TODO use userID somewhere
     	 */
-   		return deck.getNextCard();
+        Card temp = deck.getNextCard();
+        checkLogic.updatePlayer(temp);
+   		return temp;
     }
 
     /**
@@ -81,13 +89,16 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @throws java.rmi.RemoteException
      */
     public Card hit() throws RemoteException {
-        return deck.getNextCard();
+        Card temp = deck.getNextCard();
+        checkLogic.updateDealer(temp);
+        return temp;
     }
     
     @Override
     public DealerCards deal() throws RemoteException 
     {
     	dealer.nextHand();
+        checkLogic = new CheckLogic(playerHand, dealer);
     	return dealer;
     }
 
@@ -97,10 +108,71 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     	/**
     	 * TODO use userID somewhere
     	 */
-        System.out.println("attempting to deal cards");
     	playerHand.nextHand();
-        System.out.println("attempting to return playerHand: " + playerHand.toString());
     	return playerHand;
+    }
+
+    /**
+     * Checks if the player or dealer busts
+     * TODO: use userID
+     * @param userID
+     * @param playerOrDealer
+     * @return
+     * @throws java.rmi.RemoteException
+     */
+    @Override
+    public boolean bust(int userID, boolean playerOrDealer) throws RemoteException {
+        if(playerOrDealer){
+            return (checkLogic.checkBust(true));
+        }
+        else{
+            return (checkLogic.checkBust(false));
+        }
+    }
+
+    /**
+     * Dealer must stand at 16 and above
+     * @return true if dealer has a higher hand than 15
+     * @throws java.rmi.RemoteException
+     */
+    @Override
+    public boolean dealerStand() throws RemoteException {
+        if(checkLogic.getCombinedDealerHand() >= 16) {
+            return true;
+        }
+        else return false;
+    }
+
+    /**
+     * Checks win type and concatenates to a string
+     * @param userID
+     * @param bet
+     * @return
+     * @throws java.rmi.RemoteException
+     */
+    @Override
+    public String checkWin(int userID, double bet) throws RemoteException {
+        String s = "";
+        switch(checkLogic.returnTypeOfWin())
+        {
+            case -1:
+                bet *= -1;
+                s = "You lose.";
+                break;
+            case 1:
+                s = "You win!";
+                break;
+            case 2:
+                bet = bet * 1.5;
+                s = "Winner, winner, chicken dinner!";
+                break;
+            default:
+                bet = 0;
+                s = "Push.";
+                break;
+        }
+        s = s + "_" + bet;
+        return s;
     }
 
     @Override
@@ -112,12 +184,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     public Card dble(int userID, double bet) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
-    @Override
-    public void highStakes(int userID) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
+    
     /**
      * Register a user
      * @param loginID

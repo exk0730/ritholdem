@@ -128,6 +128,41 @@ public class Client {
         return temp;
     }
 
+    public boolean bust(int userID, boolean playerOrDealer) {
+        boolean bool = false;
+        try {
+            bool = server.bust(userID, playerOrDealer);
+        }
+        catch(RemoteException re){
+            System.err.println("There was an error checking bust: " + re.getMessage());
+            System.exit(1);
+        }
+        return bool;
+    }
+
+    public boolean dealerStand() {
+        boolean bool = false;
+        try {
+            bool = server.dealerStand();
+        }
+        catch(RemoteException re) {
+            System.err.println("There was an error in dealer standing: " + re.getMessage());
+            System.exit(1);
+        }
+        return bool;
+    }
+
+    public String checkWin(int userID, double bet) {
+        String s = "";
+        try {
+            s = server.checkWin(userID, bet);
+        }
+        catch(RemoteException re){
+            System.err.println("There was an error checking win: " + re.getMessage());
+            System.exit(1);
+        }
+        return s;
+    }
 
     /**
      * Test method for login()

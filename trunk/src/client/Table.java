@@ -27,7 +27,6 @@ public class Table extends javax.swing.JPanel
     private ArrayList<JLabel> labels = new ArrayList<JLabel>();
 	private int cardCount, userID;
 	private double initCash, bet;
-    private CheckLogic checkLogic;
 	private Client client;
     private PlayerCards hand;
     private DealerCards dealer;
@@ -50,71 +49,31 @@ public class Table extends javax.swing.JPanel
 	private void betBtn1ActionPerformed(java.awt.event.ActionEvent evt)
 	{
 		bet += 1;
-		if( (initCash - bet) < 0 )
-		{
-			JOptionPane.showMessageDialog(null, "You don't have enough money to make this bet");
-			bet -= 1;
-		}
-		else
-		{
-			betAmountLabel.setText("" + bet);
-		}
+        betAmountLabel.setText("" + bet);
 	}
 	
 	private void betBtn10ActionPerformed(java.awt.event.ActionEvent evt)
 	{
 		bet += 10;
-		if( (initCash - bet) < 0 )
-		{
-			JOptionPane.showMessageDialog(null, "You don't have enough money to make this bet");
-			bet -= 10;
-		}
-		else
-		{
-			betAmountLabel.setText("" + bet);
-		}
+        betAmountLabel.setText("" + bet);
 	}
 	
 	private void betBtn25ActionPerformed(java.awt.event.ActionEvent evt)
 	{
 		bet += 25;
-		if( (initCash - bet) < 0 )
-		{
-			JOptionPane.showMessageDialog(null, "You don't have enough money to make this bet");
-			bet -= 25;
-		}
-		else
-		{
-			betAmountLabel.setText("" + bet);
-		}
+        betAmountLabel.setText("" + bet);
 	}
 
 	private void betBtn50ActionPerformed(java.awt.event.ActionEvent evt)
 	{
 		bet += 50;
-		if( (initCash - bet) < 0 )
-		{
-			JOptionPane.showMessageDialog(null, "You don't have enough money to make this bet");
-			bet -= 50;
-		}
-		else
-		{
-			betAmountLabel.setText("" + bet);
-		}
+        betAmountLabel.setText("" + bet);
 	}
 
 	private void betBtnx100ActionPerformed(java.awt.event.ActionEvent evt)
 	{
 		bet *= 100;
-		if( (initCash - bet) < 0 )
-		{
-			JOptionPane.showMessageDialog(null, "You don't have enough money to make this bet");
-			bet = bet / 100;
-		}
-		else
-		{
-			betAmountLabel.setText("" + bet);
-		}
+        betAmountLabel.setText("" + bet);
 	}
 
 	private void dealButtonActionPerformed(java.awt.event.ActionEvent evt)
@@ -126,17 +85,19 @@ public class Table extends javax.swing.JPanel
 		{
 			JOptionPane.showMessageDialog(null, "You have to enter a bet first");
 		}
+        else if(initCash - bet < 0){
+            JOptionPane.showMessageDialog(null, "You don't have enough money to make this bet!");
+            bet = 0;
+            betAmountLabel.setText("" + bet);
+        }
 		else if(!dealt)
 		{
 			this.setLayout(null);
             cardCount = 0;
             hand = client.deal(userID, bet);
             renderPlayerHand(hand);
-
             dealer = client.deal();
             renderDealerHand(dealer);
-
-            checkLogic = new CheckLogic(hand, dealer);
             dealt = true;
 		}
 	}
@@ -155,9 +116,8 @@ public class Table extends javax.swing.JPanel
 		else
         {
             Card temp = client.hit(userID);
-            checkLogic.updatePlayer(temp);
             renderHitCard(temp, true);
-            if(checkLogic.checkBust(true)) {
+            if(client.bust(userID,true)) {
                 renderDealerCard();
                 playerBust();
             }
@@ -177,9 +137,8 @@ public class Table extends javax.swing.JPanel
         bet *= 2;
         betAmountLabel.setText("" + bet);
         Card temp = client.hit(userID);
-        checkLogic.updatePlayer(temp);
         renderHitCard(temp, true);
-        if(checkLogic.checkBust(true)) {
+        if(client.bust(userID, true)) {
             renderDealerCard();
             playerBust();
         }
@@ -209,34 +168,24 @@ public class Table extends javax.swing.JPanel
     }
 
 	private void dealerActions() {
-        while( (checkLogic.getCombinedDealerHand() <= 16) && (!checkLogic.checkBlackJack()) ){
+        while(!client.dealerStand()){
             Card temp = client.hit();
             renderHitCard(temp, false);
-            checkLogic.updateDealer(temp);
-            if(checkLogic.checkBust(false)) {
+            if(client.bust(userID, false)) {
                 break;
             }
         }
-        switch(checkLogic.returnTypeOfWin())
-        {
-            case -1:
-                bet *= -1;
-                JOptionPane.showMessageDialog(null, "You lose.");
-                break;
-            case 1:
-                JOptionPane.showMessageDialog(null, "You win!");
-                break;
-            case 2:
-                bet = bet * 1.5;
-                JOptionPane.showMessageDialog(null, "Winner, winner, chicken dinner!");
-                break;
-            default:
-                bet = 0;
-                JOptionPane.showMessageDialog(null, "Push.");
-                break;
+        String s = client.checkWin(userID, bet);
+        String temp = s.substring(0, s.indexOf('_'));
+        JOptionPane.showMessageDialog(null, temp);
+        try{
+            bet = Double.parseDouble(s.substring(s.indexOf('_')+1, s.length()));
         }
-        double temp = client.updateBank(userID, bet);
-        cashAmountLabel.setText("" + temp);
+        catch(NumberFormatException nfe){
+            System.err.println("Error receiving bet during checkWin: " + nfe.getMessage());
+            System.exit(1);
+        }
+        cashAmountLabel.setText("" + (client.updateBank(userID, bet)) );
         bet = 0;
         betAmountLabel.setText("" + bet);
         wipe();
@@ -272,6 +221,7 @@ public class Table extends javax.swing.JPanel
 		jlD.setBounds(400,100,CARD_WIDTH,CARD_HEIGHT);
 		jlD.setVisible(true);
 		this.add(jlD);
+        this.add(jl);
 		update();
 	}
 	
@@ -308,6 +258,7 @@ public class Table extends javax.swing.JPanel
         }
         update();
     }
+
 	private void update()
 	{
 		this.validate();
