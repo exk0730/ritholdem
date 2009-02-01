@@ -18,6 +18,15 @@ public class CheckLogic
     public void updateDealer(Card card){
         dealerHand.addCard(card);
     }
+
+    public boolean checkBust(boolean player){
+        if(player){
+            return (getCombinedPlayerHand() > 21);
+        }
+        else{
+            return (getCombinedDealerHand() > 21);
+        }
+    }
 	
 	public boolean checkPush()
 	{
@@ -36,7 +45,7 @@ public class CheckLogic
 	
 	public boolean checkWin()
 	{
-		return(getCombinedPlayerHand() > getCombinedDealerHand() && (!checkBlackJack()));
+		return( (getCombinedPlayerHand() > getCombinedDealerHand() && (!checkBlackJack()) ) || (checkBust(false)));
 	}
 	
 	public int getCombinedPlayerHand()
