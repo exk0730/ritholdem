@@ -218,8 +218,9 @@ public class Data {
             if(rs.next()){
                 temp = rs.getDouble("bank");
                 temp += money;
-                pst = db.newPreparedStatement("UPDATE FinancialData SET bank = temp WHERE userID = (?)");
-                pst.setInt(1, userID);
+                pst = db.newPreparedStatement("UPDATE FinancialData SET bank = (?) WHERE userID = (?)");
+                pst.setDouble(1, temp);
+                pst.setInt(2, userID);
                 pst.executeUpdate();
             }
         }
