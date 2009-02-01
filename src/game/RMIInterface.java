@@ -96,6 +96,15 @@ public interface RMIInterface extends Remote
 	//method to get dealer's cards
 	public DealerCards deal() throws RemoteException;
 
+    //method to check if player or dealer busts
+    public boolean bust(int userID, boolean playerOrDealer) throws RemoteException;
+
+    //method for dealer to stand at 16 and above
+    public boolean dealerStand() throws RemoteException;
+
+    //method to check win type
+    public String checkWin(int userID, double bet) throws RemoteException;
+
 	//method to hit
 	public Card hit(int userID) throws RemoteException;
 
@@ -107,7 +116,4 @@ public interface RMIInterface extends Remote
 
 	//method to double
 	public Card dble(int userID, double bet) throws RemoteException;
-
-	//method for high-stakes
-	public void highStakes(int userID) throws RemoteException;
 }

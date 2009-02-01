@@ -12,7 +12,6 @@ public class PlayerCards extends Cards implements Serializable
 	
 	public void nextHand()
 	{
-        System.out.println("getting nextHand");
 		this.reset();
 		addCard(deck.getNextCard());
 		addCard(deck.getNextCard());
