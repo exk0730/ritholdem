@@ -196,7 +196,6 @@ public class Table extends javax.swing.JPanel
 		for(int i = 0; i < hand.getSize(); i++)
 		{
 			Card cardP = hand.getCardAt(i);
-			System.out.println(cardP.toString());
 			jl = cardP.getCardImage();
             labels.add(jl);
 			jl.setBounds(400 + (cardCount * CARD_WIDTH),400,CARD_WIDTH,CARD_HEIGHT);
