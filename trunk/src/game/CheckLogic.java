@@ -52,12 +52,16 @@ public class CheckLogic
 	{
 		boolean aceExists = false;
 		int temp = 0;
+        int count = 0;
 		for(int i = 0; i < playerHand.getSize(); i++)
 		{
 			if(playerHand.getCardAt(i).getNumber(false) == 1)
 			{
 				aceExists = true;
-				temp += 0;
+                count++;
+                if(count >= 2){
+                    temp++;
+                }
 			}
 			else
 				temp += playerHand.getCardAt(i).getNumber(false);
@@ -73,12 +77,16 @@ public class CheckLogic
 	{
 		boolean aceExists = false;
 		int temp = 0;
+        int count = 0;
 		for(int i = 0; i < dealerHand.getSize(); i++)
 		{
 			if(dealerHand.getCardAt(i).getNumber(false) == 1)
 			{
 				aceExists = true;
-				temp += 0;
+                count++;
+                if(count >= 2){
+                    temp++;
+                }
 			}
 			else
 				temp += dealerHand.getCardAt(i).getNumber(false);
@@ -117,39 +125,43 @@ public class CheckLogic
 		}
 		return temp;
 	}
-}
 	
-/**	public static void main(String [] args)
+	public static void main(String [] args)
 	{
-		/**Card card1 = new Card(1,9);
+		Card card1 = new Card(3,1);
 		Card card2 = new Card(1,1);
 		Card card3 = new Card(2,10);
 		Card card4 = new Card(2,1);
-		
-		ArrayList<Card> player = new ArrayList<Card>();
-		//player.add(card1); player.add(card2);
-		ArrayList<Card> dealer = new ArrayList<Card>();
-		//dealer.add(card3); dealer.add(card4);
-		CheckLogic cl = new CheckLogic(player,dealer);
-		
+        Card card5 = new Card(4,1);
+        Card card6 = new Card(1,8);
 		Deck deck = new Deck();
-		player.add(deck.getNextCard());
-		player.add(deck.getNextCard());
-		dealer.add(deck.getNextCard());
-		dealer.add(deck.getNextCard());
-		
-		for(int i = 0; i < player.size(); i++)
+
+        PlayerCards player = new PlayerCards(deck);
+        DealerCards dealer = new DealerCards(deck);
+        CheckLogic cl = new CheckLogic(player,dealer);
+        cl.updatePlayer(card1);
+        cl.updatePlayer(card2);
+        cl.updateDealer(card3);
+        cl.updateDealer(card4);
+        cl.updatePlayer(card5);
+        cl.updatePlayer(card6);
+
+        System.out.println("------PLAYER HAND-------");
+		for(int i = 0; i < player.getSize(); i++)
 		{
-			System.out.println(player.get(i).toString());
+			System.out.println(player.getCardAt(i).toString());
 		}
-		for(int i = 0; i < dealer.size(); i++)
+        System.out.println("\n------DEALER HAND-----");
+		for(int i = 0; i < dealer.getSize(); i++)
 		{
-			System.out.println(dealer.get(i).toString());
+			System.out.println(dealer.getCardAt(i).toString());
 		}
+
+        System.out.println("combinedHand: " + cl.getCombinedPlayerHand());
 				
 		System.out.println("blackjack: " + cl.checkBlackJack() + "\npush: " + cl.checkPush() +
 								 "\nwin: " + cl.checkWin() + "\nloss: " + cl.checkLoss());
 		
 		System.out.println("\n\nWin Type: " + cl.returnTypeOfWin());
 	}
-}*/
+}
