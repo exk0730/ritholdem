@@ -10,7 +10,7 @@ import java.awt.RadialGradientPaint;
 import java.awt.geom.Point2D;
 
 /**
- *
+ * Playing table
  * @author  Admin
  */
 public class Table extends javax.swing.JPanel
@@ -34,7 +34,11 @@ public class Table extends javax.swing.JPanel
 	private Card dealerCard;
     private JLabel jl;
 	
-    /** Creates new form Table */
+    /** Creates new form Table
+     * @param startCash
+     * @param userID
+     * @param client
+     */
    public Table(double startCash, int userID, Client client)
 	{
 		initCash = startCash;
@@ -107,7 +111,6 @@ public class Table extends javax.swing.JPanel
 		/*
          * TODO
          * check if it is their turn (this includes if they have stood or doubled - meaning they can't receive another card)
-		 * check if they have already busted
 		*/
 		if(!dealt)
 		{
@@ -167,6 +170,9 @@ public class Table extends javax.swing.JPanel
         dealt = false;
     }
 
+    /**
+     * When player has doubled or "stood"
+     */
 	private void dealerActions() {
         while(!client.dealerStand()){
             Card temp = client.hit();
@@ -175,6 +181,7 @@ public class Table extends javax.swing.JPanel
                 break;
             }
         }
+        //See if client wins, pushes, or loses
         String s = client.checkWin(userID, bet);
         String temp = s.substring(0, s.indexOf('_'));
         JOptionPane.showMessageDialog(null, temp);
@@ -191,6 +198,10 @@ public class Table extends javax.swing.JPanel
         wipe();
     }
 
+    /**
+     * Render's this player's hand
+     * @param hand
+     */
 	private void renderPlayerHand(PlayerCards hand)
 	{
 		for(int i = 0; i < hand.getSize(); i++)
@@ -205,7 +216,11 @@ public class Table extends javax.swing.JPanel
 		}
 		update();
 	}
-	
+
+    /**
+     * Render the dealer's hand
+     * @param dealer
+     */
 	private void renderDealerHand(DealerCards dealer)
 	{
 		dealerCard = dealer.getCardAt(0);
@@ -223,7 +238,12 @@ public class Table extends javax.swing.JPanel
         this.add(jl);
 		update();
 	}
-	
+
+    /**
+     * Render either the dealer's hit card, or the client's hit card
+     * @param c
+     * @param playerOrDealer
+     */
 	private void renderHitCard(Card c, boolean playerOrDealer)
 	{
 		Card card = c;
@@ -241,6 +261,9 @@ public class Table extends javax.swing.JPanel
 		update();
 	}
 
+    /**
+     * Render dealer's face-down card
+     */
     private void renderDealerCard() {
         this.remove(jl);
         jl = dealerCard.getCardImage();
@@ -251,6 +274,9 @@ public class Table extends javax.swing.JPanel
         update();
     }
 
+    /**
+     * Remove all cards for next round
+     */
     private void wipe(){
         for(JLabel jlabels : labels){
             this.remove(jlabels);

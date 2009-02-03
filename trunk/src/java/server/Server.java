@@ -1,13 +1,14 @@
 package server;
 /**
  * Server main class
- * @author Emilien Girault
+ * @author Emilien Girault / Eric Kisner
  * @date 1/12/09
  */
 import database.*;
 import game.*;
 import java.rmi.*;
 import java.sql.*;
+
 
 public class Server extends java.rmi.server.UnicastRemoteObject implements RMIInterface {
 
@@ -37,7 +38,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     /**
      * Return the unique instance of the class (Singleton Design Pattern)
      * @return Server instance
-     * @throws java.sql.SQLException
+     * @throws Exception
      */
     public static Server instance() throws Exception {
         if(instance == null){
@@ -68,10 +69,13 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         dealer = new DealerCards(deck);
         checkLogic = new CheckLogic(playerHand, dealer);
     }
-    //
-    // RMI Methods
-    //
 
+    /**
+     * Client hit
+     * @param userID
+     * @return
+     * @throws java.rmi.RemoteException
+     */
     @Override
     public Card hit(int userID) throws RemoteException 
     {
@@ -94,6 +98,11 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         return temp;
     }
     
+    /**
+     * Return dealer's hand
+     * @return
+     * @throws java.rmi.RemoteException
+     */
     @Override
     public DealerCards deal() throws RemoteException 
     {
@@ -102,6 +111,13 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     	return dealer;
     }
 
+    /**
+     * Return player's hand
+     * @param userID
+     * @param bet
+     * @return
+     * @throws java.rmi.RemoteException
+     */
     @Override
     public PlayerCards deal(int userID, double bet)throws RemoteException 
     {
@@ -175,11 +191,23 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         return s;
     }
 
+    /**
+     *
+     * @param userID
+     * @throws java.rmi.RemoteException
+     */
     @Override
     public void stand(int userID) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     *
+     * @param userID
+     * @param bet
+     * @return
+     * @throws java.rmi.RemoteException
+     */
     @Override
     public Card dble(int userID, double bet) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -211,7 +239,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
 
     /**
      * Attempt to login
-     * @param loginID
+     * @param userName
      * @param password
      * @return LOGIN_FAILED if failed, otherwise the userID
      * @throws java.rmi.RemoteException
@@ -268,7 +296,9 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     /**
      * Delete a user account
      * @param userID
+     * @param userName
      * @param password
+     * @return
      * @throws java.rmi.RemoteException
      */
     @Override
@@ -335,5 +365,4 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         server.bind();
         System.out.println("Server started");
     }
-
 }

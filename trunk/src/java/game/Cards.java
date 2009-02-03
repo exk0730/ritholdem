@@ -8,8 +8,8 @@ import java.io.*;
 */
 public abstract class Cards implements Serializable
 {
-	protected ArrayList<Card> cards;
-	protected int selectedIndex;
+    protected ArrayList<Card> cards;
+    protected int selectedIndex;
 	
 	/**
 	*Default Constructor
@@ -20,7 +20,11 @@ public abstract class Cards implements Serializable
 		reset();
 	}
 	
-	public int getSize()
+    /**
+     * Get's this arraylists' size
+     * @return
+     */
+    public int getSize()
 	{
 		return cards.size();
 	}
@@ -68,7 +72,11 @@ public abstract class Cards implements Serializable
 		selectedIndex++;
 	}
 	
-	public void addCard(Card c)
+    /**
+     * Add a card to this collection
+     * @param c
+     */
+    public void addCard(Card c)
 	{
 		cards.add(c);
 	}

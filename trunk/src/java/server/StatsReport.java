@@ -10,10 +10,18 @@ public class StatsReport extends Thread {
 
     private Data data;
 
+    /**
+     * StatsReport constructor
+     * @throws java.sql.SQLException
+     */
     public StatsReport() throws SQLException{
         data = Data.instance();
     }
 
+    /**
+     * The run method in the StatsReport thread will receive a top player's list
+     *  and send to clients
+     */
     @Override
     public void run(){
         while(true){
@@ -37,6 +45,7 @@ public class StatsReport extends Thread {
             catch(InterruptedException ie){}
         }
     }
+
 
     public static void main(String [] args){
         StatsReport sr = null;

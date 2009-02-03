@@ -1,14 +1,14 @@
 package client;
-/**
- * Client
- * @author Emilien Girault
- * @date 1/12/09
- */
+
 
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import game.*;
 
+/**
+ * Client is the class that will call server methods
+ * @author Eric Kisner / Emilien Girault
+ */
 public class Client {
 
     /**
@@ -16,12 +16,22 @@ public class Client {
      * TODO: Will be private
      */
     public RMIInterface server;
+    private static Client instance = null;
 
     /**
-     * Constructor
-     * TODO: Singleton Design Pattern?
+     * Singelton Design Pattern
+     * @return the existing instance of Client or creats one
      */
-    public Client(){
+    public static Client instance(){
+        if(instance == null){
+          instance = new Client();
+        }
+        return instance;
+    }
+    /**
+     * Constructor
+     */
+    private Client(){
         try {
             server = (RMIInterface) Naming.lookup(RMIInterface.SERVER_NAME);
         } catch(Exception e) {
@@ -30,6 +40,12 @@ public class Client {
         }
     }
 
+    /**
+     * Logs a client in and returns there userID (-1 is failed login)
+     * @param userName
+     * @param pwd
+     * @return int
+     */
     public int login(String userName, String pwd) {
         int userID = RMIInterface.LOGIN_FAILED;
         try {
@@ -42,6 +58,11 @@ public class Client {
         return userID;
     }
 
+    /**
+     * Returns this user's money
+     * @param userID
+     * @return
+     */
     public double getBank(int userID) {
         double bank = 0;
         try {
@@ -54,6 +75,12 @@ public class Client {
         return bank;
     }
 
+    /**
+     * Updates this user's bank
+     * @param userID
+     * @param money
+     * @return
+     */
     public double updateBank(int userID, double money) {
         double bank = 0;
         try {
@@ -66,6 +93,17 @@ public class Client {
         return bank;
     }
 
+    /**
+     * Registers a new user
+     * @param loginID
+     * @param password
+     * @param fName
+     * @param lName
+     * @param email
+     * @param creditCard
+     * @param startingCash
+     * @return
+     */
     public boolean register(String loginID, String password, String fName,
                             String lName, String email, String creditCard, double startingCash){
         boolean ok = false;
@@ -79,6 +117,12 @@ public class Client {
         return ok;
     }
 
+    /**
+     * Deals a hand for the player
+     * @param userID
+     * @param bet
+     * @return
+     */
     public PlayerCards deal(int userID, double bet){
         PlayerCards hand = null;
         try {
@@ -92,6 +136,10 @@ public class Client {
         return hand;
     }
 
+    /**
+     * Deals a hand for the dealer (server)
+     * @return
+     */
     public DealerCards deal() {
         DealerCards dealer = null;
         try {
@@ -104,6 +152,11 @@ public class Client {
         return dealer;
     }
 
+    /**
+     * User wants a new card
+     * @param userID
+     * @return
+     */
     public Card hit(int userID){
         Card temp = null;
         try {
@@ -116,6 +169,10 @@ public class Client {
         return temp;
     }
 
+    /**
+     * Server gets a new card
+     * @return
+     */
     public Card hit(){
         Card temp = null;
         try {
@@ -128,6 +185,12 @@ public class Client {
         return temp;
     }
 
+    /**
+     * Checks if player or dealer busts
+     * @param userID
+     * @param playerOrDealer
+     * @return
+     */
     public boolean bust(int userID, boolean playerOrDealer) {
         boolean bool = false;
         try {
@@ -140,6 +203,10 @@ public class Client {
         return bool;
     }
 
+    /**
+     * Checks if dealer needs to stand (at 16 or more)
+     * @return
+     */
     public boolean dealerStand() {
         boolean bool = false;
         try {
@@ -152,6 +219,12 @@ public class Client {
         return bool;
     }
 
+    /**
+     * Checks this user's win status
+     * @param userID
+     * @param bet
+     * @return
+     */
     public String checkWin(int userID, double bet) {
         String s = "";
         try {
@@ -189,11 +262,12 @@ public class Client {
     /**
      * Test method for register()
      * TODO To be removed after deliverable 2
-     * @param loginID
+     * @param userName
      * @param password
      * @param fName
      * @param lName
      * @param email
+     * @return
      */
     public boolean test_register(String userName, String password, String fName, String lName, String email){
         boolean ok = false;
@@ -235,6 +309,7 @@ public class Client {
     /**
      * Test method for getInfos()
      * @param userID
+     * @return
      */
     public AccountInformation test_getInfos(int userID){
         AccountInformation ai = null;
@@ -255,6 +330,7 @@ public class Client {
     /**
      * Test method for getInfos()
      * @param userID
+     * @param ai
      */
     public void test_writeInfos(int userID, AccountInformation ai){
         try {

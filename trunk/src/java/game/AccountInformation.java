@@ -2,19 +2,20 @@ package game;
 import java.io.*;
 import java.sql.Date;
 
+/**
+ * Information for a user
+ * @author Emilien Girault
+ */
 public class AccountInformation implements Serializable
 {
 	private String userName, pwd, fName, lName, email;/*, creditCard;*/
     private Date dateLastPlayed, dateJoined;
 
-    /*
-	private double totalCash, totalTimePlaying, totalTimeConnected, longestWinningStreak,
-						mostMoneyWon, totalHandsPlayed, amountOfWins, amountOfLosses;
-     * */
 
     /**
      * Constructor
      * @param login
+     * @param pass
      * @param firstName
      * @param lastName
      * @param mail
@@ -30,17 +31,6 @@ public class AccountInformation implements Serializable
         email = mail;
         dateLastPlayed = dLastPlayed;
         dateJoined = dJoined;
-        /*
-		creditCard = cCard;
-		totalCash = cash;
-		totalTimePlaying = 0;
-		totalTimeConnected = 0;
-		longestWinningStreak = 0;
-		mostMoneyWon = 0;
-		totalHandsPlayed = 0;
-		amountOfWins = 0;
-		amountOfLosses = 0;
-         * */
 	}
 
     //
@@ -48,7 +38,7 @@ public class AccountInformation implements Serializable
     //
 
 
-	public String getUserName(){
+    public String getUserName(){
 		return userName;
 	}
 
@@ -110,13 +100,6 @@ public class AccountInformation implements Serializable
 		dateJoined = d;
 	}
 
-	
-	/*
-	public double getTotalCash()
-	{
-		return totalCash;
-	}
-     * */
 	
 		
     @Override

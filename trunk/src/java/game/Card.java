@@ -2,8 +2,10 @@ package game;
 import javax.swing.*;
 import java.io.*;
 
-//Card class - represents a Card object
-
+/**
+ * Represents a card object
+ * @author Eric Kisner
+ */
 public class Card implements Serializable
 {
 	private int suit , number;
@@ -16,22 +18,33 @@ public class Card implements Serializable
 	private final String DIAMONDS_STRING = "diamond";
 	private final String CLUBS_STRING = "club";
 	private final String JPG = "jpg";
-
-    //For resolving relative paths
-    //private ClassLoader cldr;
 	
-	public Card(int suit, int number)
+    /**
+     * Constructor
+     * @param suit
+     * @param number
+     */
+    public Card(int suit, int number)
 	{
 		this.suit = suit;
 		this.number = number;
 	}
 	
-	public int getSuit()
+    /**
+     * Gets this card's suit
+     * @return
+     */
+    public int getSuit()
 	{
 		return suit;
 	}
 	
-	public int getNumber(boolean labelRequest)
+    /**
+     * Gets this card's number or the point-value of this card (if above 10)
+     * @param labelRequest
+     * @return
+     */
+    public int getNumber(boolean labelRequest)
 	{
 		if( (number > 10) && (labelRequest == false) )
 		{
@@ -40,7 +53,11 @@ public class Card implements Serializable
 		else return number;
 	}
 	
-	public String getStringNumber()
+    /**
+     * Returns this card's string representation
+     * @return
+     */
+    public String getStringNumber()
 	{
 		switch (getNumber(true))
 		{
@@ -61,7 +78,11 @@ public class Card implements Serializable
 		}
 	}
 	
-	public JLabel getCardImage()
+    /**
+     * Returns this card's picture
+     * @return
+     */
+    public JLabel getCardImage()
 	{
 		
 		String location = "game/cards/";
@@ -89,8 +110,9 @@ public class Card implements Serializable
 			location = "game/cards/card_back." + JPG;
 		}
 		return new JLabel(new ImageIcon(getClass().getClassLoader().getResource(location)));
-   }
-	
+    }
+
+    @Override
 	public String toString()
 	{
 		String temp = suit + "_" + number;
