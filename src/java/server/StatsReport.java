@@ -1,6 +1,7 @@
 package server;
 
 import java.sql.*;
+import database.*;
 /**
  * StatsReport will send a top player list using JMS
  * @author Eric Kisner
