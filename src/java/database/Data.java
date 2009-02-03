@@ -182,6 +182,17 @@ public class Data {
         return ai;
     }
 
+    public String getTopPlayers() throws SQLException {
+        String s = "";
+        ResultSet rs = db.executeQuery("SELECT fName, lName, userEarnings FROM usermoneystats " +
+                                        "NATURAL JOIN userinfo ORDER BY userEarnings DESC");
+        while(rs.next()){
+            s += "First Name: " + rs.getString("fName") + ", Last Name: " + rs.getString("lName") +
+                     ", Current Earnings: " + rs.getString("userEarnings") + "_";
+        }
+        return s;
+    }
+
     /**
      * Get a user's bank amount
      * @param int userID
