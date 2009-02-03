@@ -17,7 +17,6 @@ public class StatsReport extends Thread {
     public void run(){
         while(true){
             String s = "";
-            String[] result = s.split("_");
             try{
                 s = data.getTopPlayers();
             }
@@ -26,6 +25,7 @@ public class StatsReport extends Thread {
                 System.exit(1);
             }
 
+            String[] result = s.split("_");
             for(int i = 0; i < result.length; i++){
                 System.out.println("newline:" + result[i]);
             }

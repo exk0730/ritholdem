@@ -184,8 +184,8 @@ public class Data {
 
     public String getTopPlayers() throws SQLException {
         String s = "";
-        ResultSet rs = db.executeQuery("SELECT fName, lName, userEarnings FROM usermoneystats " +
-                                        "NATURAL JOIN userinfo ORDER BY userEarnings DESC");
+        ResultSet rs = db.executeQuery("SELECT fName, lName, userEarnings FROM UserMoneyStats " +
+                                        "NATURAL JOIN UserInfo ORDER BY userEarnings DESC");
         while(rs.next()){
             s += "First Name: " + rs.getString("fName") + ", Last Name: " + rs.getString("lName") +
                      ", Current Earnings: " + rs.getString("userEarnings") + "_";
