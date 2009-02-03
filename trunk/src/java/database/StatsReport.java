@@ -17,20 +17,21 @@ public class StatsReport extends Thread {
     public void run(){
         while(true){
             String s = "";
+            String[] result = null;
             try{
                 s = data.getTopPlayers();
+                result = s.split("_");
             }
             catch(SQLException sqle){
                 System.err.println("Error in receiving top player list: " + sqle.getMessage());
                 System.exit(1);
             }
 
-            String[] result = s.split("_");
             for(int i = 0; i < result.length; i++){
-                System.out.println("newline:" + result[i]);
+                System.out.println("Position " + (i+1) + ": \t" + result[i]);
             }
             try{
-                sleep(500);
+                sleep(5000);
             }
             catch(InterruptedException ie){}
         }
