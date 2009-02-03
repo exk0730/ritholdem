@@ -122,6 +122,10 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 				try
 				{
 					initCash = Double.parseDouble(initCashStr);
+                    if(initCash > 10000000){
+                        JOptionPane.showMessageDialog(null, "You've maxed out your credit card!!!! Setting bank to max amount");
+                        initCash = 10000000;
+                    }
                 }
 				catch(NumberFormatException nfe)
 				{

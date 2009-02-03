@@ -88,18 +88,18 @@ public class DBConnection
 
 	// For testing purposes
 	public static void main(String args[]){
-            try {
-                //Connect
-                DBConnection db = new DBConnection();
-                System.out.println("Connection opened successfully");
+        try {
+            //Connect
+            DBConnection db = new DBConnection();
+            System.out.println("Connection opened successfully");
 
-                //Close
-                db.close();
-                System.out.println("Connection closed successfully");
+            //Close
+            db.close();
+            System.out.println("Connection closed successfully");
 
-            } catch(SQLException e) {
-                System.out.println(e.getMessage());
-                e.printStackTrace();
-            }
+        } catch(SQLException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
 	}
 }
