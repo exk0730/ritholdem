@@ -1,7 +1,7 @@
 <%-- 
     Document   : index
     Created on : 2 févr. 2009, 18:52:21
-    Author     : trance
+    Author     : Emilien Girault
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
