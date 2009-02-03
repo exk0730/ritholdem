@@ -8,6 +8,7 @@ import database.*;
 import game.*;
 import java.rmi.*;
 import java.sql.*;
+import java.util.*;
 
 
 public class Server extends java.rmi.server.UnicastRemoteObject implements RMIInterface {
@@ -21,6 +22,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     private PlayerCards playerHand;
     private DealerCards dealer;
     private CheckLogic checkLogic;
+    private ArrayList<Integer> users = new ArrayList<Integer>();
     /**
      * Unique instance (Singleton Design Pattern)
      */
@@ -32,7 +34,6 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      */
     private Server() throws SQLException, RemoteException {
         data = Data.instance();
-        initGame();
     }
 
     /**
@@ -249,6 +250,8 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         int userID = LOGIN_FAILED;
         try {
             userID = data.login(userName, password);
+            initGame();
+            users.add(userID);
         } catch(SQLException e) {
             System.err.println("Error in login(): " + e.getMessage());
         }
@@ -343,6 +346,21 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         } catch(SQLException e){
             System.err.println("Error in writeInfos(): " + e.getMessage());
         }
+    }
+
+    /**
+     * Check if a user exists
+     * @param userID
+     * @return
+     */
+    private boolean userExists(int userID){
+        boolean ok = false;
+        for(int i = 0; i < users.size(); i++){
+            if(userID == users.get(i)){
+                ok = true;
+            }
+        }
+        return ok;
     }
 
 
