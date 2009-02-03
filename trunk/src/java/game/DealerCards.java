@@ -21,7 +21,7 @@ public class DealerCards extends Cards implements Serializable
     /**
      * Gets the next hand for the dealer
      */
-    public void nextHand()
+    public void nextHand() throws IndexOutOfBoundsException
 	{
 		this.reset();
 		addCard(deck.getNextCard());

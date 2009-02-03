@@ -50,6 +50,8 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
             userID = client.login(userNameTextField.getText(), String.valueOf(passwordField.getPassword()));
             if(userID == RMIInterface.LOGIN_FAILED) {
                 JOptionPane.showMessageDialog(null, "Wrong login!");
+                passwordField.setText("");
+                userNameTextField.setText("");
             }
             else {
                 initCash = client.getBank(userID);
@@ -114,16 +116,15 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 		}
 		else
 		{
-			System.out.println(String.valueOf(regPasswordField.getPassword()) + " " + String.valueOf(regPasswordTwoField.getPassword()));
 			while(true)
 			{
 				String initCashStr = JOptionPane.showInputDialog(null, "How much money would you like to put into your account?");
 				try
 				{
 					initCash = Double.parseDouble(initCashStr);
-                    if(initCash > 10000000){
+                    if(initCash > 1000000){
                         JOptionPane.showMessageDialog(null, "You've maxed out your credit card!!!! Setting bank to max amount");
-                        initCash = 10000000;
+                        initCash = 1000000;
                     }
                 }
 				catch(NumberFormatException nfe)

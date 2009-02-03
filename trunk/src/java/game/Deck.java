@@ -1,8 +1,6 @@
 package game;
 import java.io.Serializable;
 import java.util.*;
-import game.Cards;
-import game.Card;
 
 /**
 *The deck class will create a standard 52-Card deck

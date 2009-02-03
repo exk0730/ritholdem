@@ -80,10 +80,17 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     @Override
     public Card hit(int userID) throws RemoteException 
     {
+        Card temp = null;
     	/**
     	 * TODO use userID somewhere
     	 */
-        Card temp = deck.getNextCard();
+        try{
+            temp = deck.getNextCard();
+        }
+        catch(IndexOutOfBoundsException ioobe){
+            initGame();
+            temp = deck.getNextCard();
+        }
         checkLogic.updatePlayer(temp);
    		return temp;
     }
@@ -94,7 +101,17 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @throws java.rmi.RemoteException
      */
     public Card hit() throws RemoteException {
-        Card temp = deck.getNextCard();
+        Card temp = null;
+    	/**
+    	 * TODO use userID somewhere
+    	 */
+        try{
+            temp = deck.getNextCard();
+        }
+        catch(IndexOutOfBoundsException ioobe){
+            initGame();
+            temp = deck.getNextCard();
+        }
         checkLogic.updateDealer(temp);
         return temp;
     }
@@ -107,7 +124,13 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     @Override
     public DealerCards deal() throws RemoteException 
     {
-    	dealer.nextHand();
+        try{
+            dealer.nextHand();
+        }
+        catch(IndexOutOfBoundsException ioobe){
+            initGame();
+            dealer.nextHand();
+        }
         checkLogic = new CheckLogic(playerHand, dealer);
     	return dealer;
     }
@@ -125,7 +148,13 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     	/**
     	 * TODO use userID somewhere
     	 */
-    	playerHand.nextHand();
+    	try{
+            playerHand.nextHand();
+        }
+        catch(IndexOutOfBoundsException ioobe){
+            initGame();
+            playerHand.nextHand();
+        }
     	return playerHand;
     }
 

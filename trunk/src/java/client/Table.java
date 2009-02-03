@@ -162,8 +162,8 @@ public class Table extends javax.swing.JPanel
     private void playerBust() {
         JOptionPane.showMessageDialog(null, "You busted");
         bet *= -1;
-        double temp = client.updateBank(userID, bet);
-        cashAmountLabel.setText("" + temp);
+        initCash = client.updateBank(userID, bet);
+        cashAmountLabel.setText("" + initCash);
         bet = 0;
         betAmountLabel.setText("" + bet);
         wipe();
@@ -192,7 +192,8 @@ public class Table extends javax.swing.JPanel
             System.err.println("Error receiving bet during checkWin: " + nfe.getMessage());
             System.exit(1);
         }
-        cashAmountLabel.setText("" + (client.updateBank(userID, bet)) );
+        initCash = client.updateBank(userID, bet);
+        cashAmountLabel.setText("" + initCash );
         bet = 0;
         betAmountLabel.setText("" + bet);
         wipe();

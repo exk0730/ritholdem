@@ -36,13 +36,16 @@ public class StatsReport extends Thread {
                 System.exit(1);
             }
 
+            //TODO add JMS portion here
             for(int i = 0; i < result.length; i++){
                 System.out.println("Position " + (i+1) + ": \t" + result[i]);
             }
             try{
-                sleep(5000);
+                sleep(60000);
             }
-            catch(InterruptedException ie){}
+            catch(InterruptedException ie){
+                System.err.println("Error trying to sleep: " + ie.getMessage());
+            }
         }
     }
 

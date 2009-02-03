@@ -109,20 +109,10 @@ public abstract class Cards implements Serializable
 	*Get the next card
 	*@return The next Card object in this collection
 	*/
-	public Card getNextCard()
+	public Card getNextCard() throws IndexOutOfBoundsException
 	{
-		Card c = null;
-		try 
-		{
-			c = cards.get(selectedIndex);
-			increment();
-		}
-		catch (IndexOutOfBoundsException ioobe)
-		{
-			// maybe create an error card?
-			ioobe.printStackTrace();
-			System.out.println("error");
-		}
+		Card c = cards.get(selectedIndex);
+		increment();
 		return c;
    }
 	
