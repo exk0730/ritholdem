@@ -14,7 +14,8 @@ import javax.swing.*;
  */
 public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 {
-	private double initCash;
+	private double initCash, emergencyFunds;
+    private int userID;
     public boolean ok = false;
     private Client client;
 	/** Creates new form LoginPanel	*/
@@ -37,7 +38,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 	@SuppressWarnings("deprecation")
 	private void loginBtnActionPerformed(java.awt.event.ActionEvent evt)
 	{
-		int userID = 0;
+		userID = 0;
 		if(userNameTextField.getText().equals(""))
 		{
 			JOptionPane.showMessageDialog(null, "Enter your user name");
@@ -55,6 +56,12 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
             }
             else {
                 initCash = client.getBank(userID);
+                if(initCash <= 0){
+                    try{
+                        initCash = client.retrieveEmergencyFunds(userID);
+                    }
+                    catch(Exception e) { initCash = 0; }
+                }
                 this.removeAll();
                 Table table1 = new Table(initCash, userID, client);
                 this.setLayout(new java.awt.BorderLayout());
@@ -116,6 +123,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 		}
 		else
 		{
+            boolean no = false;
 			while(true)
 			{
 				String initCashStr = JOptionPane.showInputDialog(null, "How much money would you like to put into your account?");
@@ -126,6 +134,12 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
                         JOptionPane.showMessageDialog(null, "You've maxed out your credit card!!!! Setting bank to max amount");
                         initCash = 1000000;
                     }
+                    String answer = JOptionPane.showInputDialog(null, "Would you like to have emergency funds?");
+                    if((answer.toUpperCase().equals("YES") || answer.toUpperCase().equals("Y"))){
+                        String fundsString = JOptionPane.showInputDialog(null, "How much emergency funds would you like?");
+                        emergencyFunds = Double.parseDouble(fundsString);
+                    }
+                    else {no = true;}
                 }
 				catch(NumberFormatException nfe)
 				{
@@ -144,6 +158,10 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
                 }
                 else
                 {
+                    if(!no){
+                        userID = client.login(regUserNameTextField.getText(), String.valueOf(regPasswordField.getPassword()));
+                        client.addEmergencyFunds(userID, emergencyFunds);
+                    }
                     JOptionPane.showMessageDialog(null, "Registration successful!");
                     expanding = true;
                     if(expandTimer != null)

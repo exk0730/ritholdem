@@ -94,6 +94,38 @@ public class Client {
     }
 
     /**
+     * Adds emergency funds to this client
+     * @param userID
+     * @param money
+     */
+    public void addEmergencyFunds(int userID, double money) {
+        try{
+            server.addEmergencyFunds(userID, money);
+        }
+        catch(RemoteException re){
+            System.err.println("There was an error registering ermergency funds: " + re.getMessage());
+            System.exit(1);
+        }
+    }
+
+    /**
+     * Retrieves emergency funds for this user
+     * @param userID
+     * @return
+     */
+    public double retrieveEmergencyFunds(int userID) {
+        double temp = -1;
+        try {
+            temp = server.retrieveEmergencyFunds(userID);
+        }
+        catch(RemoteException re){
+            System.err.println("There was an error retrieving ermergency funds: " + re.getMessage());
+            System.exit(1);
+        }
+        return temp;
+    }
+
+    /**
      * Registers a new user
      * @param loginID
      * @param password
@@ -310,7 +342,7 @@ public class Client {
      * Test method for getInfos()
      * @param userID
      * @return
-     */
+    */
     public AccountInformation test_getInfos(int userID){
         AccountInformation ai = null;
         try {
@@ -341,17 +373,16 @@ public class Client {
             System.err.println("Client error: " + e.getMessage());
         }
     }
-
+}
 
     /**
      * Main program
      * @param args
-     */
     public static void main(String[] args){
         /**
          * This is a test program for deliverable 2
          * It only call some methods to get data from and to the database.
-         */
+         
 
         //Create a client
         Client client = new Client();
@@ -395,4 +426,4 @@ public class Client {
 
     }
 
-}
+}*/

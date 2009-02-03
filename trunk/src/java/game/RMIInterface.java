@@ -83,6 +83,21 @@ public interface RMIInterface extends Remote
     public double updateBank(int userID, double money) throws RemoteException;
 
     /**
+     * Adds emergency funding for this user
+     * @param userID
+     * @param money
+     * @throws java.rmi.RemoteException
+     */
+    public void addEmergencyFunds(int userID, double money) throws RemoteException;
+
+    /**
+     * Retrieves emergency funding for this user
+     * @param userID
+     * @return
+     * @throws java.rmi.RemoteException
+     */
+    public double retrieveEmergencyFunds(int userID) throws RemoteException;
+    /**
      * Write a user's infos to the database
      * @param userID
      * @param ai user's infos
