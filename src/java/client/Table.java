@@ -24,15 +24,16 @@ public class Table extends javax.swing.JPanel
 	*Card height
 	*/
 	private final int CARD_HEIGHT = 100;
-    private ArrayList<JLabel> labels = new ArrayList<JLabel>();
-	private int cardCount, userID;
+    private ArrayList<JLabel> labels = new ArrayList<JLabel>(); //for removing all cards on screen
+	private int cardCount, userID; //card count tells how far to render the card
+                                //cardCount * CARD_WIDTH will render the card at the next open spot
 	private double initCash, bet;
 	private Client client;
-    private PlayerCards hand;
-    private DealerCards dealer;
-	private boolean dealt;
-	private Card dealerCard;
-    private JLabel jl;
+    private PlayerCards hand; // player's hand
+    private DealerCards dealer; //dealer's hand
+	private boolean dealt; //true if hand has been dealt
+	private Card dealerCard; //holds the face-down dealer card for rendering later
+    private JLabel jl; //holds the card_back image for dealer card
 	
     /** Creates new form Table
      * @param startCash
@@ -141,6 +142,7 @@ public class Table extends javax.swing.JPanel
         betAmountLabel.setText("" + bet);
         Card temp = client.hit(userID);
         renderHitCard(temp, true);
+        //if client busted:
         if(client.bust(userID, true)) {
             renderDealerCard();
             playerBust();
@@ -163,6 +165,7 @@ public class Table extends javax.swing.JPanel
         JOptionPane.showMessageDialog(null, "You busted");
         bet *= -1;
         initCash = client.updateBank(userID, bet);
+        if(initCash <= 0) { getEmergFunds(); }
         cashAmountLabel.setText("" + initCash);
         bet = 0;
         betAmountLabel.setText("" + bet);
@@ -177,6 +180,7 @@ public class Table extends javax.swing.JPanel
         while(!client.dealerStand()){
             Card temp = client.hit();
             renderHitCard(temp, false);
+            //if dealer busts:
             if(client.bust(userID, false)) {
                 break;
             }
@@ -193,10 +197,24 @@ public class Table extends javax.swing.JPanel
             System.exit(1);
         }
         initCash = client.updateBank(userID, bet);
+        if(initCash <= 0) { getEmergFunds(); }
         cashAmountLabel.setText("" + initCash );
         bet = 0;
         betAmountLabel.setText("" + bet);
         wipe();
+    }
+
+    /**
+     * Tries to set a user's cash amount to emergency funds when they have no initial money left
+     */
+    private void getEmergFunds(){
+        try{
+            initCash = client.retrieveEmergencyFunds(userID);
+            JOptionPane.showMessageDialog(null, "Retrieved your emergency funds");
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, "You have no emergency funds available");
+        }
     }
 
     /**

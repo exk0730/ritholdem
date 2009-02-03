@@ -208,14 +208,11 @@ public class Data {
      */
     public synchronized double getBank(int userID) throws SQLException{
         double temp = -1;
-        if(userExists(userID))
-        {
-            PreparedStatement pst = db.newPreparedStatement("SELECT bank FROM FinancialData WHERE FinancialData.userID = (?)");
-            pst.setInt(1, userID);
-            ResultSet rs = pst.executeQuery();
-            if(rs.next()){
-                temp = rs.getDouble("bank");
-            }
+        PreparedStatement pst = db.newPreparedStatement("SELECT bank FROM FinancialData WHERE FinancialData.userID = (?)");
+        pst.setInt(1, userID);
+        ResultSet rs = pst.executeQuery();
+        if(rs.next()){
+            temp = rs.getDouble("bank");
         }
         return temp;
     }
@@ -229,38 +226,60 @@ public class Data {
      */
     public synchronized double updateBank(int userID, double money) throws SQLException {
         double temp = -1;
-        if(userExists(userID))
-        {
-            PreparedStatement pst = db.newPreparedStatement("SELECT bank FROM FinancialData WHERE FinancialData.userID = (?)");
-            pst.setInt(1, userID);
-            ResultSet rs = pst.executeQuery();
-            if(rs.next()){
-                temp = rs.getDouble("bank");
-                temp += money;
-                pst = db.newPreparedStatement("UPDATE FinancialData SET bank = (?) WHERE userID = (?)");
-                pst.setDouble(1, temp);
-                pst.setInt(2, userID);
-                pst.executeUpdate();
-            }
+        PreparedStatement pst = db.newPreparedStatement("SELECT bank FROM FinancialData WHERE FinancialData.userID = (?)");
+        pst.setInt(1, userID);
+        ResultSet rs = pst.executeQuery();
+        if(rs.next()){
+            temp = rs.getDouble("bank");
+            temp += money;
+            pst = db.newPreparedStatement("UPDATE FinancialData SET bank = (?) WHERE userID = (?)");
+            pst.setDouble(1, temp);
+            pst.setInt(2, userID);
+            pst.executeUpdate();
         }
         return temp;
     }
 
     /**
-     * Checks if user exists
+     * Adds money to emergency funding
      * @param userID
-     * @return false if this userID does not exist in FinancialData
+     * @param money
      * @throws java.sql.SQLException
      */
-    public synchronized boolean userExists(int userID) throws SQLException{
-        boolean ok = false;
-        PreparedStatement pst = db.newPreparedStatement("SELECT userID FROM FinancialData WHERE FinancialData.userID = (?)");
+    public synchronized void addEmergencryFunds(int userID, double money) throws SQLException {
+        PreparedStatement pst = db.newPreparedStatement("SELECT allowEmergencyFunding, emergencyFundAmt FROM " +
+                                                    "FinancialData WHERE FinancialData.userID = (?)");
         pst.setInt(1, userID);
         ResultSet rs = pst.executeQuery();
         if(rs.next()){
-            ok = true;
+            pst = db.newPreparedStatement("UPDATE FinancialData SET allowEmergencyFunding = (?), emergencyFundAmt = (?) " +
+                                            "WHERE FinancialData.userID = (?)");
+            pst.setInt(1, 1);
+            pst.setDouble(2, money);
+            pst.setInt(3, userID);
+            pst.executeUpdate();
         }
-        return ok;
+    }
+
+    /**
+     * Retrieves a user's emergency funding and sets their bank to this amount
+     * @param userID
+     * @return
+     * @throws java.sql.SQLException
+     */
+    public synchronized double retrieveEmergencyFunds(int userID) throws SQLException {
+        double temp = -1;
+        PreparedStatement pst = db.newPreparedStatement("SELECT emergencyFundAmt FROM FinancialData WHERE FinancialData.userID = (?)");
+        pst.setInt(1, userID);
+        ResultSet rs = pst.executeQuery();
+        if(rs.next()){
+            temp = rs.getDouble("emergencyFundAmt");
+            pst = db.newPreparedStatement("UPDATE FinancialData SET bank = (?) WHERE userID = (?)");
+            pst.setDouble(1, temp);
+            pst.setInt(2, userID);
+            pst.executeUpdate();
+        }
+        return temp;
     }
 
     /**
