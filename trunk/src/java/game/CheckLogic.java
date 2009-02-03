@@ -166,7 +166,7 @@ public class CheckLogic
 	{
 		int temp = 0;
 		
-		if(checkWin())
+		if(checkWin() && !checkBlackJack())
 		{
 			temp = 1;
 		}
@@ -183,9 +183,9 @@ public class CheckLogic
 	
     public static void main(String [] args)
 	{
-		Card card1 = new Card(3,1);
+		Card card1 = new Card(3,10);
 		Card card2 = new Card(1,1);
-		Card card3 = new Card(2,10);
+		Card card3 = new Card(2,9);
 		Card card4 = new Card(2,1);
         Card card5 = new Card(4,1);
         Card card6 = new Card(1,8);
@@ -194,12 +194,12 @@ public class CheckLogic
         PlayerCards player = new PlayerCards(deck);
         DealerCards dealer = new DealerCards(deck);
         CheckLogic cl = new CheckLogic(player,dealer);
-        cl.updatePlayer(card1);
-        cl.updatePlayer(card2);
-        cl.updateDealer(card3);
-        cl.updateDealer(card4);
-        cl.updatePlayer(card5);
-        cl.updatePlayer(card6);
+        cl.updatePlayer(card1);//3,1
+        cl.updatePlayer(card2);//1,1
+        cl.updateDealer(card3);/////2,10
+        cl.updateDealer(card4);/////2,1
+        cl.updateDealer(card5);//4,1
+        //cl.updatePlayer(card6);//1,8
 
         System.out.println("------PLAYER HAND-------");
 		for(int i = 0; i < player.getSize(); i++)
