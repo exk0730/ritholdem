@@ -7,21 +7,20 @@ import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*; 
-import java.rmi.*;
 
 /**
- *
+ *  Register and login panels
  *	@author	Admin
  */
 public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 {
 	private double initCash;
-	public boolean ok = false;
+    public boolean ok = false;
     private Client client;
 	/** Creates new form LoginPanel	*/
 	public LoginPanel()
 	{
-        client = new Client();
+        client = Client.instance();
 		initComponents();
 	}
 	
@@ -141,7 +140,6 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
                 if(methodRegistration() == false)
                 {
                     JOptionPane.showMessageDialog(null, "Impossible to register, this login is already taken. Try another");
-                    clearFields();
                 }
                 else
                 {
@@ -155,11 +153,16 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
                     iterator =	10;
                     expandTimer.start();
                 }
+                clearFields();
 				break;
 			}
 		}
 	}
-	
+
+    /**
+     * Attempt to register a user
+     * @return
+     */
 	private boolean methodRegistration()
 	{
 		ok = client.register(regUserNameTextField.getText(), String.valueOf(regPasswordField.getPassword()),

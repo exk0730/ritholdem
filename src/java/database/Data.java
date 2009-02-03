@@ -7,6 +7,7 @@ package database;
 import game.*;
 import java.sql.*;
 
+
 public class Data {
 
     /**
@@ -49,6 +50,7 @@ public class Data {
      * @param password the user's password
      * @param fName his first name
      * @param lName his last name
+     * @param email
      * @param creditCard user's credit card
      * @param initCash start amount of money
      * @return true if he has been successfully registered, false if the login already exists
@@ -115,7 +117,7 @@ public class Data {
 
     /**
      * Attempt to login a user
-     * @param userID
+     * @param userName
      * @param password
      * @return true if OK, false if the userID/password don't match
      * @throws java.sql.SQLException
@@ -182,7 +184,12 @@ public class Data {
         return ai;
     }
 
-    public String getTopPlayers() throws SQLException {
+    /**
+     * Get the top players 
+     * @return concatenated String of all users sorted by current earnings
+     * @throws java.sql.SQLException
+     */
+    public synchronized String getTopPlayers() throws SQLException {
         String s = "";
         ResultSet rs = db.executeQuery("SELECT fName, lName, userEarnings FROM UserMoneyStats " +
                                         "NATURAL JOIN UserInfo ORDER BY userEarnings DESC");
@@ -195,11 +202,11 @@ public class Data {
 
     /**
      * Get a user's bank amount
-     * @param int userID
+     * @param userID
      * @return user's money
      * @throws SQLException
      */
-    public double getBank(int userID) throws SQLException{
+    public synchronized double getBank(int userID) throws SQLException{
         double temp = -1;
         if(userExists(userID))
         {
@@ -215,11 +222,12 @@ public class Data {
 
     /**
      * Updates the user's amount of money
-     * @param int userID
-     * @param double money
+     * @param userID 
+     * @param money 
      * @return the updated bank
+     * @throws SQLException
      */
-    public double updateBank(int userID, double money) throws SQLException {
+    public synchronized double updateBank(int userID, double money) throws SQLException {
         double temp = -1;
         if(userExists(userID))
         {
@@ -244,7 +252,7 @@ public class Data {
      * @return false if this userID does not exist in FinancialData
      * @throws java.sql.SQLException
      */
-    public boolean userExists(int userID) throws SQLException{
+    public synchronized boolean userExists(int userID) throws SQLException{
         boolean ok = false;
         PreparedStatement pst = db.newPreparedStatement("SELECT userID FROM FinancialData WHERE FinancialData.userID = (?)");
         pst.setInt(1, userID);
@@ -275,5 +283,4 @@ public class Data {
         pst.setInt(8, userID);
         pst.executeUpdate();
     }
-
 }

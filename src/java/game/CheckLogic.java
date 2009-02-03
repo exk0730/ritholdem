@@ -1,24 +1,46 @@
 package game;
 
+/**
+ * Checks game logic
+ * @author Eric Kisner
+ */
 public class CheckLogic
 {
 	private PlayerCards playerHand;
     private DealerCards dealerHand;
 	
-	public CheckLogic(PlayerCards player, DealerCards dealer)
+    /**
+     * Constructor
+     * @param player
+     * @param dealer
+     */
+    public CheckLogic(PlayerCards player, DealerCards dealer)
 	{
 		playerHand = player;
 		dealerHand = dealer;
 	}
 
+    /**
+     * Add a card to player's hand
+     * @param card
+     */
     public void updatePlayer(Card card){
         playerHand.addCard(card);
     }
 
+    /**
+     * Add a card to dealer's hand
+     * @param card
+     */
     public void updateDealer(Card card){
         dealerHand.addCard(card);
     }
 
+    /**
+     * See if dealer or player busted
+     * @param player
+     * @return
+     */
     public boolean checkBust(boolean player){
         if(player){
             return (getCombinedPlayerHand() > 21);
@@ -28,27 +50,47 @@ public class CheckLogic
         }
     }
 	
-	public boolean checkPush()
+    /**
+     * See if player pushes
+     * @return
+     */
+    public boolean checkPush()
 	{
 		return(getCombinedPlayerHand() == getCombinedDealerHand());
 	}
 	
-	public boolean checkBlackJack()
+    /**
+     * See if player gets a blackjack
+     * @return
+     */
+    public boolean checkBlackJack()
 	{
 		return(getCombinedPlayerHand() == 21 && playerHand.getSize() == 2);
 	}
 	
-	public boolean checkLoss()
+    /**
+     * See if player loses
+     * @return
+     */
+    public boolean checkLoss()
 	{
 		return(getCombinedPlayerHand() < getCombinedDealerHand());
 	}
 	
-	public boolean checkWin()
+    /**
+     * See if player wins
+     * @return
+     */
+    public boolean checkWin()
 	{
 		return( (getCombinedPlayerHand() > getCombinedDealerHand() && (!checkBlackJack()) ) || (checkBust(false)));
 	}
 	
-	public int getCombinedPlayerHand()
+    /**
+     * Gets total of player hand
+     * @return
+     */
+    public int getCombinedPlayerHand()
 	{
 		boolean aceExists = false;
 		int temp = 0;
@@ -73,7 +115,11 @@ public class CheckLogic
 		return temp;
 	}
 	
-	public int getCombinedDealerHand()
+    /**
+     * Gets total of dealer hand
+     * @return
+     */
+    public int getCombinedDealerHand()
 	{
 		boolean aceExists = false;
 		int temp = 0;
@@ -98,7 +144,12 @@ public class CheckLogic
 		return temp;
 	}
 	
-	public int checkAce(int num)
+    /**
+     * Sees if ace is 11 or 1 in a hand
+     * @param num
+     * @return
+     */
+    public int checkAce(int num)
 	{
 		if(num + 11 <= 21)
 		{
@@ -107,7 +158,11 @@ public class CheckLogic
 		else return 1;
 	}
 	
-	public int returnTypeOfWin()
+    /**
+     * Returns number-based win
+     * @return
+     */
+    public int returnTypeOfWin()
 	{
 		int temp = 0;
 		
@@ -126,7 +181,7 @@ public class CheckLogic
 		return temp;
 	}
 	
-	public static void main(String [] args)
+    public static void main(String [] args)
 	{
 		Card card1 = new Card(3,1);
 		Card card2 = new Card(1,1);

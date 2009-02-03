@@ -39,7 +39,7 @@ public interface RMIInterface extends Remote
 
 	/**
      * Attempt to login
-     * @param loginID
+     * @param userName
      * @param password
      * @return true if OK, false if the userID/password don't match
      * @throws java.rmi.RemoteException
@@ -49,7 +49,9 @@ public interface RMIInterface extends Remote
     /**
      * Delete a user account
      * @param userID
+     * @param userName
      * @param password
+     * @return
      * @throws java.rmi.RemoteException
      */
 	public boolean deleteAccount(int userID, String userName, String password) throws RemoteException;
@@ -89,31 +91,75 @@ public interface RMIInterface extends Remote
     public void writeInfos(int userID, AccountInformation ai) throws RemoteException;
     
 
+    /**
+     * method to deal cards
+     * @param userID
+     * @param bet
+     * @return
+     * @throws java.rmi.RemoteException
+     */
+    public PlayerCards deal(int userID, double bet) throws RemoteException;
 
-	//method to deal cards
-	public PlayerCards deal(int userID, double bet) throws RemoteException;
+    /**
+     * method to get dealer's cards
+     * @return
+     * @throws java.rmi.RemoteException
+     */
+    public DealerCards deal() throws RemoteException;
 
-	//method to get dealer's cards
-	public DealerCards deal() throws RemoteException;
-
-    //method to check if player or dealer busts
+    /**
+     * method to check if player or dealer busts
+     * @param userID
+     * @param playerOrDealer
+     * @return
+     * @throws java.rmi.RemoteException
+     */
     public boolean bust(int userID, boolean playerOrDealer) throws RemoteException;
 
-    //method for dealer to stand at 16 and above
+    /**
+     * method for dealer to stand at 16 and above
+     * @return
+     * @throws java.rmi.RemoteException
+     */
     public boolean dealerStand() throws RemoteException;
 
-    //method to check win type
+    /**
+     * method to check win type
+     * @param userID
+     * @param bet
+     * @return
+     * @throws java.rmi.RemoteException
+     */
     public String checkWin(int userID, double bet) throws RemoteException;
 
-	//method to hit
-	public Card hit(int userID) throws RemoteException;
+    /**
+     * method to hit
+     * @param userID
+     * @return
+     * @throws java.rmi.RemoteException
+     */
+    public Card hit(int userID) throws RemoteException;
 
-    //method for dealer hit
+    /**
+     * method for dealer hit
+     * @return
+     * @throws java.rmi.RemoteException
+     */
     public Card hit() throws RemoteException;
 
-	//mtethod to stand
-	public void stand(int userID) throws RemoteException;
+    /**
+     * mtethod to stand
+     * @param userID
+     * @throws java.rmi.RemoteException
+     */
+    public void stand(int userID) throws RemoteException;
 
-	//method to double
-	public Card dble(int userID, double bet) throws RemoteException;
+    /**
+     * method to double
+     * @param userID
+     * @param bet
+     * @return
+     * @throws java.rmi.RemoteException
+     */
+    public Card dble(int userID, double bet) throws RemoteException;
 }

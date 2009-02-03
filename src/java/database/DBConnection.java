@@ -26,6 +26,7 @@ public class DBConnection
 
     /**
      * Constructor
+     * @throws SQLException
      */
     public DBConnection() throws SQLException {
         connect();
@@ -78,28 +79,11 @@ public class DBConnection
 
     /**
      * Create a new prepared statement (to prevent SQL injections)
-     * @param s
+     * @param query 
+     * @return
      * @throws java.sql.SQLException
      */
     public PreparedStatement newPreparedStatement(String query) throws SQLException {
         return connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
     }
-
-
-	// For testing purposes
-	public static void main(String args[]){
-        try {
-            //Connect
-            DBConnection db = new DBConnection();
-            System.out.println("Connection opened successfully");
-
-            //Close
-            db.close();
-            System.out.println("Connection closed successfully");
-
-        } catch(SQLException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-	}
 }
