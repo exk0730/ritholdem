@@ -21,7 +21,7 @@ public class PlayerCards extends Cards implements Serializable
     /**
      * Returns the next hand for this player
      */
-    public void nextHand()
+    public void nextHand() throws IndexOutOfBoundsException
 	{
 		this.reset();
 		addCard(deck.getNextCard());
