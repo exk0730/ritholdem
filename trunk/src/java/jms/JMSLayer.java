@@ -5,7 +5,7 @@
  * @date 1/27/09
  */
 
-package deliverable3;
+package jms;
 
 import javax.naming.*;
 import javax.jms.*;

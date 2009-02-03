@@ -4,5 +4,5 @@
 
 echo Launching rmiregistry...
 
-cd ..\build\classes
+cd ..\build\web\WEB-INF\classes
 rmiregistry
