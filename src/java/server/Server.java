@@ -64,11 +64,13 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         }
     }
 
-    private void initGame(){
+    private void initGame(boolean newHand){
         deck = new Deck();
-        playerHand = new PlayerCards(deck);
-        dealer = new DealerCards(deck);
-        checkLogic = new CheckLogic(playerHand, dealer);
+        if(newHand){
+            playerHand = new PlayerCards(deck);
+            dealer = new DealerCards(deck);
+            checkLogic = new CheckLogic(playerHand, dealer);
+        }
     }
 
     /**
@@ -88,7 +90,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
             temp = deck.getNextCard();
         }
         catch(IndexOutOfBoundsException ioobe){
-            initGame();
+            initGame(false);
             temp = deck.getNextCard();
         }
         checkLogic.updatePlayer(temp);
@@ -109,7 +111,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
             temp = deck.getNextCard();
         }
         catch(IndexOutOfBoundsException ioobe){
-            initGame();
+            initGame(false);
             temp = deck.getNextCard();
         }
         checkLogic.updateDealer(temp);
@@ -128,7 +130,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
             dealer.nextHand();
         }
         catch(IndexOutOfBoundsException ioobe){
-            initGame();
+            initGame(true);
             dealer.nextHand();
         }
         checkLogic = new CheckLogic(playerHand, dealer);
@@ -152,7 +154,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
             playerHand.nextHand();
         }
         catch(IndexOutOfBoundsException ioobe){
-            initGame();
+            initGame(true);
             playerHand.nextHand();
         }
     	return playerHand;
@@ -242,7 +244,27 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     public Card dble(int userID, double bet) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
+
+    /**
+     * Remove a user from the server
+     * @param userID The userID to remove
+     */
+    public void removeUser(int userID) throws RemoteException {
+        for(int i = 0; i < users.size(); i++){
+            if((int) users.get(i) == userID){
+                users.remove(i);
+            }
+        }
+    }
+
+    /**
+     * Get the collection of users connected to the server
+     * @return ArrayList the collection of users
+     */
+    public ArrayList<Integer> getUsers() throws RemoteException {
+        return users;
+    }
+
     /**
      * Register a user
      * @param loginID
@@ -279,7 +301,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         int userID = LOGIN_FAILED;
         try {
             userID = data.login(userName, password);
-            initGame();
+            initGame(true);
             users.add(userID);
         } catch(SQLException e) {
             System.err.println("Error in login(): " + e.getMessage());
