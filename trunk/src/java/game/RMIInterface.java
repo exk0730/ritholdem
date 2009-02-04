@@ -1,6 +1,7 @@
 package game;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 /**
  * RMI interface for the server
  * @author Eric Kisner, Emilien Girault
@@ -36,6 +37,19 @@ public interface RMIInterface extends Remote
 	public boolean register(String userName, String password, String fName, String lName, String email,
                         	String creditCard, double startingCash) throws RemoteException;
 
+    /**
+     * Removes a connected user based on their userID
+     * @param userID
+     * @throws java.rmi.RemoteException
+     */
+    public void removeUser(int userID) throws RemoteException;
+
+    /**
+     * Gets the users connected to the server
+     * @return
+     * @throws java.rmi.RemoteException
+     */
+    public ArrayList<Integer> getUsers() throws RemoteException;
 
 	/**
      * Attempt to login
