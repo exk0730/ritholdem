@@ -2,20 +2,52 @@ package server;
 
 import java.sql.*;
 import database.*;
+import jms.JMSPublisher;
 /**
  * StatsReport will send a top player list using JMS
  * @author Eric Kisner
  */
 public class StatsReport extends Thread {
 
+	/**
+	 * Delay for sending messages in miliseconds
+	 */
+	protected static int DELAY = 20000;
+
+	/**
+	 * The database
+	 */
     private Data data;
 
+	/**
+	 * JMS Publisher for sending messages
+	 */
+	private JMSPublisher publisher;
+
+	/**
+     * Unique instance (Singleton Design Pattern)
+     */
+	private static StatsReport instance;
+
     /**
-     * StatsReport constructor
+     * Private constructor (use instance() instead)
      * @throws java.sql.SQLException
      */
-    public StatsReport() throws SQLException{
+    private StatsReport() throws SQLException{
         data = Data.instance();
+		publisher = new JMSPublisher();
+    }
+
+	/**
+     * Return the unique instance of the class (Singleton Design Pattern)
+     * @return StatsReport instance
+     * @throws Exception
+     */
+    public static StatsReport instance() throws SQLException {
+        if(instance == null){
+          instance = new StatsReport();
+        }
+        return instance;
     }
 
     /**
@@ -36,12 +68,15 @@ public class StatsReport extends Thread {
                 System.exit(1);
             }
 
-            //TODO add JMS portion here
+            //Send the messages
             for(int i = 0; i < result.length; i++){
-                System.out.println("Position " + (i+1) + ": \t" + result[i]);
+				//Debug
+                System.out.println("[DEBUG] Position " + (i+1) + ": \t" + result[i]);
+				//Send the message
+				publisher.publish("Position " + (i+1) + ": \t" + result[i]);
             }
             try{
-                sleep(60000);
+                sleep(DELAY);
             }
             catch(InterruptedException ie){
                 System.err.println("Error trying to sleep: " + ie.getMessage());
