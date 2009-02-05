@@ -19,9 +19,9 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
     public boolean ok = false;
     private Client client;
 	/** Creates new form LoginPanel	*/
-	public LoginPanel()
+	public LoginPanel(String host)
 	{
-        client = Client.instance();
+        client = Client.instance(host);
 		initComponents();
 	}
 	

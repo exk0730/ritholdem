@@ -17,25 +17,28 @@ public class Client {
      */
     public RMIInterface server;
     private static Client instance = null;
+    private final String PRE_HOST = "//";
+    private final String POST_HOST = ":1099/";
 
     /**
      * Singelton Design Pattern
      * @return the existing instance of Client or creats one
      */
-    public static Client instance(){
+    public static Client instance(String url){
         if(instance == null){
-          instance = new Client();
+          instance = new Client(url);
         }
         return instance;
     }
     /**
      * Constructor
      */
-    private Client(){
+    private Client(String host){
         try {
-            server = (RMIInterface) Naming.lookup(RMIInterface.SERVER_NAME);
+            server = (RMIInterface) Naming.lookup(PRE_HOST + host + POST_HOST + RMIInterface.SERVER_NAME);
         } catch(Exception e) {
             System.err.println("The client cannot resolve the server. Did you launch it?");
+            System.err.println(e.getMessage() + "\n Exiting");
             System.exit(1);
         }
     }
