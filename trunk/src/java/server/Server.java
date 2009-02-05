@@ -309,8 +309,13 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         int userID = LOGIN_FAILED;
         try {
             userID = data.login(userName, password);
-            initGame(true);
-            users.add(userID);
+            if(userExists(userID)){
+                userID = LOGIN_FAILED;
+            }
+            else{
+                initGame(true);
+                users.add(userID);
+            }
         } catch(SQLException e) {
             System.err.println("Error in login(): " + e.getMessage());
         }
@@ -325,14 +330,16 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      */
     public synchronized double getBank(int userID) throws RemoteException {
         double bank = 0;
-        try {
-            bank = data.getBank(userID);
-        }
-        catch(SQLException sqle){
-            System.err.println("Error in retreiving bank: " + sqle.getMessage());
-        }
-        if(bank == -1){
-            System.out.println("Error retreiving bank");
+        if(userExists(userID)){
+            try {
+                bank = data.getBank(userID);
+            }
+            catch(SQLException sqle){
+                System.err.println("Error in retreiving bank: " + sqle.getMessage());
+            }
+            if(bank == -1){
+                System.out.println("Error retreiving bank");
+            }
         }
         return bank;
     }
@@ -346,11 +353,13 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      */
     public synchronized double updateBank(int userID, double money) throws RemoteException {
         double temp = -1;
-        try {
-            temp = data.updateBank(userID, money);
-        }
-        catch(SQLException sqle){
-            System.err.println("Error in updating bank: " + sqle.getMessage());
+        if(userExists(userID)){
+            try {
+                temp = data.updateBank(userID, money);
+            }
+            catch(SQLException sqle){
+                System.err.println("Error in updating bank: " + sqle.getMessage());
+            }
         }
         return temp;
     }
@@ -363,12 +372,14 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      */
     @Override
     public synchronized void addEmergencyFunds(int userID, double money) throws RemoteException {
-        try {
-            data.addEmergencryFunds(userID, money);
-        }
-        catch(SQLException sqle){
-            System.err.println("Error in registering emergency funds: " + sqle.getMessage());
-            System.exit(1);
+        if(userExists(userID)){
+            try {
+                data.addEmergencryFunds(userID, money);
+            }
+            catch(SQLException sqle){
+                System.err.println("Error in registering emergency funds: " + sqle.getMessage());
+                System.exit(1);
+            }
         }
     }
 
@@ -381,12 +392,14 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     @Override
     public synchronized double retrieveEmergencyFunds(int userID) throws RemoteException {
         double temp = -1;
-        try {
-            temp = data.retrieveEmergencyFunds(userID);
-        }
-        catch(SQLException sqle){
-            System.err.println("Error in retrieving emergency funds: " + sqle.getMessage());
-            System.exit(1);
+        if(userExists(userID)){
+            try {
+                temp = data.retrieveEmergencyFunds(userID);
+            }
+            catch(SQLException sqle){
+                System.err.println("Error in retrieving emergency funds: " + sqle.getMessage());
+                System.exit(1);
+            }
         }
         return temp;
     }
@@ -402,10 +415,12 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     @Override
 	public synchronized boolean deleteAccount(int userID, String userName, String password) throws RemoteException {
         boolean ok = false;
-        try {
-            ok = data.deleteAccount(userID, userName, password);
-        } catch(SQLException e){
-            System.err.println("Error in deleteAccount(): " + e.getMessage());
+        if(userExists(userID)){
+            try {
+                ok = data.deleteAccount(userID, userName, password);
+            } catch(SQLException e){
+                System.err.println("Error in deleteAccount(): " + e.getMessage());
+            }
         }
         return ok;
     }
@@ -420,10 +435,12 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
 	@Override
     public synchronized AccountInformation getInfos(int userID) throws RemoteException {
         AccountInformation ai = null;
-        try {
-            ai = data.getInfos(userID);
-        } catch(SQLException e){
-            System.err.println("Error in getInfos(): " + e.getMessage());
+        if(userExists(userID)){
+            try {
+                ai = data.getInfos(userID);
+            } catch(SQLException e){
+                System.err.println("Error in getInfos(): " + e.getMessage());
+            }
         }
         return ai;
     }
@@ -436,10 +453,12 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      */
     @Override
     public synchronized void writeInfos(int userID, AccountInformation ai) throws RemoteException {
-        try {
-            data.writeInfos(userID, ai);
-        } catch(SQLException e){
-            System.err.println("Error in writeInfos(): " + e.getMessage());
+        if(userExists(userID)){
+            try {
+                data.writeInfos(userID, ai);
+            } catch(SQLException e){
+                System.err.println("Error in writeInfos(): " + e.getMessage());
+            }
         }
     }
 
@@ -456,6 +475,16 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
             }
         }
         return ok;
+    }
+
+    private synchronized boolean kickUser(int userID){
+        boolean removed = false;
+        if(userExists(userID)){
+            try{ removeUser(userID); }
+            catch(RemoteException re) { }
+            removed = true;
+        }
+        return removed;
     }
 
 
