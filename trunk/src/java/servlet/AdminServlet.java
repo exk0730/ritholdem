@@ -8,6 +8,7 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import game.*;
-import java.rmi.RMISecurityManager;
 
 /**
  *
@@ -28,44 +28,92 @@ public class AdminServlet extends HttpServlet {
 	protected Exception exception;
 
 	public AdminServlet() throws Exception{
-		/**
-		 * TODO initialize the server (RMI)
-		 * for now, it crashed due to an exception... to be resolved!
-		 */
-		//try {
-
-		//System.setSecurityManager(new RMISecurityManager());
+		// initialize the server (RMI)
+		try {
             server = (RMIInterface) Naming.lookup(RMIInterface.SERVER_NAME);
-        //} catch(Exception e) {
-            //server = null;
-			//exception = e;
-        //}
+        } catch(Exception e) {
+            server = null;
+			exception = e;
+        }
+	}
+
+	/**
+	 * Get the last encountered exception
+	 * @return the last encountered exception
+	 */
+	public Exception getException(){
+		return exception;
 	}
 
 
+	/**
+	 * Kick a user from the server
+	 * @param userID
+	 * @return true if no error, false otherwise
+	 */
+	boolean kick(int userID){
+		try {
+			server.removeUser(userID);
+		} catch (RemoteException ex) {
+			exception = ex;
+		}
+		return exception == null;
+	}
+	
 
-	void kick(int userID){
+	boolean ban(int userID){
 		//TODO
+        return true;
 	}
 
-	void ban(int userID){
-		//TODO
+	/**
+	 * Get the current users logged into the server
+	 * @return list of logged user IDs, null if there is an error
+	 */
+	ArrayList<Integer> getCurrentUsers(){
+		ArrayList<Integer> res = null;
+		try {
+			res = server.getUsers();
+		} catch (RemoteException ex) {
+			exception = ex;
+		}
+		return res;
 	}
 
-	void getCurrentUsers(){
-		//TODO
-	}
-
+	/**
+	 * Get the server uptime
+	 * @return
+	 */
 	String getUptime(){
 		//TODO
 		return "";
 	}
 
+	/**
+	 * Add money to an account
+	 * @param userID
+	 * @param amount
+	 */
 	void addMoney(int userID, int amount){
 		//TODO
 	}
 
 
+	//
+	// TEST methods
+	//
+	/**
+	 * Print the current users
+	 * @param out writer
+	 */
+	void printCurrentUsers(PrintWriter out){
+		ArrayList<Integer> users = getCurrentUsers();
+		out.println("Current users logged: " + users + "<br />");
+		if(users == null){
+			out.println("<h2>ooops!</h2>");
+			out.println(exception.getMessage());
+		}
+	}
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -89,11 +137,22 @@ public class AdminServlet extends HttpServlet {
             out.println("</body>");
             out.println("</html>");
             */
-			out.println("<h1>plop!</h1>");
+			out.println("<h1>Blackjack Server Administration Pannel</h1>");
 			if(server == null){
 				out.println("<h2>ooops!</h2>");
 				out.println(exception.getMessage());
 			}
+
+			printCurrentUsers(out);
+
+			//out.println("Kicking...<br />");
+			//kick(5);
+
+			//printCurrentUsers(out);
+
+		} catch(Exception e){
+			out.println("<h2>An exception was encountered: </h2>");
+			out.println(e.getMessage());
         } finally { 
             out.close();
         }
