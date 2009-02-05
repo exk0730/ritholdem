@@ -50,7 +50,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         else {
             userID = client.login(userNameTextField.getText(), String.valueOf(passwordField.getPassword()));
             if(userID == RMIInterface.LOGIN_FAILED) {
-                JOptionPane.showMessageDialog(null, "Wrong login!");
+                JOptionPane.showMessageDialog(null, "Unable to login!");
                 passwordField.setText("");
                 userNameTextField.setText("");
             }
