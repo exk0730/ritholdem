@@ -28,12 +28,18 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      */
     private static Server instance = null;
 
+	/**
+	 * Stats reporter
+	 */
+	private StatsReport statsreport = null;
+
     /**
      * Private constructor (use instance() instead)
      * @throws java.sql.SQLException
      */
     private Server() throws SQLException, RemoteException {
         data = Data.instance();
+		statsreport = StatsReport.instance();
     }
 
     /**
@@ -53,9 +59,11 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      */
     public void bind(){
         try {
-            //System.out.println("name = " + server.data.getMaxUserID());
-            //System.out.println("register = " + server.register("emilien", "mypass", "Emilien", "Girault", "bob@sponge.com", "", ""));
-            Naming.rebind(SERVER_NAME, this);
+			//Start the stats reporter
+			statsreport.start();
+			
+            //Bind the server to RMI
+			Naming.rebind(SERVER_NAME, this);
 
         } catch(Exception e){
             System.out.println("Server error: Impossible to bind object to registry.");

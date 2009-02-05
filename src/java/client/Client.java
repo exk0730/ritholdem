@@ -4,6 +4,8 @@ package client;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import game.*;
+import jms.ClientTextListener;
+import jms.JMSAsyncSubscriber;
 
 /**
  * Client is the class that will call server methods
@@ -19,6 +21,11 @@ public class Client {
     private static Client instance = null;
     private final String PRE_HOST = "//";
     private final String POST_HOST = ":1099/";
+
+	/**
+	 * JMS subscriber to get messages
+	 */
+	private JMSAsyncSubscriber subscriber;
 
     /**
      * Singelton Design Pattern
@@ -41,6 +48,7 @@ public class Client {
             System.err.println(e.getMessage() + "\n Exiting");
             System.exit(1);
         }
+		subscriber = new JMSAsyncSubscriber(new ClientTextListener());
     }
 
     /**
