@@ -177,7 +177,7 @@ public interface RMIInterface extends Remote
     public Card hit() throws RemoteException;
 
     /**
-     * mtethod to stand
+     * method to stand
      * @param userID
      * @throws java.rmi.RemoteException
      */
@@ -191,4 +191,18 @@ public interface RMIInterface extends Remote
      * @throws java.rmi.RemoteException
      */
     public Card dble(int userID, double bet) throws RemoteException;
+
+    /**
+     * method to get servers' start time
+     * @return start time of the server in millis
+     * @throws java.rmi.RemoteException
+     */
+    public long getStartTime() throws RemoteException;
+
+     /**
+     * method to get servers' current time
+     * @return current time of the server in millis
+     * @throws java.rmi.RemoteException
+     */
+    public long getCurrentTime() throws RemoteException;
 }
