@@ -18,13 +18,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
     private int userID;
     public boolean ok = false;
     private Client client;
-	/** Creates new form LoginPanel	*/
-	public LoginPanel(String host)
-	{
-        client = Client.instance(host);
-		initComponents();
-	}
-	
+	 
 	//---------------------------
 	//Variables for sliding panel
 	//---------------------------
@@ -33,226 +27,23 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 	Timer	expandTimer, minimizeTimer;
 	int currentDividerLoc;
 	int iterator =	0;
-
-
-	@SuppressWarnings("deprecation")
-	private void loginBtnActionPerformed(java.awt.event.ActionEvent evt)
+	 
+	/** Creates new form LoginPanel	*/
+	public LoginPanel(String host)
 	{
-		userID = 0;
-		if(userNameTextField.getText().equals(""))
-		{
-			JOptionPane.showMessageDialog(null, "Enter your user name");
-		}
-		else if(String.valueOf(passwordField.getPassword()).equals(""))
-		{
-			JOptionPane.showMessageDialog(null, "Enter your password");
-		}
-        else {
-            userID = client.login(userNameTextField.getText(), String.valueOf(passwordField.getPassword()));
-            if(userID == RMIInterface.LOGIN_FAILED) {
-                JOptionPane.showMessageDialog(null, "Unable to login!");
-                passwordField.setText("");
-                userNameTextField.setText("");
-            }
-            else {
-                initCash = client.getBank(userID);
-                if(initCash <= 0){
-                    try{
-                        initCash = client.retrieveEmergencyFunds(userID);
-                    }
-                    catch(Exception e) { initCash = 0; }
-                }
-                this.removeAll();
-                Table table1 = new Table(initCash, userID, client);
-                this.setLayout(new java.awt.BorderLayout());
-                this.add(table1,	java.awt.BorderLayout.CENTER);
-                JLabel statusLabel = new JLabel("...");
-                this.add(statusLabel, java.awt.BorderLayout.SOUTH);
-                this.revalidate();
-            }
-        }
+        client = Client.instance(host);
+		initComponents();
 	}
-
-	private void registerBtnActionPerformed(java.awt.event.ActionEvent evt)
-	{
-		minimizing	= true;
-		if(minimizeTimer !=	null)
-		{
-			minimizeTimer.stop();
-		}
-		minimizeTimer = new	Timer(10, this);
-		iterator =	10;
-		minimizeTimer.start();
-		currentDividerLoc =	this.jSplitPane.getDividerLocation();
-	}
-
-	private void finishBtnActionPerformed(java.awt.event.ActionEvent evt)
-	{
-		if(regUserNameTextField.getText().equals(""))
-		{
-			JOptionPane.showMessageDialog(null, "Enter your user name");
-		}
-		else if(emailTextField.getText().equals(""))
-		{
-			JOptionPane.showMessageDialog(null, "Enter an email");
-		}
-		else if(String.valueOf((regPasswordField.getPassword())).equals(""))
-		{
-			JOptionPane.showMessageDialog(null, "Enter a password");
-		}
-		else if(String.valueOf((regPasswordTwoField.getPassword())).equals(""))
-		{
-			JOptionPane.showMessageDialog(null, "Repeat your password");
-		}
-		else if(!(String.valueOf(regPasswordField.getPassword()).equals(String.valueOf((regPasswordTwoField.getPassword())))))
-		{
-			JOptionPane.showMessageDialog(null, "Your passwords don't match.");
-			regPasswordField.setText(""); regPasswordTwoField.setText("");
-		}
-		else if(firstNameTextField.getText().equals(""))
-		{
-			JOptionPane.showMessageDialog(null, "Enter your first name");
-		}
-		else if(creditCardTextField.getText().equals(""))
-		{
-			JOptionPane.showMessageDialog(null, "Enter a credit card");
-		}
-		else if(lastNameTextField.getText().equals(""))
-		{
-			JOptionPane.showMessageDialog(null, "Enter your last name");
-		}
-		else
-		{
-            boolean no = false;
-			while(true)
-			{
-				String initCashStr = JOptionPane.showInputDialog(null, "How much money would you like to put into your account?");
-				try
-				{
-					initCash = Double.parseDouble(initCashStr);
-                    if(initCash > 1000000){
-                        JOptionPane.showMessageDialog(null, "You've maxed out your credit card!!!! Setting bank to max amount");
-                        initCash = 1000000;
-                    }
-                    String answer = JOptionPane.showInputDialog(null, "Would you like to have emergency funds?");
-                    if((answer.toUpperCase().equals("YES") || answer.toUpperCase().equals("Y"))){
-                        String fundsString = JOptionPane.showInputDialog(null, "How much emergency funds would you like?");
-                        emergencyFunds = Double.parseDouble(fundsString);
-                    }
-                    else {no = true;}
-                }
-				catch(NumberFormatException nfe)
-				{
-					JOptionPane.showMessageDialog(null, "You have entered an invalid number.");
-					continue;
-				}
-				catch(NullPointerException npe)
-				{
-					JOptionPane.showMessageDialog(null, "You need to enter a number.");
-					continue;
-				}
-                
-                if(methodRegistration() == false)
-                {
-                    JOptionPane.showMessageDialog(null, "Impossible to register, this login is already taken. Try another");
-                }
-                else
-                {
-                    if(!no){
-                        userID = client.login(regUserNameTextField.getText(), String.valueOf(regPasswordField.getPassword()));
-                        client.addEmergencyFunds(userID, emergencyFunds);
-                    }
-                    JOptionPane.showMessageDialog(null, "Registration successful!");
-                    expanding = true;
-                    if(expandTimer != null)
-                    {
-                        expandTimer.stop();
-                    }
-                    expandTimer =	new Timer(10, this);
-                    iterator =	10;
-                    expandTimer.start();
-                }
-                clearFields();
-				break;
-			}
-		}
-	}
-
-    /**
-     * Attempt to register a user
-     * @return
+	
+    /** This method is called from within the constructor to
+     * initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is
+     * always regenerated by the Form Editor.
      */
-	private boolean methodRegistration()
-	{
-		ok = client.register(regUserNameTextField.getText(), String.valueOf(regPasswordField.getPassword()),
-						firstNameTextField.getText(), lastNameTextField.getText(), 
-						emailTextField.getText(), creditCardTextField.getText(), initCash);
-		return ok;
-	}
-
-	private void userNameTextFieldActionPerformed(java.awt.event.ActionEvent evt)
-	{
-	
-	}
-
-	public void actionPerformed(ActionEvent e)
-	{		
-		iterator++;
-		if(minimizing)
-		{
-			currentDividerLoc-=iterator;
-			this.jSplitPane.setDividerLocation(currentDividerLoc);
-
-			this.registerPanel.setVisible(true);
-			if(currentDividerLoc	<=	0)
-			{
-					this.jSplitPane.setDividerLocation(0);
-					minimizeTimer.stop();
-					minimizing	= false;
-			}
-		}
-		
-		if(expanding)
-		{
-			currentDividerLoc+=iterator;
-			this.jSplitPane.setDividerLocation(currentDividerLoc);
-
-			if	(currentDividerLoc >= 800)
-			{
-					this.jSplitPane.setDividerLocation(800);
-					expandTimer.stop();
-					expanding = false;
-			}
-		}
-	}
-	
-	private void clearFields()
-	{
-		creditCardTextField.setText("");
-		emailTextField.setText("");
-		firstNameTextField.setText("");
-		lastNameTextField.setText("");
-		regPasswordField.setText("");
-		regPasswordTwoField.setText("");
-		regUserNameTextField.setText("");
-	}
-		
-	@Override
-	public void paintComponent(Graphics g)
-	{
-		super.paintComponent(g); 
-		
-		Graphics2D	graphics	= (Graphics2D)g;
-			
-		graphics.setPaint(Color.GREEN);
-			//graphics.setPaint(new GradientPaint(0,	300, Color.WHITE,	800, 400, Color.GREEN));
-			//graphics.fillRect(0,	0,	getWidth(),	getHeight());
-	}
-	
-	@SuppressWarnings("unchecked")
-	// <editor-fold defaultstate="collapsed"	desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents()
-	{
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+	 
 		java.awt.GridBagConstraints gridBagConstraints;
 		jSplitPane =	new javax.swing.JSplitPane();
 		userPanel	= new	javax.swing.JPanel();
@@ -501,10 +292,227 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 		jSplitPane.setRightComponent(registerPanel);
 
 		add(jSplitPane,	java.awt.BorderLayout.CENTER);
-	}// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
+
 	
-	// Variables declaration - do not modify                     
-	private	javax.swing.JLabel creditCardLabel;
+
+
+	@SuppressWarnings("deprecation")
+	private void loginBtnActionPerformed(java.awt.event.ActionEvent evt)
+	{
+		userID = 0;
+		if(userNameTextField.getText().equals(""))
+		{
+			JOptionPane.showMessageDialog(null, "Enter your user name");
+		}
+		else if(String.valueOf(passwordField.getPassword()).equals(""))
+		{
+			JOptionPane.showMessageDialog(null, "Enter your password");
+		}
+        else {
+            userID = client.login(userNameTextField.getText(), String.valueOf(passwordField.getPassword()));
+            if(userID == RMIInterface.LOGIN_FAILED) {
+                JOptionPane.showMessageDialog(null, "Unable to login!");
+                passwordField.setText("");
+                userNameTextField.setText("");
+            }
+            else {
+                initCash = client.getBank(userID);
+                if(initCash <= 0){
+                    try{
+                        initCash = client.retrieveEmergencyFunds(userID);
+                    }
+                    catch(Exception e) { initCash = 0; }
+                }
+                this.removeAll();
+                Table table1 = new Table(initCash, userID, client);
+                this.setLayout(new java.awt.BorderLayout());
+                this.add(table1,	java.awt.BorderLayout.CENTER);
+                JLabel statusLabel = new JLabel("...");
+                this.add(statusLabel, java.awt.BorderLayout.SOUTH);
+                this.revalidate();
+            }
+        }
+	}//GEN-LAST:event_loginBtnActionPerformed
+
+	private void registerBtnActionPerformed(java.awt.event.ActionEvent evt)
+	{
+		minimizing	= true;
+		if(minimizeTimer !=	null)
+		{
+			minimizeTimer.stop();
+		}
+		minimizeTimer = new	Timer(10, this);
+		iterator =	10;
+		minimizeTimer.start();
+		currentDividerLoc =	this.jSplitPane.getDividerLocation();
+	}//GEN-LAST:event_registerBtnActionPerformed
+
+	private void finishBtnActionPerformed(java.awt.event.ActionEvent evt)
+	{
+		if(regUserNameTextField.getText().equals(""))
+		{
+			JOptionPane.showMessageDialog(null, "Enter your user name");
+		}
+		else if(emailTextField.getText().equals(""))
+		{
+			JOptionPane.showMessageDialog(null, "Enter an email");
+		}
+		else if(String.valueOf((regPasswordField.getPassword())).equals(""))
+		{
+			JOptionPane.showMessageDialog(null, "Enter a password");
+		}
+		else if(String.valueOf((regPasswordTwoField.getPassword())).equals(""))
+		{
+			JOptionPane.showMessageDialog(null, "Repeat your password");
+		}
+		else if(!(String.valueOf(regPasswordField.getPassword()).equals(String.valueOf((regPasswordTwoField.getPassword())))))
+		{
+			JOptionPane.showMessageDialog(null, "Your passwords don't match.");
+			regPasswordField.setText(""); regPasswordTwoField.setText("");
+		}
+		else if(firstNameTextField.getText().equals(""))
+		{
+			JOptionPane.showMessageDialog(null, "Enter your first name");
+		}
+		else if(creditCardTextField.getText().equals(""))
+		{
+			JOptionPane.showMessageDialog(null, "Enter a credit card");
+		}
+		else if(lastNameTextField.getText().equals(""))
+		{
+			JOptionPane.showMessageDialog(null, "Enter your last name");
+		}
+		else
+		{
+            boolean no = false;
+			while(true)
+			{
+				String initCashStr = JOptionPane.showInputDialog(null, "How much money would you like to put into your account?");
+				try
+				{
+					initCash = Double.parseDouble(initCashStr);
+                    if(initCash > 1000000){
+                        JOptionPane.showMessageDialog(null, "You've maxed out your credit card!!!! Setting bank to max amount");
+                        initCash = 1000000;
+                    }
+                    String answer = JOptionPane.showInputDialog(null, "Would you like to have emergency funds?");
+                    if((answer.toUpperCase().equals("YES") || answer.toUpperCase().equals("Y"))){
+                        String fundsString = JOptionPane.showInputDialog(null, "How much emergency funds would you like?");
+                        emergencyFunds = Double.parseDouble(fundsString);
+                    }
+                    else {no = true;}
+                }
+				catch(NumberFormatException nfe)
+				{
+					JOptionPane.showMessageDialog(null, "You have entered an invalid number.");
+					continue;
+				}
+				catch(NullPointerException npe)
+				{
+					JOptionPane.showMessageDialog(null, "You need to enter a number.");
+					continue;
+				}
+                
+                if(methodRegistration() == false)
+                {
+                    JOptionPane.showMessageDialog(null, "Impossible to register, this login is already taken. Try another");
+                }
+                else
+                {
+                    if(!no){
+                        userID = client.login(regUserNameTextField.getText(), String.valueOf(regPasswordField.getPassword()));
+                        client.addEmergencyFunds(userID, emergencyFunds);
+                    }
+                    JOptionPane.showMessageDialog(null, "Registration successful!");
+                    expanding = true;
+                    if(expandTimer != null)
+                    {
+                        expandTimer.stop();
+                    }
+                    expandTimer =	new Timer(10, this);
+                    iterator =	10;
+                    expandTimer.start();
+                }
+                clearFields();
+				break;
+			}
+		}
+	}//GEN-LAST:event_finishBtnActionPerformed
+
+    /**
+     * Attempt to register a user
+     * @return
+     */
+	private boolean methodRegistration()
+	{
+		ok = client.register(regUserNameTextField.getText(), String.valueOf(regPasswordField.getPassword()),
+						firstNameTextField.getText(), lastNameTextField.getText(), 
+						emailTextField.getText(), creditCardTextField.getText(), initCash);
+		return ok;
+	}
+
+	private void userNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userNameTextFieldActionPerformed
+// TODO add your handling code here:
+}//GEN-LAST:event_userNameTextFieldActionPerformed
+
+	public void actionPerformed(ActionEvent e)
+	{		
+		iterator++;
+		if(minimizing)
+		{
+			currentDividerLoc-=iterator;
+			this.jSplitPane.setDividerLocation(currentDividerLoc);
+
+			this.registerPanel.setVisible(true);
+			if(currentDividerLoc	<=	0)
+			{
+					this.jSplitPane.setDividerLocation(0);
+					minimizeTimer.stop();
+					minimizing	= false;
+			}
+		}
+		
+		if(expanding)
+		{
+			currentDividerLoc+=iterator;
+			this.jSplitPane.setDividerLocation(currentDividerLoc);
+
+			if	(currentDividerLoc >= 800)
+			{
+					this.jSplitPane.setDividerLocation(800);
+					expandTimer.stop();
+					expanding = false;
+			}
+		}
+	}
+	
+	private void clearFields()
+	{
+		creditCardTextField.setText("");
+		emailTextField.setText("");
+		firstNameTextField.setText("");
+		lastNameTextField.setText("");
+		regPasswordField.setText("");
+		regPasswordTwoField.setText("");
+		regUserNameTextField.setText("");
+	}
+		
+	@Override
+	public void paintComponent(Graphics g)
+	{
+		super.paintComponent(g); 
+		
+		Graphics2D	graphics	= (Graphics2D)g;
+			
+		graphics.setPaint(Color.GREEN);
+			//graphics.setPaint(new GradientPaint(0,	300, Color.WHITE,	800, 400, Color.GREEN));
+			//graphics.fillRect(0,	0,	getWidth(),	getHeight());
+	}
+	
+	
+   // Variables declaration - do not modify//GEN-BEGIN:variables
+   private javax.swing.JLabel creditCardLabel;
 	private	javax.swing.JTextField creditCardTextField;
 	private	javax.swing.JLabel emailLabel;
 	private	javax.swing.JTextField emailTextField;
@@ -528,4 +536,5 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 	private	javax.swing.JLabel userNameLabel;
 	private	javax.swing.JTextField userNameTextField;
 	private	javax.swing.JPanel userPanel;
+	// End of variables declaration//GEN-END:variables
 }
