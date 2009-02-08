@@ -9,6 +9,7 @@ import game.*;
 import java.rmi.*;
 import java.sql.*;
 import java.util.*;
+import java.util.Date;
 
 
 public class Server extends java.rmi.server.UnicastRemoteObject implements RMIInterface {
@@ -23,6 +24,8 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     private DealerCards dealer;
     private CheckLogic checkLogic;
     private ArrayList<Integer> users = new ArrayList<Integer>();
+    private static Date startTime;
+    private Date currentTime;
     /**
      * Unique instance (Singleton Design Pattern)
      */
@@ -40,6 +43,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     private Server() throws SQLException, RemoteException {
         data = Data.instance();
 		statsreport = StatsReport.instance();
+
     }
 
     /**
@@ -497,14 +501,37 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         Server server = null;
         try {
             server = instance();
+            startTime = new Date();
         } catch(Exception e) {
             System.err.println("The server encountered an error while trying to connect to the database.");
             System.err.println("The error is: " + e.getMessage());
             System.exit(1);
         }
-
+        
         System.out.println("Starting the server.");
+        
         server.bind();
         System.out.println("Server started");
     }
+
+    /**
+    * method to get servers' start time
+    * @return start time of the server in millis
+    * @throws java.rmi.RemoteException
+    */
+    public long getStartTime() throws RemoteException {
+        return startTime.getTime();
+    }
+
+    /**
+    * method to get servers' current time
+    * @return current time of the server in millis
+    * @throws java.rmi.RemoteException
+    */
+    public long getCurrentTime() throws RemoteException {
+        currentTime = new Date();
+        return currentTime.getTime();
+    }
+
+
 }

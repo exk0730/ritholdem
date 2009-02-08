@@ -82,11 +82,11 @@ public class AdminServlet extends HttpServlet {
 
 	/**
 	 * Get the server uptime
-	 * @return
+	 * @return server uptime in minutes
 	 */
-	String getUptime(){
+	String getUptime() throws RemoteException{
 		//TODO
-		return "";
+		return (server.getCurrentTime() - server.getStartTime())/(60*1000) + " minutes.";
 	}
 
 	/**
@@ -138,6 +138,7 @@ public class AdminServlet extends HttpServlet {
             out.println("</html>");
             */
 			out.println("<h1>Blackjack Server Administration Pannel</h1>");
+            out.println("<h2>Server Uptime: " + getUptime() + "</h2>");
 			if(server == null){
 				out.println("<h2>ooops!</h2>");
 				out.println(exception.getMessage());
