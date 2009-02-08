@@ -411,17 +411,15 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     /**
      * Delete a user account
      * @param userID
-     * @param userName
-     * @param password
      * @return
      * @throws java.rmi.RemoteException
      */
     @Override
-	public synchronized boolean deleteAccount(int userID, String userName, String password) throws RemoteException {
+	public synchronized boolean deleteAccount(int userID) throws RemoteException {
         boolean ok = false;
         if(userExists(userID)){
             try {
-                ok = data.deleteAccount(userID, userName, password);
+                ok = data.deleteAccount(userID);
             } catch(SQLException e){
                 System.err.println("Error in deleteAccount(): " + e.getMessage());
             }

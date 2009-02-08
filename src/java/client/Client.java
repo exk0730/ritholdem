@@ -338,7 +338,7 @@ public class Client {
         boolean ok = false;
         try {
             System.out.println("\nDeleting "+userName+"'s account with password '"+password+"' and user ID "+userID+"...");
-            if(!(ok = server.deleteAccount(userID, userName, password))){
+            if(!(ok = server.deleteAccount(userID))){
                 System.out.println("Impossible to delete the account; check your username/password.");
             } else {
                 System.out.println("The account have been deleted. Bye!");

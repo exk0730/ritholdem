@@ -63,12 +63,10 @@ public interface RMIInterface extends Remote
     /**
      * Delete a user account
      * @param userID
-     * @param userName
-     * @param password
      * @return
      * @throws java.rmi.RemoteException
      */
-	public boolean deleteAccount(int userID, String userName, String password) throws RemoteException;
+	public boolean deleteAccount(int userID) throws RemoteException;
 
 
     /**
