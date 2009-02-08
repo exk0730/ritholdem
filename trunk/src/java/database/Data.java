@@ -150,18 +150,14 @@ public class Data {
      * Delete a user account
      * TODO: delete also in the other tables
      * @param userID
-     * @param userName
-     * @param password
      * @return true if the account has been successfully deleted, false otherwise
      * @throws java.sql.SQLException
      */
-    public synchronized boolean deleteAccount(int userID, String userName, String password) throws SQLException {
+    public synchronized boolean deleteAccount(int userID) throws SQLException {
         //Multi-table DELETE (check http://dev.mysql.com/doc/refman/5.0/en/delete.html for syntax)
         PreparedStatement pst = db.newPreparedStatement("DELETE Users, UserInfo FROM Users INNER JOIN UserInfo " +
                 "WHERE Users.userID = (?) AND userName = (?) AND pwd = (?) AND UserInfo.userID = Users.userID");
         pst.setInt(1, userID);
-        pst.setString(2, userName);
-        pst.setString(3, password);
         return (pst.executeUpdate() > 0);
     }
 

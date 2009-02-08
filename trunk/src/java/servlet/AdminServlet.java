@@ -60,10 +60,22 @@ public class AdminServlet extends HttpServlet {
 		return exception == null;
 	}
 	
-
+	/**
+	* Ban a user from the server
+	* @param userID
+	* @return true if no error, false otherwise
+	*/
 	boolean ban(int userID){
-		//TODO
-        return true;
+        kick(userID);
+        try
+        {
+        server.deleteAccount(userID);
+        }
+        catch(RemoteException ex)
+        {
+            exception = ex;
+        }
+        return exception == null;
 	}
 
 	/**
@@ -139,6 +151,7 @@ public class AdminServlet extends HttpServlet {
             */
 			out.println("<h1>Blackjack Server Administration Pannel</h1>");
             out.println("<h2>Server Uptime: " + getUptime() + "</h2>");
+            out.println("<h2>Banning User #1: " + ban(1) + "</h2>");
 			if(server == null){
 				out.println("<h2>ooops!</h2>");
 				out.println(exception.getMessage());
