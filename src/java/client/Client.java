@@ -72,6 +72,23 @@ public class Client {
         return userID;
     }
 
+
+	/**
+	 * Log out the current user
+	 * @return
+	 */
+	public boolean logout(){
+		boolean res = false;
+		try{
+			res = server.logout(currentUserID);
+		} catch(RemoteException re){
+			System.err.println("There was an error logging out: " + re.getMessage());
+            System.exit(1);
+		}
+		return res;
+	}
+
+
     /**
      * Registers a new user
      * @param loginID

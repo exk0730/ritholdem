@@ -322,6 +322,8 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         return userID;
     }
 
+
+
     @Override
     /**
      * returns the user's money
@@ -504,13 +506,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     }
 
     public synchronized boolean kickUser(int userID) throws RemoteException {
-        boolean removed = false;
-        if(userExists(userID)){
-            try{ removeUser(userID); }
-            catch(RemoteException re) { }
-            removed = true;
-        }
-        return removed;
+        return logout(userID);
     }
 
     /**
@@ -553,4 +549,20 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         currentTime = new Date();
         return currentTime.getTime();
     }
+
+	/**
+     * Logout
+     * @param userID
+     * @return true if the user got logged out
+     * @throws java.rmi.RemoteException
+     */
+	public boolean logout(int userID) throws RemoteException {
+		boolean removed = false;
+        if(userExists(userID)){
+            try{ removeUser(userID); }
+            catch(RemoteException re) { }
+            removed = true;
+        }
+        return removed;
+	}
 }
