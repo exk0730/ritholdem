@@ -354,6 +354,11 @@ public class Table extends javax.swing.JPanel
         update();
     }
 
+    public void updateCashAmount(double cashAmount)
+    {
+       this.cashAmountLabel.setText("" + cashAmount);
+    }
+    
 	private void update()
 	{
 		this.validate();

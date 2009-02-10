@@ -20,6 +20,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
     public JMenuBar jMenuBar;
     public JMenuItem addMoneyBtn;
     public JMenuItem logoutBtn;
+    public Table table1;
 	 
 	//---------------------------
 	//Variables for sliding panel
@@ -348,7 +349,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
                     catch(Exception e) { initCash = 0; }
                 }
                 this.removeAll();
-                Table table1 = new Table(initCash, userID, client);
+                table1 = new Table(initCash, userID, client);
 
                 jMenuBar.setVisible(true);
                 logoutBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -578,7 +579,9 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         if(validAmount)
         {
             client.addMoney(moneyToAddDbl);
-            this.revalidate();
+            initCash += moneyToAddDbl;
+            table1.updateCashAmount(initCash);
+
             JOptionPane.showMessageDialog(this, "You have successfully added $" + moneyToAddDbl + " to your account.");
         }
     }
