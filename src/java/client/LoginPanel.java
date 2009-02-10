@@ -312,7 +312,12 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         add(jSplitPane, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-	
+	/**
+	 * Logout the client
+	 */
+	public void logout(){
+		client.logout();
+	}
 
 
 	@SuppressWarnings("deprecation")
