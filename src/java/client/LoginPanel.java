@@ -304,7 +304,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 			JOptionPane.showMessageDialog(null, "Enter your password");
 		}
         else {
-            userID = client.getCurrentUserID();
+            userID = client.login(userNameTextField.getText(), String.valueOf(passwordField.getPassword()));
             if(userID == RMIInterface.LOGIN_FAILED) {
                 JOptionPane.showMessageDialog(null, "Unable to login!");
                 passwordField.setText("");
@@ -419,8 +419,8 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
                 else
                 {
                     if(!no){
-                        userID = client.login(regUserNameTextField.getText(), String.valueOf(regPasswordField.getPassword()));
-                        client.addEmergencyFunds(userID, emergencyFunds);
+                        userID = client.getCurrentUserID();
+						client.addEmergencyFunds(userID, emergencyFunds);
                     }
                     JOptionPane.showMessageDialog(null, "Registration successful!");
                     expanding = true;
