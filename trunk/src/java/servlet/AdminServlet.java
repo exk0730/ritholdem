@@ -53,12 +53,13 @@ public class AdminServlet extends HttpServlet {
 	 * @return true if no error, false otherwise
 	 */
 	boolean kick(int userID){
+		boolean res = false;
 		try {
-			server.kickUser(userID);
+			res = server.kickUser(userID);
 		} catch (RemoteException ex) {
 			exception = ex;
 		}
-		return exception == null;
+		return res && exception == null;
 	}
 	
 	/**
@@ -98,12 +99,33 @@ public class AdminServlet extends HttpServlet {
 	}
 
 	/**
+	 * Get information from a user ID
+	 * @param userID
+	 * @return
+	 */
+	protected AccountInformation getInfos(int userID) {
+		AccountInformation res = null;
+		try {
+			res = server.getInfos(userID);
+		} catch (Exception ex) {
+			exception = ex;
+		}
+		return res;
+	}
+
+
+	/**
 	 * Get the server uptime
 	 * @return server uptime in minutes
 	 */
-	String getUptime() throws RemoteException{
-		//TODO
-		return (server.getCurrentTime() - server.getStartTime())/(60*1000) + " minutes.";
+	int getUptime(){
+		int uptime = -1;
+		try{
+			uptime = (int) ((server.getCurrentTime() - server.getStartTime()) / (60 * 1000));
+		} catch (RemoteException ex){
+			exception = ex;
+		}
+		return uptime;
 	}
 
 	/**
@@ -111,8 +133,14 @@ public class AdminServlet extends HttpServlet {
 	 * @param userID
 	 * @param amount
 	 */
-	void addMoney(int userID, int amount){
-		//TODO
+	boolean addMoney(int userID, int amount){
+		double res = -1;
+		try {
+			res = server.updateBank(userID, amount);
+		}catch(Exception ex){
+			exception = ex;
+		}
+		return res != -1;
 	}
 
 
@@ -125,10 +153,28 @@ public class AdminServlet extends HttpServlet {
 	 */
 	void printCurrentUsers(PrintWriter out){
 		ArrayList<Integer> users = getCurrentUsers();
-		out.println("Current users logged: " + users + "<br />");
 		if(users == null){
-			out.println("<h2>ooops!</h2>");
+			out.println("<p><strong>Error getting the list of current logged users:</strong></p>");
 			out.println(exception.getMessage());
+			return;
+		}
+		if(users.isEmpty()){
+			out.println("<p>No users currently logged in.</p>");
+		} else {
+			out.println("<p>Current users logged: </p>");
+			out.println("<ul>");
+			for (Integer userID : users) {
+				AccountInformation infos = getInfos(userID);
+				out.println("<li>"+infos.getUserName() + 
+						" - ID: " + userID+" - Name: "+ infos.getFirstName() + " " + infos.getLastName() +
+						" - <a href = \"mailto:"+infos.getEmail()+"\">Send an e-mail</a> "+
+						" - <a href = \"?userToKick="+userID+"\">Kick this user</a>" +
+						" - <form method = \"get\" action = \"\">" +
+						"<input type = \"text\" name = \"amount\" /><input type = \"hidden\" name = \"userToCredit\" value = \""+userID+"\" />" +
+						"<input type = \"submit\" value = \"Add money\" /></form>" +
+						"</li>");
+			}
+			out.println("</ul>");
 		}
 	}
    
@@ -143,32 +189,54 @@ public class AdminServlet extends HttpServlet {
     throws ServletException, IOException {
         //response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+		
+		if(server == null){
+			out.println("<h2>Error: </h2>");
+			out.println(exception.getMessage());
+			return;
+		}
+
         try {
-            /* TODO output your page here
+			
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AdminServlet</title>");  
+            out.println("<title>Blackjack Server Administration Pannel</title>");
+			out.println("<style type = \"text/css\">");
+			out.println("form {display: inline;}");
+			out.println("</style>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AdminServlet at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-            */
+            
 			out.println("<h1>Blackjack Server Administration Pannel</h1>");
-            out.println("<h2>Server Uptime: " + getUptime() + "</h2>");
+            out.println("<h2>Server Uptime: " + getUptime() + " min</h2>");
             //out.println("<h2>Banning User #1: " + ban(1) + "</h2>");
-			if(server == null){
-				out.println("<h2>ooops!</h2>");
-				out.println(exception.getMessage());
+
+			/* Handle requests */
+			String userToKick = request.getParameter("userToKick");
+			if(userToKick != null){
+				if(kick(new Integer(userToKick).intValue())){
+					out.println("<p>The user has been kicked successfully!</p>");
+				} else {
+					out.println("<p>Impossible to kick the given user, please check that he/she is connected!</p>");
+				}
+			}
+			String userToCredit = request.getParameter("userToCredit");
+			String amount = request.getParameter("amount");
+			if(userToCredit != null && amount != null){
+				if(addMoney(new Integer(userToCredit).intValue(), new Integer(amount).intValue())){
+					out.println("<p>The user has been credited successfully!</p>");
+				} else {
+					out.println("<p>Impossible to credit the given user!</p>");
+				}
 			}
 
-			//kick(5);
+			//Print the current users
 			printCurrentUsers(out);
 
-			//out.println("Kicking...<br />");
-			//kick(5);
+			out.println("<p><a href = \"/Blackjack/AdminServlet\">Refresh this page</a></p>");
 
-			//printCurrentUsers(out);
+			out.println("</body>");
+            out.println("</html>");
 
 		} catch(Exception e){
 			out.println("<h2>An exception was encountered: </h2>");
