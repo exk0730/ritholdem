@@ -286,15 +286,15 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @throws java.rmi.RemoteException
      */
     @Override
-    public synchronized boolean register(String loginID, String password, String fName,
+    public synchronized int register(String loginID, String password, String fName,
                             String lName, String email, String creditCard, double startingCash) throws RemoteException {
-        boolean ok = false;
+        int userID = RMIInterface.LOGIN_FAILED;
         try {
-            ok = data.register(loginID, password, fName, lName, email, creditCard, startingCash);
+            userID = data.register(loginID, password, fName, lName, email, creditCard, startingCash);
         } catch(SQLException e) {
             System.err.println("Error in register(): " + e.getMessage());
         }
-        return ok;
+        return userID;
     }
 
     /**
