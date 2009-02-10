@@ -112,6 +112,22 @@ public class Data {
             pst.setDouble(5, 0.00);
             pst.executeUpdate();
         }
+
+        if(ok){
+            pst = db.newPreparedStatement(
+                    "INSERT INTO UserCardStats (userID) VALUES (?)"
+                    );
+            pst.setInt(1,userID);
+            pst.executeQuery();
+        }
+
+        if(ok){
+            pst = db.newPreparedStatement(
+                    "INSERT INTO UserMoneyStats (userID) VALUES (?)"
+                    );
+            pst.setInt(1,userID);
+            pst.executeQuery();
+        }
         return userID;
     }
 
@@ -194,6 +210,74 @@ public class Data {
                      ", Current Earnings: " + rs.getString("userEarnings") + "_";
         }
         return s;
+    }
+
+    public synchronized void updateUserCardStats(int userID, char character) throws SQLException{
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        int temp = 0;
+        String getStatement = "";
+        String updateStatement = "";
+        switch(character){
+            case 'b':
+                pst = db.newPreparedStatement("SELECT numOfBlackjacks FROM UserCardStats " +
+                        "WHERE userID = (?)");
+                pst.setInt(1,userID);
+                rs = pst.executeQuery();
+                getStatement = "numOfBlackjacks";
+                updateStatement = "UPDATE UserCardStats SET numOfBlackjacks = (?) WHERE userID = (?)";
+                break;
+            case 'h':
+                pst = db.newPreparedStatement("SELECT numOfHits FROM UserCardStats " +
+                        "WHERE userID = (?)");
+                pst.setInt(1,userID);
+                rs = pst.executeQuery();
+                getStatement = "numOfHits";
+                updateStatement = "UPDATE UserCardStats SET numOfHits = (?) WHERE userID = (?)";
+                break;
+            case 's':
+                pst = db.newPreparedStatement("SELECT numOfStands FROM UserCardStats " +
+                        "WHERE userID = (?)");
+                pst.setInt(1,userID);
+                rs = pst.executeQuery();
+                getStatement = "numOfStands";
+                updateStatement = "UPDATE UserCardStats SET numOfStands = (?) WHERE userID = (?)";
+                break;
+            case 'd':
+                pst = db.newPreparedStatement("SELECT numOfDoubles FROM UserCardStats " +
+                        "WHERE userID = (?)");
+                pst.setInt(1,userID);
+                rs = pst.executeQuery();
+                getStatement = "numOfDoubles";
+                updateStatement = "UPDATE UserCardStats SET numOfDoubles = (?) WHERE userID = (?)";
+                break;
+            case 'w':
+                pst = db.newPreparedStatement("SELECT numOfWins FROM UserCardStats " +
+                        "WHERE userID = (?)");
+                pst.setInt(1,userID);
+                rs = pst.executeQuery();
+                getStatement = "numOfWins";
+                updateStatement = "UPDATE UserCardStats SET numOfWins = (?) WHERE userID = (?)";
+                break;
+            case 'l':
+                pst = db.newPreparedStatement("SELECT numOfLoss FROM UserCardStats " +
+                        "WHERE userID = (?)");
+                pst.setInt(1,userID);
+                rs = pst.executeQuery();
+                getStatement = "numOfLoss";
+                updateStatement = "UPDATE UserCardStats SET numOfLoss = (?) WHERE userID = (?)";
+                break;
+            default:
+                break;
+        }
+        if(rs.next()){
+            temp = rs.getInt(getStatement);
+            temp++;
+            pst = db.newPreparedStatement(updateStatement);
+            pst.setInt(1, temp);
+            pst.setInt(2, userID);
+            pst.executeUpdate();
+        }
     }
 
     /**
