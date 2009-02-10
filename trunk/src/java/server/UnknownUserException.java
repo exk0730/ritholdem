@@ -15,7 +15,7 @@ public class UnknownUserException extends Exception{
      */
     public UnknownUserException(){
         super();
-        error = "User is not present in Server list: You have been kicked!";
+        error = "You have been kicked by an admin! If you want to play, you have to log in again.";
     }
 
     /**

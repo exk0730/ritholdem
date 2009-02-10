@@ -64,7 +64,8 @@ public class TestFrame extends javax.swing.JFrame implements WindowListener{
         guiPanel.add(ipAddressLabel, new java.awt.GridBagConstraints());
 
         ipAddressTextField.setBackground(new java.awt.Color(51, 204, 0));
-        ipAddressTextField.setFont(new java.awt.Font("Tahoma", 1, 18));
+        ipAddressTextField.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        ipAddressTextField.setText("localhost");
         ipAddressTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         ipAddressTextField.setPreferredSize(new java.awt.Dimension(150, 25));
         ipAddressTextField.addActionListener(new java.awt.event.ActionListener() {
