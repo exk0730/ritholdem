@@ -508,6 +508,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 
     public void logoutBtnActionPerformed(ActionEvent evt)
     {
+		client.logout();
         this.removeAll();
         initComponents();
         jMenuBar.setVisible(false);
