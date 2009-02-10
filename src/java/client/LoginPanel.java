@@ -391,7 +391,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
                         JOptionPane.showMessageDialog(null, "You've maxed out your credit card!!!! Setting bank to max amount");
                         initCash = 1000000;
                     }
-                    String answer = JOptionPane.showInputDialog(null, "Would you like to have emergency funds?");
+                    String answer = JOptionPane.showInputDialog(null, "Would you like to have emergency funds? (y/n)");
                     if((answer.toUpperCase().equals("YES") || answer.toUpperCase().equals("Y"))){
                         String fundsString = JOptionPane.showInputDialog(null, "How much emergency funds would you like?");
                         emergencyFunds = Double.parseDouble(fundsString);
