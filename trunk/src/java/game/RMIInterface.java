@@ -53,7 +53,17 @@ public interface RMIInterface extends Remote
      * @throws java.rmi.RemoteException
      */
 	public int login(String userName, String password) throws RemoteException;
-    
+
+
+	/**
+     * Logout
+     * @param userID
+     * @return true if the user got logged out
+     * @throws java.rmi.RemoteException
+     */
+	public boolean logout(int userID) throws RemoteException;
+
+
     /**
      * Delete a user account
      * @param userID
