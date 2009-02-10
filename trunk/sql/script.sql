@@ -78,8 +78,9 @@ CREATE TABLE IF NOT EXISTS `UserCardStats` (
   `numOfBlackjacks` smallint(6) default '0',
   `numOfHits` smallint(6) default '0',
   `numOfStands` smallint(6) default '0',
-  `numOfDouble` smallint(6) default '0',
-  `percentOfWins` double(4,2) default '0.00',
+  `numOfDoubles` smallint(6) default '0',
+  `numOfWins` smallint(6) default '0',
+  `numOfLoss` smallint(6) default '0',
   PRIMARY KEY  (`userID`)
 ) TYPE=MyISAM;
 
@@ -87,10 +88,11 @@ CREATE TABLE IF NOT EXISTS `UserCardStats` (
 -- Content of table `UserCardStats`
 --
 
-INSERT INTO `UserCardStats` (`userID`, `numOfBlackjacks`, `numOfHits`, `numOfStands`, `numOfDouble`, `percentOfWins`) VALUES
-(1, 4, 27, 18, 3, 30.50),
-(2, 13, 57, 13, 9, 83.70),
-(3, 1, 5, 2, 2, 12.90);
+INSERT INTO `UserCardStats` (`userID`, `numOfBlackjacks`, `numOfHits`, `numOfStands`, `numOfDoubles`, `numOfWins`, `numOfLoss`) VALUES
+(1, 4, 27, 18, 3, 30, 50),
+(2, 13, 57, 13, 9, 83, 70),
+(3, 1, 5, 2, 2, 12, 90),
+(4, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -139,7 +141,8 @@ CREATE TABLE IF NOT EXISTS `UserMoneyStats` (
 INSERT INTO `UserMoneyStats` (`userID`, `userEarnings`, `topBet`, `singleHandHigh`, `singleSessionHigh`) VALUES
 (1, 4500.00, 125.00, 100.00, 475.00),
 (2, 7500.00, 755.00, 1005.00, 4067.00),
-(3, 40.00, 5.00, 18.00, 27.00);
+(3, 40.00, 5.00, 18.00, 27.00),
+(4, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -161,5 +164,6 @@ CREATE TABLE IF NOT EXISTS `Users` (
 INSERT INTO `Users` (`userID`, `userName`, `pwd`) VALUES
 (1, 'CoolPlayer', 'coolGuy'),
 (2, 'Bond007', 'bangbang'),
-(3, 'MountainMan', 'isleepwithbears');
+(3, 'MountainMan', 'isleepwithbears'),
+(4, 'foo', 'blah');
 
