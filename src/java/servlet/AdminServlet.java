@@ -52,7 +52,7 @@ public class AdminServlet extends HttpServlet {
 	 * @param userID
 	 * @return true if no error, false otherwise
 	 */
-	boolean kick(int userID){
+	protected boolean kick(int userID){
 		boolean res = false;
 		try {
 			res = server.kickUser(userID);
@@ -67,7 +67,7 @@ public class AdminServlet extends HttpServlet {
 	* @param userID
 	* @return true if no error, false otherwise
 	*/
-	boolean ban(int userID){
+	protected boolean ban(int userID){
         kick(userID);
         try
         {
@@ -88,7 +88,7 @@ public class AdminServlet extends HttpServlet {
 	 * Get the current users logged into the server
 	 * @return list of logged user IDs, null if there is an error
 	 */
-	ArrayList<Integer> getCurrentUsers(){
+	protected ArrayList<Integer> getCurrentUsers(){
 		ArrayList<Integer> res = null;
 		try {
 			res = server.getUsers();
@@ -118,7 +118,7 @@ public class AdminServlet extends HttpServlet {
 	 * Get the server uptime
 	 * @return server uptime in minutes
 	 */
-	int getUptime(){
+	protected int getUptime(){
 		int uptime = -1;
 		try{
 			uptime = (int) ((server.getCurrentTime() - server.getStartTime()) / (60 * 1000));
@@ -133,7 +133,7 @@ public class AdminServlet extends HttpServlet {
 	 * @param userID
 	 * @param amount
 	 */
-	boolean addMoney(int userID, int amount){
+	protected boolean addMoney(int userID, int amount){
 		double res = -1;
 		try {
 			res = server.updateBank(userID, amount);
@@ -143,15 +143,31 @@ public class AdminServlet extends HttpServlet {
 		return res != -1;
 	}
 
+	/**
+	 * Get the current bank of a user
+	 * @param userID
+	 * @param amount
+	 */
+	protected double getBank(int userID){
+		double res = -1;
+		try {
+			res = server.getBank(userID);
+		}catch(Exception ex){
+			exception = ex;
+		}
+		return res;
+	}
 
-	//
-	// TEST methods
-	//
+
+
+
+
+
 	/**
 	 * Print the current users
 	 * @param out writer
 	 */
-	void printCurrentUsers(PrintWriter out){
+	protected void printCurrentUsers(PrintWriter out){
 		ArrayList<Integer> users = getCurrentUsers();
 		if(users == null){
 			out.println("<p><strong>Error getting the list of current logged users:</strong></p>");
@@ -167,6 +183,7 @@ public class AdminServlet extends HttpServlet {
 				AccountInformation infos = getInfos(userID);
 				out.println("<li>"+infos.getUserName() + 
 						" - ID: " + userID+" - Name: "+ infos.getFirstName() + " " + infos.getLastName() +
+						" - Bank: $" + getBank(userID) +
 						" - <a href = \"mailto:"+infos.getEmail()+"\">Send an e-mail</a> "+
 						" - <a href = \"?userToKick="+userID+"\">Kick this user</a>" +
 						" - <form method = \"get\" action = \"\">" +
