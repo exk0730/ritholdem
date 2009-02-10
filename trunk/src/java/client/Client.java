@@ -73,6 +73,30 @@ public class Client {
     }
 
     /**
+     * Registers a new user
+     * @param loginID
+     * @param password
+     * @param fName
+     * @param lName
+     * @param email
+     * @param creditCard
+     * @param startingCash
+     * @return
+     */
+    public boolean register(String loginID, String password, String fName,
+                            String lName, String email, String creditCard, double startingCash){
+        boolean ok = false;
+        try {
+            ok = server.register(loginID, password, fName, lName, email, creditCard, startingCash);
+        }
+        catch(RemoteException re){
+            System.err.println("There was an error registering: " + re.getMessage());
+            System.exit(1);
+        }
+        return ok;
+    }
+
+    /**
      * Returns this user's money
      * @param userID
      * @return
@@ -152,36 +176,12 @@ public class Client {
     }
 
     /**
-     * Registers a new user
-     * @param loginID
-     * @param password
-     * @param fName
-     * @param lName
-     * @param email
-     * @param creditCard
-     * @param startingCash
-     * @return
-     */
-    public boolean register(String loginID, String password, String fName,
-                            String lName, String email, String creditCard, double startingCash){
-        boolean ok = false;
-        try {
-            ok = server.register(loginID, password, fName, lName, email, creditCard, startingCash);
-        }
-        catch(RemoteException re){
-            System.err.println("There was an error registering: " + re.getMessage());
-            System.exit(1);
-        }
-        return ok;
-    }
-
-    /**
      * Deals a hand for the player
      * @param userID
      * @param bet
      * @return
      */
-    public PlayerCards deal(int userID, double bet){
+    public PlayerCards deal(int userID, double bet) throws UnknownUserException{
         PlayerCards hand = null;
         try {
             hand = server.deal(userID, bet);
@@ -190,9 +190,6 @@ public class Client {
             System.err.println("There was an error receiving player's hand: " + re.getMessage());
 			re.printStackTrace();
             System.exit(1);
-        }
-        catch(UnknownUserException uue){
-            System.out.println(uue.getMessage());
         }
         return hand;
     }
@@ -218,7 +215,7 @@ public class Client {
      * @param userID
      * @return
      */
-    public Card hit(int userID){
+    public Card hit(int userID) throws UnknownUserException {
         Card temp = null;
         try {
             temp = server.hit(userID);
@@ -226,9 +223,6 @@ public class Client {
         catch(RemoteException re) {
             System.err.println("There was an error receiving a card: " + re.getMessage());
             System.exit(1);
-        }
-        catch(UnknownUserException uue){
-            System.out.println(uue.getMessage());
         }
         return temp;
     }
@@ -255,7 +249,7 @@ public class Client {
      * @param playerOrDealer
      * @return
      */
-    public boolean bust(int userID, boolean playerOrDealer) {
+    public boolean bust(int userID, boolean playerOrDealer) throws UnknownUserException {
         boolean bool = false;
         try {
             bool = server.bust(userID, playerOrDealer);
@@ -263,9 +257,6 @@ public class Client {
         catch(RemoteException re){
             System.err.println("There was an error checking bust: " + re.getMessage());
             System.exit(1);
-        }
-        catch(UnknownUserException uue){
-            System.out.println(uue.getMessage());
         }
         return bool;
     }
@@ -292,7 +283,7 @@ public class Client {
      * @param bet
      * @return
      */
-    public String checkWin(int userID, double bet) {
+    public String checkWin(int userID, double bet) throws UnknownUserException {
         String s = "";
         try {
             s = server.checkWin(userID, bet);
@@ -300,9 +291,6 @@ public class Client {
         catch(RemoteException re){
             System.err.println("There was an error checking win: " + re.getMessage());
             System.exit(1);
-        }
-        catch(UnknownUserException uue){
-            System.out.println(uue.getMessage());
         }
         return s;
     }

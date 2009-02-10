@@ -1,6 +1,7 @@
 package client;
 
 import game.*;
+import server.UnknownUserException;
 import java.util.ArrayList;
 import javax.swing.*;
 import java.awt.Color;
@@ -83,9 +84,6 @@ public class Table extends javax.swing.JPanel
 
 	private void dealButtonActionPerformed(java.awt.event.ActionEvent evt)
 	{
-		/*
-		*TODO check if they can do anything right now (if it's their turn)
-		*/
 		if(bet == 0)
 		{
 			JOptionPane.showMessageDialog(null, "You have to enter a bet first");
@@ -99,10 +97,15 @@ public class Table extends javax.swing.JPanel
 		{
 			this.setLayout(null);
             cardCount = 0;
-            hand = client.deal(userID, bet);
-            renderPlayerHand(hand);
-            dealer = client.deal();
-            renderDealerHand(dealer);
+            try{
+                hand = client.deal(userID, bet);
+                renderPlayerHand(hand);
+                dealer = client.deal();
+                renderDealerHand(dealer);
+            }
+            catch(UnknownUserException uue){
+                JOptionPane.showMessageDialog(null, uue.getMessage());
+            }
             dealt = true;
 		}
         else{
@@ -118,11 +121,16 @@ public class Table extends javax.swing.JPanel
 		}
 		else
         {
-            Card temp = client.hit(userID);
-            renderHitCard(temp, true);
-            if(client.bust(userID,true)) {
-                renderDealerCard();
-                playerBust();
+            try{
+                Card temp = client.hit(userID);
+                renderHitCard(temp, true);
+                if(client.bust(userID,true)) {
+                    renderDealerCard();
+                    playerBust();
+                }
+            }
+            catch(UnknownUserException uue){
+                JOptionPane.showMessageDialog(null, uue.getMessage());
             }
 		}
 	}
@@ -148,25 +156,25 @@ public class Table extends javax.swing.JPanel
         else{
             bet *= 2;
             betAmountLabel.setText("" + bet);
-            Card temp = client.hit(userID);
-            renderHitCard(temp, true);
-            //if client busted:
-            if(client.bust(userID, true)) {
-                renderDealerCard();
-                playerBust();
+            try{
+                Card temp = client.hit(userID);
+                renderHitCard(temp, true);
+                //if client busted:
+                if(client.bust(userID, true)) {
+                    renderDealerCard();
+                    playerBust();
+                }
+                else{
+                    cardCount = 2;
+                    renderDealerCard();
+                    dealerActions();
+                }
             }
-            else{
-                cardCount = 2;
-                renderDealerCard();
-                dealerActions();
+            catch(UnknownUserException uue){
+                JOptionPane.showMessageDialog(null, uue.getMessage());
             }
             dealt = false;
         }
-	}
-
-	private void startGameActionPerformed(java.awt.event.ActionEvent evt)
-	{
-	
 	}
 
     private void playerBust() {
@@ -185,31 +193,34 @@ public class Table extends javax.swing.JPanel
      * When player has doubled or "stood"
      */
 	private void dealerActions() {
-        while(!client.dealerStand()){
-            Card temp = client.hit();
-            renderHitCard(temp, false);
-            //if dealer busts:
-            if(client.bust(userID, false)) {
-                break;
-            }
-        }
-        //See if client wins, pushes, or loses
-        String s = client.checkWin(userID, bet);
-        String temp = s.substring(0, s.indexOf('_'));
-        JOptionPane.showMessageDialog(null, temp);
         try{
+            while(!client.dealerStand()){
+                Card temp = client.hit();
+                renderHitCard(temp, false);
+                //if dealer busts:
+                if(client.bust(userID, false)) {
+                    break;
+                }
+            }
+            //See if client wins, pushes, or loses
+            String s = client.checkWin(userID, bet);
+            String temp = s.substring(0, s.indexOf('_'));
+            JOptionPane.showMessageDialog(null, temp);
             bet = Double.parseDouble(s.substring(s.indexOf('_')+1, s.length()));
+            initCash = client.updateBank(userID, bet);
+            if(initCash <= 0) { getEmergFunds(); }
+            cashAmountLabel.setText("" + initCash );
+            bet = 0;
+            betAmountLabel.setText("" + bet);
+            wipe();
+        }
+        catch(UnknownUserException uue){
+            JOptionPane.showMessageDialog(null, uue.getMessage());
         }
         catch(NumberFormatException nfe){
             System.err.println("Error receiving bet during checkWin: " + nfe.getMessage());
             System.exit(1);
         }
-        initCash = client.updateBank(userID, bet);
-        if(initCash <= 0) { getEmergFunds(); }
-        cashAmountLabel.setText("" + initCash );
-        bet = 0;
-        betAmountLabel.setText("" + bet);
-        wipe();
     }
 
     /**
@@ -343,221 +354,215 @@ public class Table extends javax.swing.JPanel
      * always regenerated by the Form Editor.
      */
 	@SuppressWarnings("unchecked")
-	// <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents()
-	{
-		java.awt.GridBagConstraints gridBagConstraints;
-	
-		betBar =	new javax.swing.JPanel();
-		betBtn50	= new	javax.swing.JButton();
-		betBtnx100 = new javax.swing.JButton();
-		betBtn10	= new	javax.swing.JButton();
-		betBtn1 = new javax.swing.JButton();
-		betBtn25	= new	javax.swing.JButton();
-		dealButton = new javax.swing.JButton();
-		hitButton =	new javax.swing.JButton();
-		standButton	= new	javax.swing.JButton();
-		doubleButton =	new javax.swing.JButton();
-		scoreInfo =	new javax.swing.JPanel();
-		cashLabel =	new javax.swing.JLabel();
-		cashAmountLabel =	new javax.swing.JLabel(initCash + "");
-		betLabel	= new	javax.swing.JLabel();
-		betAmountLabel	= new	javax.swing.JLabel();
-		startGame =	new javax.swing.JButton();
-	
-		setLayout(new java.awt.BorderLayout());
-	
-		betBar.setBackground(new java.awt.Color(0, 0, 0));
-		betBar.setLayout(new	java.awt.GridBagLayout());
-	
-		betBtn50.setIcon(new	javax.swing.ImageIcon(getClass().getResource("/images/bet50.jpg")));	//	NOI18N
-		betBtn50.setPreferredSize(new	java.awt.Dimension(40, 40));
-		betBtn50.addActionListener(new java.awt.event.ActionListener()	{
-			 public void actionPerformed(java.awt.event.ActionEvent evt) {
-			betBtn50ActionPerformed(evt);
-			 }
-		});
-		gridBagConstraints =	new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx =	3;
-		gridBagConstraints.gridy =	0;
-		betBar.add(betBtn50,	gridBagConstraints);
-	
-		betBtnx100.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/betx100.jpg"))); // NOI18N
-		betBtnx100.setPreferredSize(new java.awt.Dimension(40, 40));
-		betBtnx100.addActionListener(new	java.awt.event.ActionListener() {
-			 public void actionPerformed(java.awt.event.ActionEvent evt) {
-			betBtnx100ActionPerformed(evt);
-			 }
-		});
-		gridBagConstraints =	new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx =	4;
-		gridBagConstraints.gridy =	0;
-		gridBagConstraints.insets = new java.awt.Insets(0,	0,	0,	150);
-		betBar.add(betBtnx100, gridBagConstraints);
-	
-		betBtn10.setIcon(new	javax.swing.ImageIcon(getClass().getResource("/images/bet10.jpg")));	//	NOI18N
-		betBtn10.setPreferredSize(new	java.awt.Dimension(40, 40));
-		betBtn10.addActionListener(new java.awt.event.ActionListener()	{
-			 public void actionPerformed(java.awt.event.ActionEvent evt) {
-			betBtn10ActionPerformed(evt);
-			 }
-		});
-		gridBagConstraints =	new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx =	1;
-		gridBagConstraints.gridy =	0;
-		betBar.add(betBtn10,	gridBagConstraints);
-	
-		betBtn1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/bet1.jpg"))); // NOI18N
-		betBtn1.setPreferredSize(new java.awt.Dimension(40, 40));
-		betBtn1.addActionListener(new	java.awt.event.ActionListener() {
-			 public void actionPerformed(java.awt.event.ActionEvent evt) {
-			betBtn1ActionPerformed(evt);
-			 }
-		});
-		gridBagConstraints =	new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx =	0;
-		gridBagConstraints.gridy =	0;
-		betBar.add(betBtn1, gridBagConstraints);
-	
-		betBtn25.setIcon(new	javax.swing.ImageIcon(getClass().getResource("/images/bet25.jpg")));	//	NOI18N
-		betBtn25.setPreferredSize(new	java.awt.Dimension(40, 40));
-		betBtn25.addActionListener(new java.awt.event.ActionListener()	{
-			 public void actionPerformed(java.awt.event.ActionEvent evt) {
-			betBtn25ActionPerformed(evt);
-			 }
-		});
-		gridBagConstraints =	new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx =	2;
-		gridBagConstraints.gridy =	0;
-		betBar.add(betBtn25,	gridBagConstraints);
-	
-		dealButton.setBackground(new java.awt.Color(0, 153, 51));
-		dealButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-		dealButton.setForeground(new java.awt.Color(153, 255,	0));
-		dealButton.setText("DEAL");
-		dealButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-		dealButton.setPreferredSize(new java.awt.Dimension(50, 25));
-		dealButton.addActionListener(new	java.awt.event.ActionListener() {
-			 public void actionPerformed(java.awt.event.ActionEvent evt) {
-			dealButtonActionPerformed(evt);
-			 }
-		});
-		gridBagConstraints =	new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx =	6;
-		gridBagConstraints.gridy =	0;
-		betBar.add(dealButton, gridBagConstraints);
-	
-		hitButton.setBackground(new java.awt.Color(0, 153,	51));
-		hitButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-		hitButton.setForeground(new java.awt.Color(153,	255, 0));
-		hitButton.setText("HIT");
-		hitButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-		hitButton.setPreferredSize(new java.awt.Dimension(50,	25));
-		hitButton.addActionListener(new java.awt.event.ActionListener() {
-			public void	actionPerformed(java.awt.event.ActionEvent evt)	{
-			hitButtonActionPerformed(evt);
-			 }
-		});
-		gridBagConstraints =	new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx =	7;
-		gridBagConstraints.gridy =	0;
-		betBar.add(hitButton, gridBagConstraints);
-	
-		standButton.setBackground(new	java.awt.Color(0,	153, 51));
-		standButton.setFont(new	java.awt.Font("Tahoma",	1,	12));	//	NOI18N
-		standButton.setForeground(new	java.awt.Color(153, 255, 0));
-		standButton.setText("STAND");
-		standButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-		standButton.setPreferredSize(new	java.awt.Dimension(65, 25));
-		standButton.addActionListener(new java.awt.event.ActionListener()	{
-			 public void actionPerformed(java.awt.event.ActionEvent evt) {
-			standButtonActionPerformed(evt);
-			 }
-		});
-		gridBagConstraints =	new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx =	8;
-		gridBagConstraints.gridy =	0;
-		betBar.add(standButton,	gridBagConstraints);
-	
-		doubleButton.setBackground(new java.awt.Color(0, 153,	51));
-		doubleButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-		doubleButton.setForeground(new java.awt.Color(153,	255, 0));
-		doubleButton.setText("DOUBLE");
-		doubleButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-		doubleButton.setPreferredSize(new java.awt.Dimension(71,	25));
-		doubleButton.addActionListener(new java.awt.event.ActionListener() {
-			 public void actionPerformed(java.awt.event.ActionEvent evt) {
-			doubleButtonActionPerformed(evt);
-			 }
-		});
-		gridBagConstraints =	new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx =	9;
-		gridBagConstraints.gridy =	0;
-		betBar.add(doubleButton, gridBagConstraints);
-	
-		add(betBar,	java.awt.BorderLayout.PAGE_END);
-	
-		scoreInfo.setBackground(new java.awt.Color(0, 0, 0));
-		scoreInfo.setLayout(new	java.awt.GridBagLayout());
-	
-		cashLabel.setBackground(new java.awt.Color(0, 0, 0));
-		cashLabel.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-		cashLabel.setForeground(new java.awt.Color(204,	204, 0));
-		cashLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-		cashLabel.setText("CASH");
-		gridBagConstraints =	new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx =	0;
-		gridBagConstraints.gridy =	0;
-		scoreInfo.add(cashLabel, gridBagConstraints);
-	
-		cashAmountLabel.setBackground(new java.awt.Color(153,	153, 153));
-		cashAmountLabel.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-		cashAmountLabel.setForeground(new java.awt.Color(255,	255, 255));
-		cashAmountLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		//cashAmountLabel.setText();
-		gridBagConstraints =	new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx =	0;
-		gridBagConstraints.gridy =	1;
-		scoreInfo.add(cashAmountLabel, gridBagConstraints);
-	
-		betLabel.setBackground(new	java.awt.Color(0,	0,	0));
-		betLabel.setFont(new	java.awt.Font("Tahoma",	1,	24));	//	NOI18N
-		betLabel.setForeground(new	java.awt.Color(204, 204, 0));
-		betLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-		betLabel.setText("Bet");
-		gridBagConstraints =	new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx =	0;
-		gridBagConstraints.gridy =	2;
-		scoreInfo.add(betLabel,	gridBagConstraints);
-	
-		betAmountLabel.setBackground(new	java.awt.Color(153, 153, 153));
-		betAmountLabel.setFont(new	java.awt.Font("Tahoma",	1,	24));	//	NOI18N
-		betAmountLabel.setForeground(new	java.awt.Color(255, 255, 255));
-		betAmountLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		betAmountLabel.setText("0");
-		gridBagConstraints =	new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx =	0;
-		gridBagConstraints.gridy =	3;
-		gridBagConstraints.insets = new java.awt.Insets(0,	0,	100, 0);
-		scoreInfo.add(betAmountLabel,	gridBagConstraints);
-	
-		startGame.setBackground(new java.awt.Color(0, 0, 0));
-		startGame.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/deckofcards.jpg"))); // NOI18N
-		startGame.setBorder(null);
-		startGame.setPreferredSize(new java.awt.Dimension(198, 194));
-		startGame.addActionListener(new java.awt.event.ActionListener() {
-			 public void actionPerformed(java.awt.event.ActionEvent evt) {
-			startGameActionPerformed(evt);
-			 }
-		});
-		gridBagConstraints =	new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx =	0;
-		gridBagConstraints.gridy =	4;
-		gridBagConstraints.insets = new java.awt.Insets(0,	0,	100, 0);
-		scoreInfo.add(startGame, gridBagConstraints);
-	
-		add(scoreInfo,	java.awt.BorderLayout.LINE_START);
-   }// </editor-fold>//GEN-END:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
+
+        betBar = new javax.swing.JPanel();
+        betBtn50 = new javax.swing.JButton();
+        betBtnx100 = new javax.swing.JButton();
+        betBtn10 = new javax.swing.JButton();
+        betBtn1 = new javax.swing.JButton();
+        betBtn25 = new javax.swing.JButton();
+        dealButton = new javax.swing.JButton();
+        hitButton = new javax.swing.JButton();
+        standButton = new javax.swing.JButton();
+        doubleButton = new javax.swing.JButton();
+        scoreInfo = new javax.swing.JPanel();
+        cashLabel = new javax.swing.JLabel();
+        cashAmountLabel = new javax.swing.JLabel();
+        betLabel = new javax.swing.JLabel();
+        betAmountLabel = new javax.swing.JLabel();
+        startGame = new javax.swing.JButton();
+
+        setLayout(new java.awt.BorderLayout());
+
+        betBar.setBackground(new java.awt.Color(0, 0, 0));
+        betBar.setLayout(new java.awt.GridBagLayout());
+
+        betBtn50.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/bet50.jpg"))); // NOI18N
+        betBtn50.setPreferredSize(new java.awt.Dimension(40, 40));
+        betBtn50.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                betBtn50ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        betBar.add(betBtn50, gridBagConstraints);
+
+        betBtnx100.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/betx100.jpg"))); // NOI18N
+        betBtnx100.setPreferredSize(new java.awt.Dimension(40, 40));
+        betBtnx100.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                betBtnx100ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 150);
+        betBar.add(betBtnx100, gridBagConstraints);
+
+        betBtn10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/bet10.jpg"))); // NOI18N
+        betBtn10.setPreferredSize(new java.awt.Dimension(40, 40));
+        betBtn10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                betBtn10ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        betBar.add(betBtn10, gridBagConstraints);
+
+        betBtn1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/bet1.jpg"))); // NOI18N
+        betBtn1.setPreferredSize(new java.awt.Dimension(40, 40));
+        betBtn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                betBtn1ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        betBar.add(betBtn1, gridBagConstraints);
+
+        betBtn25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/bet25.jpg"))); // NOI18N
+        betBtn25.setPreferredSize(new java.awt.Dimension(40, 40));
+        betBtn25.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                betBtn25ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        betBar.add(betBtn25, gridBagConstraints);
+
+        dealButton.setBackground(new java.awt.Color(0, 153, 51));
+        dealButton.setFont(new java.awt.Font("Tahoma", 1, 12));
+        dealButton.setForeground(new java.awt.Color(153, 255, 0));
+        dealButton.setText("DEAL");
+        dealButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        dealButton.setPreferredSize(new java.awt.Dimension(50, 25));
+        dealButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dealButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 0;
+        betBar.add(dealButton, gridBagConstraints);
+
+        hitButton.setBackground(new java.awt.Color(0, 153, 51));
+        hitButton.setFont(new java.awt.Font("Tahoma", 1, 12));
+        hitButton.setForeground(new java.awt.Color(153, 255, 0));
+        hitButton.setText("HIT");
+        hitButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        hitButton.setPreferredSize(new java.awt.Dimension(50, 25));
+        hitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hitButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 7;
+        gridBagConstraints.gridy = 0;
+        betBar.add(hitButton, gridBagConstraints);
+
+        standButton.setBackground(new java.awt.Color(0, 153, 51));
+        standButton.setFont(new java.awt.Font("Tahoma", 1, 12));
+        standButton.setForeground(new java.awt.Color(153, 255, 0));
+        standButton.setText("STAND");
+        standButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        standButton.setPreferredSize(new java.awt.Dimension(65, 25));
+        standButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                standButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 0;
+        betBar.add(standButton, gridBagConstraints);
+
+        doubleButton.setBackground(new java.awt.Color(0, 153, 51));
+        doubleButton.setFont(new java.awt.Font("Tahoma", 1, 12));
+        doubleButton.setForeground(new java.awt.Color(153, 255, 0));
+        doubleButton.setText("DOUBLE");
+        doubleButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        doubleButton.setPreferredSize(new java.awt.Dimension(71, 25));
+        doubleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                doubleButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 9;
+        gridBagConstraints.gridy = 0;
+        betBar.add(doubleButton, gridBagConstraints);
+
+        add(betBar, java.awt.BorderLayout.PAGE_END);
+
+        scoreInfo.setBackground(new java.awt.Color(0, 0, 0));
+        scoreInfo.setLayout(new java.awt.GridBagLayout());
+
+        cashLabel.setBackground(new java.awt.Color(0, 0, 0));
+        cashLabel.setFont(new java.awt.Font("Tahoma", 1, 24));
+        cashLabel.setForeground(new java.awt.Color(204, 204, 0));
+        cashLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        cashLabel.setText("CASH");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        scoreInfo.add(cashLabel, gridBagConstraints);
+
+        cashAmountLabel.setBackground(new java.awt.Color(153, 153, 153));
+        cashAmountLabel.setFont(new java.awt.Font("Tahoma", 1, 24));
+        cashAmountLabel.setForeground(new java.awt.Color(255, 255, 255));
+        cashAmountLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        cashAmountLabel.setText("0");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        scoreInfo.add(cashAmountLabel, gridBagConstraints);
+
+        betLabel.setBackground(new java.awt.Color(0, 0, 0));
+        betLabel.setFont(new java.awt.Font("Tahoma", 1, 24));
+        betLabel.setForeground(new java.awt.Color(204, 204, 0));
+        betLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        betLabel.setText("Bet");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        scoreInfo.add(betLabel, gridBagConstraints);
+
+        betAmountLabel.setBackground(new java.awt.Color(153, 153, 153));
+        betAmountLabel.setFont(new java.awt.Font("Tahoma", 1, 24));
+        betAmountLabel.setForeground(new java.awt.Color(255, 255, 255));
+        betAmountLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        betAmountLabel.setText("0");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 100, 0);
+        scoreInfo.add(betAmountLabel, gridBagConstraints);
+
+        startGame.setBackground(new java.awt.Color(0, 0, 0));
+        startGame.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/deckofcards.jpg"))); // NOI18N
+        startGame.setBorder(null);
+        startGame.setPreferredSize(new java.awt.Dimension(198, 194));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 100, 0);
+        scoreInfo.add(startGame, gridBagConstraints);
+
+        add(scoreInfo, java.awt.BorderLayout.LINE_START);
+    }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel betAmountLabel;
