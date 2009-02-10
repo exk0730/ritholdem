@@ -39,13 +39,6 @@ public interface RMIInterface extends Remote
                         	String creditCard, double startingCash) throws RemoteException;
 
     /**
-     * Removes a connected user based on their userID
-     * @param userID
-     * @throws java.rmi.RemoteException
-     */
-    public void removeUser(int userID) throws RemoteException;
-
-    /**
      * Gets the users connected to the server
      * @return
      * @throws java.rmi.RemoteException
@@ -68,6 +61,15 @@ public interface RMIInterface extends Remote
      * @throws java.rmi.RemoteException
      */
 	public boolean deleteAccount(int userID) throws RemoteException, UnknownUserException;
+
+
+	/**
+	 * Kick a user
+	 * @param userID
+	 * @return true if the userID has been kicked
+	 * @throws java.rmi.RemoteException
+	 */
+	public boolean kickUser(int userID) throws RemoteException;
 
 
     /**
@@ -176,21 +178,6 @@ public interface RMIInterface extends Remote
      */
     public Card hit() throws RemoteException;
 
-    /**
-     * method to stand
-     * @param userID
-     * @throws java.rmi.RemoteException
-     */
-    public void stand(int userID) throws RemoteException;
-
-    /**
-     * method to double
-     * @param userID
-     * @param bet
-     * @return
-     * @throws java.rmi.RemoteException
-     */
-    public Card dble(int userID, double bet) throws RemoteException;
 
     /**
      * method to get servers' start time

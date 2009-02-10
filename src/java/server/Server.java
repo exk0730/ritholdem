@@ -252,33 +252,12 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         return s;
     }
 
-    /**
-     *
-     * @param userID
-     * @throws java.rmi.RemoteException
-     */
-    @Override
-    public synchronized void stand(int userID) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     *
-     * @param userID
-     * @param bet
-     * @return
-     * @throws java.rmi.RemoteException
-     */
-    @Override
-    public synchronized Card dble(int userID, double bet) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 
     /**
      * Remove a user from the server
      * @param userID The userID to remove
      */
-    public synchronized void removeUser(int userID) throws RemoteException {
+    protected synchronized void removeUser(int userID) throws RemoteException {
         for(int i = 0; i < users.size(); i++){
             if((int) users.get(i) == userID){
                 users.remove(i);
@@ -524,7 +503,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         return exists;
     }
 
-    public synchronized boolean kickUser(int userID){
+    public synchronized boolean kickUser(int userID) throws RemoteException {
         boolean removed = false;
         if(userExists(userID)){
             try{ removeUser(userID); }
