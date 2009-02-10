@@ -43,255 +43,249 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-	 
-		java.awt.GridBagConstraints gridBagConstraints;
-		jSplitPane =	new javax.swing.JSplitPane();
-		userPanel	= new	javax.swing.JPanel();
-		userNameLabel =	new javax.swing.JLabel();
-		userNameTextField = new javax.swing.JTextField();
-		passwordLabel =	new javax.swing.JLabel();
-		passwordField =	new javax.swing.JPasswordField();
-		loginBtn = new javax.swing.JButton();
-		registerBtn = new javax.swing.JButton();
-		registerPanel =	new javax.swing.JPanel();
-		enterUserNameLabel	= new	javax.swing.JLabel();
-		regUserNameTextField =	new javax.swing.JTextField();
-		emailTextField = new javax.swing.JTextField();
-		finishBtn	= new	javax.swing.JButton();
-		regPasswordField =	new javax.swing.JPasswordField();
-		regPasswordTwoField =	new javax.swing.JPasswordField();
-		enterPasswordLabel	= new	javax.swing.JLabel();
-		reenterPasswordLabel = new javax.swing.JLabel();
-		emailLabel =	new javax.swing.JLabel();
-		firstNameLabel = new javax.swing.JLabel();
-		firstNameTextField	= new	javax.swing.JTextField();
-		lastNameLabel =	new javax.swing.JLabel();
-		lastNameTextField = new javax.swing.JTextField();
-		creditCardLabel	= new	javax.swing.JLabel();
-		creditCardTextField =	new javax.swing.JTextField();
+        java.awt.GridBagConstraints gridBagConstraints;
 
-		setPreferredSize(new java.awt.Dimension(800, 600));
-		setLayout(new java.awt.BorderLayout());
+        jSplitPane = new javax.swing.JSplitPane();
+        userPanel = new javax.swing.JPanel();
+        userNameLabel = new javax.swing.JLabel();
+        userNameTextField = new javax.swing.JTextField();
+        passwordLabel = new javax.swing.JLabel();
+        passwordField = new javax.swing.JPasswordField();
+        loginBtn = new javax.swing.JButton();
+        registerBtn = new javax.swing.JButton();
+        registerPanel = new javax.swing.JPanel();
+        enterUserNameLabel = new javax.swing.JLabel();
+        regUserNameTextField = new javax.swing.JTextField();
+        emailTextField = new javax.swing.JTextField();
+        finishBtn = new javax.swing.JButton();
+        regPasswordField = new javax.swing.JPasswordField();
+        regPasswordTwoField = new javax.swing.JPasswordField();
+        enterPasswordLabel = new javax.swing.JLabel();
+        reenterPasswordLabel = new javax.swing.JLabel();
+        emailLabel = new javax.swing.JLabel();
+        firstNameLabel = new javax.swing.JLabel();
+        firstNameTextField = new javax.swing.JTextField();
+        lastNameLabel = new javax.swing.JLabel();
+        lastNameTextField = new javax.swing.JTextField();
+        creditCardLabel = new javax.swing.JLabel();
+        creditCardTextField = new javax.swing.JTextField();
 
-		jSplitPane.setDividerLocation(600);
-		jSplitPane.setDividerSize(0);
-		jSplitPane.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
-		
-		userPanel.setBackground(new	java.awt.Color(0,	102, 0));
-		userPanel.setPreferredSize(new	java.awt.Dimension(500,	300));
-		userPanel.setLayout(new java.awt.GridBagLayout());
-		
-		userNameLabel.setFont(new java.awt.Font("Tahoma", 0, 18));
-		userNameLabel.setForeground(new java.awt.Color(153,	255, 0));
-		userNameLabel.setText("Username: ");
-		userPanel.add(userNameLabel, new java.awt.GridBagConstraints());
-		
-		userNameTextField.setBackground(new java.awt.Color(51,	204, 0));
-		userNameTextField.setFont(new java.awt.Font("Tahoma", 1, 18));
-		userNameTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-		userNameTextField.setPreferredSize(new java.awt.Dimension(150, 25));
-		userNameTextField.addActionListener(new	java.awt.event.ActionListener()
-		{
-			public void	actionPerformed(java.awt.event.ActionEvent evt)
-			{
-				userNameTextFieldActionPerformed(evt);
-			}
-		});
-		userPanel.add(userNameTextField, new	java.awt.GridBagConstraints());
-		passwordLabel.setBackground(new java.awt.Color(153,	255, 0));
-		passwordLabel.setFont(new java.awt.Font("Tahoma", 0, 18));
-		passwordLabel.setForeground(new java.awt.Color(153,	255, 0));
-		passwordLabel.setText("Password: ");
-		gridBagConstraints	= new	java.awt.GridBagConstraints();
-		gridBagConstraints.gridx	= 0;
-		gridBagConstraints.gridy	= 1;
-		userPanel.add(passwordLabel, gridBagConstraints);
-		passwordField.setBackground(new java.awt.Color(51, 204, 0));
-		passwordField.setFont(new java.awt.Font("Tahoma", 0, 18));
-		passwordField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-		passwordField.setPreferredSize(new java.awt.Dimension(150, 25));
-		gridBagConstraints	= new	java.awt.GridBagConstraints();
-		gridBagConstraints.gridx	= 1;
-		gridBagConstraints.gridy	= 1;
-		userPanel.add(passwordField, gridBagConstraints);
+        setPreferredSize(new java.awt.Dimension(800, 600));
+        setLayout(new java.awt.BorderLayout());
 
-		loginBtn.setBackground(new java.awt.Color(0, 153, 51));
-		loginBtn.setForeground(new java.awt.Color(153, 255,	0));
-		loginBtn.setText("Log-in");
-		loginBtn.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-		loginBtn.setPreferredSize(new java.awt.Dimension(80, 25));
-		loginBtn.addActionListener(new	java.awt.event.ActionListener()
-		{
-			public void	actionPerformed(java.awt.event.ActionEvent evt)
-			{
-						loginBtnActionPerformed(evt);
-			}
-		});
-		gridBagConstraints	= new	java.awt.GridBagConstraints();
-		gridBagConstraints.gridx	= 1;
-		gridBagConstraints.gridy	= 3;
-		gridBagConstraints.insets =	new java.awt.Insets(15,	0,	15, 0);
-		userPanel.add(loginBtn, gridBagConstraints);
+        jSplitPane.setDividerLocation(600);
+        jSplitPane.setDividerSize(0);
+        jSplitPane.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
-		registerBtn.setBackground(new java.awt.Color(0, 153, 51));
-		registerBtn.setForeground(new java.awt.Color(153, 255,	0));
-		registerBtn.setText("Register");
-		registerBtn.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-		registerBtn.setPreferredSize(new java.awt.Dimension(80, 25));
-		registerBtn.addActionListener(new	java.awt.event.ActionListener()
-		{
-			public void	actionPerformed(java.awt.event.ActionEvent evt)
-			{
-						registerBtnActionPerformed(evt);
-			}
-		});
-		gridBagConstraints	= new	java.awt.GridBagConstraints();
-		gridBagConstraints.gridx	= 0;
-		gridBagConstraints.gridy	= 3;
-		gridBagConstraints.insets =	new java.awt.Insets(15,	0,	15, 0);
-		userPanel.add(registerBtn, gridBagConstraints);
+        userPanel.setBackground(new java.awt.Color(0, 102, 0));
+        userPanel.setPreferredSize(new java.awt.Dimension(800, 600));
+        userPanel.setLayout(new java.awt.GridBagLayout());
 
-		jSplitPane.setTopComponent(userPanel);
+        userNameLabel.setFont(new java.awt.Font("Tahoma", 0, 18));
+        userNameLabel.setForeground(new java.awt.Color(153, 255, 0));
+        userNameLabel.setText("Username: ");
+        userPanel.add(userNameLabel, new java.awt.GridBagConstraints());
 
-		registerPanel.setBackground(new java.awt.Color(102,	255, 102));
-		registerPanel.setPreferredSize(new java.awt.Dimension(400, 300));
-		registerPanel.setLayout(new	java.awt.GridBagLayout());
+        userNameTextField.setBackground(new java.awt.Color(51, 204, 0));
+        userNameTextField.setFont(new java.awt.Font("Tahoma", 1, 18));
+        userNameTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        userNameTextField.setPreferredSize(new java.awt.Dimension(150, 25));
+        userNameTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                userNameTextFieldActionPerformed(evt);
+            }
+        });
+        userPanel.add(userNameTextField, new java.awt.GridBagConstraints());
 
-		enterUserNameLabel.setFont(new	java.awt.Font("Tahoma",	1,	14));
-		enterUserNameLabel.setText("Enter	username: ");
-		gridBagConstraints	= new	java.awt.GridBagConstraints();
-		gridBagConstraints.insets =	new java.awt.Insets(10,	0,	10, 0);
-		registerPanel.add(enterUserNameLabel, gridBagConstraints);
+        passwordLabel.setBackground(new java.awt.Color(153, 255, 0));
+        passwordLabel.setFont(new java.awt.Font("Tahoma", 0, 18));
+        passwordLabel.setForeground(new java.awt.Color(153, 255, 0));
+        passwordLabel.setText("Password: ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        userPanel.add(passwordLabel, gridBagConstraints);
 
-		regUserNameTextField.setFont(new java.awt.Font("Tahoma", 1, 14));
-		regUserNameTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-		regUserNameTextField.setPreferredSize(new java.awt.Dimension(150, 25));
-		gridBagConstraints	= new	java.awt.GridBagConstraints();
-		gridBagConstraints.insets =	new java.awt.Insets(10,	0,	10, 0);
-		registerPanel.add(regUserNameTextField, gridBagConstraints);
+        passwordField.setBackground(new java.awt.Color(51, 204, 0));
+        passwordField.setFont(new java.awt.Font("Tahoma", 0, 18));
+        passwordField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        passwordField.setPreferredSize(new java.awt.Dimension(150, 25));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        userPanel.add(passwordField, gridBagConstraints);
 
-		emailTextField.setFont(new java.awt.Font("Tahoma", 1, 14));
-		emailTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-		emailTextField.setPreferredSize(new java.awt.Dimension(150, 25));
-		gridBagConstraints	= new	java.awt.GridBagConstraints();
-		gridBagConstraints.gridx	= 1;
-		gridBagConstraints.gridy	= 6;
-		gridBagConstraints.insets =	new java.awt.Insets(10,	0,	10, 0);
-		registerPanel.add(emailTextField,	gridBagConstraints);
+        loginBtn.setBackground(new java.awt.Color(0, 153, 51));
+        loginBtn.setForeground(new java.awt.Color(153, 255, 0));
+        loginBtn.setText("Log-in");
+        loginBtn.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        loginBtn.setPreferredSize(new java.awt.Dimension(80, 25));
+        loginBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loginBtnActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.insets = new java.awt.Insets(15, 0, 15, 0);
+        userPanel.add(loginBtn, gridBagConstraints);
 
-		finishBtn.setBackground(new	java.awt.Color(0,	153, 51));
-		finishBtn.setForeground(new	java.awt.Color(153, 255, 0));
-		finishBtn.setText("Finish");
-		finishBtn.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-		finishBtn.setPreferredSize(new	java.awt.Dimension(80, 25));
-		finishBtn.addActionListener(new java.awt.event.ActionListener()
-		{
-			public void	actionPerformed(java.awt.event.ActionEvent evt)
-			{
-					finishBtnActionPerformed(evt);
-			}
-		});
-		gridBagConstraints	= new	java.awt.GridBagConstraints();
-		gridBagConstraints.gridx	= 0;
-		gridBagConstraints.gridy	= 7;
-		gridBagConstraints.anchor =	java.awt.GridBagConstraints.EAST;
-		registerPanel.add(finishBtn, gridBagConstraints);
+        registerBtn.setBackground(new java.awt.Color(0, 153, 51));
+        registerBtn.setForeground(new java.awt.Color(153, 255, 0));
+        registerBtn.setText("Register");
+        registerBtn.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        registerBtn.setPreferredSize(new java.awt.Dimension(80, 25));
+        registerBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registerBtnActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.insets = new java.awt.Insets(15, 0, 15, 0);
+        userPanel.add(registerBtn, gridBagConstraints);
 
-		regPasswordField.setFont(new java.awt.Font("Tahoma", 1, 14));
-		regPasswordField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-		regPasswordField.setPreferredSize(new java.awt.Dimension(150, 25));
-		gridBagConstraints	= new	java.awt.GridBagConstraints();
-		gridBagConstraints.gridx	= 1;
-		gridBagConstraints.gridy	= 1;
-		gridBagConstraints.insets =	new java.awt.Insets(10,	0,	10, 0);
-		registerPanel.add(regPasswordField, gridBagConstraints);
+        jSplitPane.setTopComponent(userPanel);
 
-		regPasswordTwoField.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-		regPasswordTwoField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-		regPasswordTwoField.setPreferredSize(new java.awt.Dimension(150, 25));
-		gridBagConstraints	= new	java.awt.GridBagConstraints();
-		gridBagConstraints.gridx	= 1;
-		gridBagConstraints.gridy	= 2;
-		gridBagConstraints.insets =	new java.awt.Insets(10,	0,	10, 0);
-		registerPanel.add(regPasswordTwoField, gridBagConstraints);
+        registerPanel.setBackground(new java.awt.Color(102, 255, 102));
+        registerPanel.setPreferredSize(new java.awt.Dimension(400, 300));
+        registerPanel.setLayout(new java.awt.GridBagLayout());
 
-		enterPasswordLabel.setFont(new	java.awt.Font("Tahoma",	1,	14));	//	NOI18N
-		enterPasswordLabel.setText("Enter	password: ");
-		gridBagConstraints	= new	java.awt.GridBagConstraints();
-		gridBagConstraints.gridx	= 0;
-		gridBagConstraints.gridy	= 1;
-		registerPanel.add(enterPasswordLabel, gridBagConstraints);
+        enterUserNameLabel.setFont(new java.awt.Font("Tahoma", 1, 14));
+        enterUserNameLabel.setText("Enter username: ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        registerPanel.add(enterUserNameLabel, gridBagConstraints);
 
-		reenterPasswordLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-		reenterPasswordLabel.setText("Re-enter password:	");
-		gridBagConstraints	= new	java.awt.GridBagConstraints();
-		gridBagConstraints.gridx	= 0;
-		gridBagConstraints.gridy	= 2;
-		gridBagConstraints.insets =	new java.awt.Insets(10,	0,	10, 0);
-		registerPanel.add(reenterPasswordLabel,	gridBagConstraints);
+        regUserNameTextField.setFont(new java.awt.Font("Tahoma", 1, 14));
+        regUserNameTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        regUserNameTextField.setPreferredSize(new java.awt.Dimension(150, 25));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        registerPanel.add(regUserNameTextField, gridBagConstraints);
 
-		emailLabel.setFont(new java.awt.Font("Tahoma", 1, 14));
-		emailLabel.setText("Enter email address: ");
-		gridBagConstraints	= new	java.awt.GridBagConstraints();
-		gridBagConstraints.gridx	= 0;
-		gridBagConstraints.gridy	= 6;
-		gridBagConstraints.insets =	new java.awt.Insets(10,	0,	10, 0);
-		registerPanel.add(emailLabel, gridBagConstraints);
+        emailTextField.setFont(new java.awt.Font("Tahoma", 1, 14));
+        emailTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        emailTextField.setPreferredSize(new java.awt.Dimension(150, 25));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        registerPanel.add(emailTextField, gridBagConstraints);
 
-		firstNameLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-		firstNameLabel.setText("First name: ");
-		gridBagConstraints	= new	java.awt.GridBagConstraints();
-		gridBagConstraints.gridx	= 0;
-		gridBagConstraints.gridy	= 3;
-		gridBagConstraints.insets =	new java.awt.Insets(10,	0,	10, 0);
-		registerPanel.add(firstNameLabel,	gridBagConstraints);
+        finishBtn.setBackground(new java.awt.Color(0, 153, 51));
+        finishBtn.setForeground(new java.awt.Color(153, 255, 0));
+        finishBtn.setText("Finish");
+        finishBtn.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        finishBtn.setPreferredSize(new java.awt.Dimension(80, 25));
+        finishBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                finishBtnActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        registerPanel.add(finishBtn, gridBagConstraints);
 
-		firstNameTextField.setFont(new	java.awt.Font("Tahoma",	1,	14));	//	NOI18N
-		firstNameTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-		firstNameTextField.setPreferredSize(new	java.awt.Dimension(150,	25));
-		gridBagConstraints	= new	java.awt.GridBagConstraints();
-		gridBagConstraints.gridx	= 1;
-		gridBagConstraints.gridy	= 3;
-		gridBagConstraints.insets =	new java.awt.Insets(10,	0,	10, 0);
-		registerPanel.add(firstNameTextField, gridBagConstraints);
+        regPasswordField.setFont(new java.awt.Font("Tahoma", 1, 14));
+        regPasswordField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        regPasswordField.setPreferredSize(new java.awt.Dimension(150, 25));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        registerPanel.add(regPasswordField, gridBagConstraints);
 
-		lastNameLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-		lastNameLabel.setText("Last	name:	");
-		gridBagConstraints	= new	java.awt.GridBagConstraints();
-		gridBagConstraints.gridx	= 0;
-		gridBagConstraints.gridy	= 4;
-		gridBagConstraints.insets =	new java.awt.Insets(10,	0,	10, 0);
-		registerPanel.add(lastNameLabel, gridBagConstraints);
+        regPasswordTwoField.setFont(new java.awt.Font("Tahoma", 1, 14));
+        regPasswordTwoField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        regPasswordTwoField.setPreferredSize(new java.awt.Dimension(150, 25));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        registerPanel.add(regPasswordTwoField, gridBagConstraints);
 
-		lastNameTextField.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-		lastNameTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-		lastNameTextField.setPreferredSize(new java.awt.Dimension(150, 25));
-		gridBagConstraints	= new	java.awt.GridBagConstraints();
-		gridBagConstraints.gridx	= 1;
-		gridBagConstraints.gridy	= 4;
-		gridBagConstraints.insets =	new java.awt.Insets(10,	0,	10, 0);
-		registerPanel.add(lastNameTextField,	gridBagConstraints);
+        enterPasswordLabel.setFont(new java.awt.Font("Tahoma", 1, 14));
+        enterPasswordLabel.setText("Enter password: ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        registerPanel.add(enterPasswordLabel, gridBagConstraints);
 
-		creditCardLabel.setFont(new	java.awt.Font("Tahoma",	1,	14));	//	NOI18N
-		creditCardLabel.setText("Credit Card	No.:");
-		gridBagConstraints	= new	java.awt.GridBagConstraints();
-		gridBagConstraints.gridx	= 0;
-		gridBagConstraints.gridy	= 5;
-		gridBagConstraints.insets =	new java.awt.Insets(10,	0,	10, 0);
-		registerPanel.add(creditCardLabel, gridBagConstraints);
+        reenterPasswordLabel.setFont(new java.awt.Font("Tahoma", 1, 14));
+        reenterPasswordLabel.setText("Re-enter password: ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        registerPanel.add(reenterPasswordLabel, gridBagConstraints);
 
-		creditCardTextField.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-		creditCardTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-		creditCardTextField.setPreferredSize(new java.awt.Dimension(150, 25));
-		gridBagConstraints	= new	java.awt.GridBagConstraints();
-		gridBagConstraints.gridx	= 1;
-		gridBagConstraints.gridy	= 5;
-		gridBagConstraints.insets =	new java.awt.Insets(10,	0,	10, 0);
-		registerPanel.add(creditCardTextField, gridBagConstraints);
+        emailLabel.setFont(new java.awt.Font("Tahoma", 1, 14));
+        emailLabel.setText("Enter email address: ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        registerPanel.add(emailLabel, gridBagConstraints);
 
-		jSplitPane.setRightComponent(registerPanel);
+        firstNameLabel.setFont(new java.awt.Font("Tahoma", 1, 14));
+        firstNameLabel.setText("First name: ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        registerPanel.add(firstNameLabel, gridBagConstraints);
 
-		add(jSplitPane,	java.awt.BorderLayout.CENTER);
+        firstNameTextField.setFont(new java.awt.Font("Tahoma", 1, 14));
+        firstNameTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        firstNameTextField.setPreferredSize(new java.awt.Dimension(150, 25));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        registerPanel.add(firstNameTextField, gridBagConstraints);
+
+        lastNameLabel.setFont(new java.awt.Font("Tahoma", 1, 14));
+        lastNameLabel.setText("Last name: ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        registerPanel.add(lastNameLabel, gridBagConstraints);
+
+        lastNameTextField.setFont(new java.awt.Font("Tahoma", 1, 14));
+        lastNameTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        lastNameTextField.setPreferredSize(new java.awt.Dimension(150, 25));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        registerPanel.add(lastNameTextField, gridBagConstraints);
+
+        creditCardLabel.setFont(new java.awt.Font("Tahoma", 1, 14));
+        creditCardLabel.setText("Credit Card No.:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        registerPanel.add(creditCardLabel, gridBagConstraints);
+
+        creditCardTextField.setFont(new java.awt.Font("Tahoma", 1, 14));
+        creditCardTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        creditCardTextField.setPreferredSize(new java.awt.Dimension(150, 25));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        registerPanel.add(creditCardTextField, gridBagConstraints);
+
+        jSplitPane.setRightComponent(registerPanel);
+
+        add(jSplitPane, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
 	
@@ -310,7 +304,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 			JOptionPane.showMessageDialog(null, "Enter your password");
 		}
         else {
-            userID = client.login(userNameTextField.getText(), String.valueOf(passwordField.getPassword()));
+            userID = client.getCurrentUserID();
             if(userID == RMIInterface.LOGIN_FAILED) {
                 JOptionPane.showMessageDialog(null, "Unable to login!");
                 passwordField.setText("");
@@ -331,6 +325,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
                 JLabel statusLabel = new JLabel("...");
                 this.add(statusLabel, java.awt.BorderLayout.SOUTH);
                 this.revalidate();
+
             }
         }
 	}                                        
@@ -424,7 +419,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
                 else
                 {
                     if(!no){
-                        userID = client.getCurrentUserID();
+                        userID = client.login(regUserNameTextField.getText(), String.valueOf(regPasswordField.getPassword()));
                         client.addEmergencyFunds(userID, emergencyFunds);
                     }
                     JOptionPane.showMessageDialog(null, "Registration successful!");
@@ -514,30 +509,30 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 	}
 	
 	
-   // Variables declaration - do not modify//GEN-BEGIN:variables
-   private javax.swing.JLabel creditCardLabel;
-	private	javax.swing.JTextField creditCardTextField;
-	private	javax.swing.JLabel emailLabel;
-	private	javax.swing.JTextField emailTextField;
-	private	javax.swing.JLabel enterPasswordLabel;
-	private	javax.swing.JLabel enterUserNameLabel;
-	private	javax.swing.JButton finishBtn;
-	private	javax.swing.JLabel firstNameLabel;
-	private	javax.swing.JTextField firstNameTextField;
-	private	javax.swing.JSplitPane jSplitPane;
-	private	javax.swing.JLabel lastNameLabel;
-	private	javax.swing.JTextField lastNameTextField;
-	private	javax.swing.JButton loginBtn;
-	private	javax.swing.JPasswordField	passwordField;
-	private	javax.swing.JLabel passwordLabel;
-	private	javax.swing.JLabel reenterPasswordLabel;
-	private	javax.swing.JPasswordField	regPasswordField;
-	private	javax.swing.JPasswordField	regPasswordTwoField;
-	private	javax.swing.JTextField regUserNameTextField;
-	private	javax.swing.JButton registerBtn;
-	private	javax.swing.JPanel registerPanel;
-	private	javax.swing.JLabel userNameLabel;
-	private	javax.swing.JTextField userNameTextField;
-	private	javax.swing.JPanel userPanel;
-	// End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel creditCardLabel;
+    private javax.swing.JTextField creditCardTextField;
+    private javax.swing.JLabel emailLabel;
+    private javax.swing.JTextField emailTextField;
+    private javax.swing.JLabel enterPasswordLabel;
+    private javax.swing.JLabel enterUserNameLabel;
+    private javax.swing.JButton finishBtn;
+    private javax.swing.JLabel firstNameLabel;
+    private javax.swing.JTextField firstNameTextField;
+    private javax.swing.JSplitPane jSplitPane;
+    private javax.swing.JLabel lastNameLabel;
+    private javax.swing.JTextField lastNameTextField;
+    private javax.swing.JButton loginBtn;
+    private javax.swing.JPasswordField passwordField;
+    private javax.swing.JLabel passwordLabel;
+    private javax.swing.JLabel reenterPasswordLabel;
+    private javax.swing.JPasswordField regPasswordField;
+    private javax.swing.JPasswordField regPasswordTwoField;
+    private javax.swing.JTextField regUserNameTextField;
+    private javax.swing.JButton registerBtn;
+    private javax.swing.JPanel registerPanel;
+    private javax.swing.JLabel userNameLabel;
+    private javax.swing.JTextField userNameTextField;
+    private javax.swing.JPanel userPanel;
+    // End of variables declaration//GEN-END:variables
 }
