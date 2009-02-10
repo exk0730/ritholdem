@@ -430,7 +430,6 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
                 else
                 {
                     if(!no){
-                        userID = client.getCurrentUserID();
 						client.addEmergencyFunds(userID, emergencyFunds);
                     }
                     JOptionPane.showMessageDialog(null, "Registration successful!");
@@ -455,10 +454,10 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
      */
 	private int methodRegistration()
 	{
-		int tempID = client.register(regUserNameTextField.getText(), String.valueOf(regPasswordField.getPassword()),
+		userID = client.register(regUserNameTextField.getText(), String.valueOf(regPasswordField.getPassword()),
 						firstNameTextField.getText(), lastNameTextField.getText(), 
 						emailTextField.getText(), creditCardTextField.getText(), initCash);
-		return tempID;
+		return userID;
 	}
 
 	private void userNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userNameTextFieldActionPerformed
