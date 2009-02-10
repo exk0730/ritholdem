@@ -206,27 +206,27 @@ public class AdminServlet extends HttpServlet {
     throws ServletException, IOException {
         //response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-		
-		if(server == null){
-			out.println("<h2>Error: </h2>");
-			out.println(exception.getMessage());
-			return;
-		}
 
-        try {
+		try {
 			
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Blackjack Server Administration Pannel</title>");
+            out.println("<title>Blackjack Server Administration Panel</title>");
 			out.println("<style type = \"text/css\">");
 			out.println("form {display: inline;}");
 			out.println("</style>");
             out.println("</head>");
             out.println("<body>");
             
-			out.println("<h1>Blackjack Server Administration Pannel</h1>");
+			out.println("<h1>Blackjack Server Administration Panel</h1>");
+
+			if(server == null){
+				out.println("<h2>Unable to connect to the server.</h2>");
+				out.println(exception.getMessage());
+				return;
+			}
+
             out.println("<h2>Server Uptime: " + getUptime() + " min</h2>");
-            //out.println("<h2>Banning User #1: " + ban(1) + "</h2>");
 
 			/* Handle requests */
 			String userToKick = request.getParameter("userToKick");
