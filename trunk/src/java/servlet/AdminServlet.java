@@ -54,7 +54,7 @@ public class AdminServlet extends HttpServlet {
 	 */
 	boolean kick(int userID){
 		try {
-			server.removeUser(userID);
+			server.kickUser(userID);
 		} catch (RemoteException ex) {
 			exception = ex;
 		}
@@ -156,12 +156,13 @@ public class AdminServlet extends HttpServlet {
             */
 			out.println("<h1>Blackjack Server Administration Pannel</h1>");
             out.println("<h2>Server Uptime: " + getUptime() + "</h2>");
-            out.println("<h2>Banning User #1: " + ban(1) + "</h2>");
+            //out.println("<h2>Banning User #1: " + ban(1) + "</h2>");
 			if(server == null){
 				out.println("<h2>ooops!</h2>");
 				out.println(exception.getMessage());
 			}
 
+			//kick(5);
 			printCurrentUsers(out);
 
 			//out.println("Kicking...<br />");
