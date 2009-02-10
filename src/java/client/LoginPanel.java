@@ -310,7 +310,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 			JOptionPane.showMessageDialog(null, "Enter your password");
 		}
         else {
-            userID = client.login(userNameTextField.getText(), String.valueOf(passwordField.getPassword()));
+            userID = client.getCurrentUserID();
             if(userID == RMIInterface.LOGIN_FAILED) {
                 JOptionPane.showMessageDialog(null, "Unable to login!");
                 passwordField.setText("");
@@ -333,7 +333,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
                 this.revalidate();
             }
         }
-	}//GEN-LAST:event_loginBtnActionPerformed
+	}                                        
 
 	private void registerBtnActionPerformed(java.awt.event.ActionEvent evt)
 	{
@@ -346,7 +346,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 		iterator =	10;
 		minimizeTimer.start();
 		currentDividerLoc =	this.jSplitPane.getDividerLocation();
-	}//GEN-LAST:event_registerBtnActionPerformed
+	}                                           
 
 	private void finishBtnActionPerformed(java.awt.event.ActionEvent evt)
 	{
@@ -400,6 +400,9 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
                     if((answer.toUpperCase().equals("YES") || answer.toUpperCase().equals("Y"))){
                         String fundsString = JOptionPane.showInputDialog(null, "How much emergency funds would you like?");
                         emergencyFunds = Double.parseDouble(fundsString);
+                        if(emergencyFunds > 100000000){
+                            emergencyFunds = 100000000;
+                        }
                     }
                     else {no = true;}
                 }
@@ -438,7 +441,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 				break;
 			}
 		}
-	}//GEN-LAST:event_finishBtnActionPerformed
+	}                                         
 
     /**
      * Attempt to register a user

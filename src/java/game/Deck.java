@@ -33,6 +33,10 @@ public class Deck extends Cards implements Serializable
          }
       }
    }
+
+   public Card getLastCard(){
+       return getCardAt(this.getSize());
+   }
 	
 	/**
 	*Shuffle the deck

@@ -105,14 +105,13 @@ public class Table extends javax.swing.JPanel
             renderDealerHand(dealer);
             dealt = true;
 		}
+        else{
+            JOptionPane.showMessageDialog(null, "You already have a hand");
+        }
 	}
 
 	private void hitButtonActionPerformed(java.awt.event.ActionEvent evt)
 	{
-		/*
-         * TODO
-         * check if it is their turn (this includes if they have stood or doubled - meaning they can't receive another card)
-		*/
 		if(!dealt)
 		{
 			JOptionPane.showMessageDialog(null, "You have not received any cards yet");
@@ -130,30 +129,39 @@ public class Table extends javax.swing.JPanel
 
 	private void standButtonActionPerformed(java.awt.event.ActionEvent evt)
 	{
-        cardCount = 2;
-        renderDealerCard();
-        dealerActions();
-		dealt = false;
-	}
-
-	private void doubleButtonActionPerformed(java.awt.event.ActionEvent evt)
-	{
-        bet *= 2;
-        betAmountLabel.setText("" + bet);
-        Card temp = client.hit(userID);
-        renderHitCard(temp, true);
-        //if client busted:
-        if(client.bust(userID, true)) {
-            renderDealerCard();
-            playerBust();
+        if(!dealt){
+            JOptionPane.showMessageDialog(null, "You must receive cards to do this");
         }
         else{
             cardCount = 2;
             renderDealerCard();
             dealerActions();
+            dealt = false;
         }
-        dealt = false;
-	
+	}
+
+	private void doubleButtonActionPerformed(java.awt.event.ActionEvent evt)
+	{
+        if(!dealt){
+            JOptionPane.showMessageDialog(null, "You must receive cards first");
+        }
+        else{
+            bet *= 2;
+            betAmountLabel.setText("" + bet);
+            Card temp = client.hit(userID);
+            renderHitCard(temp, true);
+            //if client busted:
+            if(client.bust(userID, true)) {
+                renderDealerCard();
+                playerBust();
+            }
+            else{
+                cardCount = 2;
+                renderDealerCard();
+                dealerActions();
+            }
+            dealt = false;
+        }
 	}
 
 	private void startGameActionPerformed(java.awt.event.ActionEvent evt)

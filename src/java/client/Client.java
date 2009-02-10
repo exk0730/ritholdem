@@ -1,11 +1,10 @@
 package client;
-
-
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import game.*;
 import jms.ClientTextListener;
 import jms.JMSAsyncSubscriber;
+import server.UnknownUserException;
 
 /**
  * Client is the class that will call server methods
@@ -21,6 +20,8 @@ public class Client {
     private static Client instance = null;
     private final String PRE_HOST = "//";
     private final String POST_HOST = ":1099/";
+    private final int NOT_LOGGED_IN = -1;
+    private int currentUserID;
 
 	/**
 	 * JMS subscriber to get messages
@@ -49,6 +50,7 @@ public class Client {
             System.exit(1);
         }
 		subscriber = new JMSAsyncSubscriber(new ClientTextListener());
+        currentUserID = NOT_LOGGED_IN;
     }
 
     /**
@@ -61,6 +63,7 @@ public class Client {
         int userID = RMIInterface.LOGIN_FAILED;
         try {
             userID = server.login(userName, pwd);
+            currentUserID = userID;
         }
         catch(RemoteException re){
             System.err.println("There was an error logging in: " + re.getMessage());
@@ -83,6 +86,9 @@ public class Client {
             System.err.println("There was an error retreiving bank: " + re.getMessage());
             System.exit(1);
         }
+        catch(UnknownUserException uue){
+            System.out.println(uue.getMessage());
+        }
         return bank;
     }
 
@@ -101,6 +107,9 @@ public class Client {
             System.err.println("There was an error updating the bank: " + re.getMessage());
             System.exit(1);
         }
+        catch(UnknownUserException uue){
+            System.out.println(uue.getMessage());
+        }
         return bank;
     }
 
@@ -117,6 +126,9 @@ public class Client {
             System.err.println("There was an error registering ermergency funds: " + re.getMessage());
             System.exit(1);
         }
+        catch(UnknownUserException uue){
+            System.out.println(uue.getMessage());
+        }
     }
 
     /**
@@ -132,6 +144,9 @@ public class Client {
         catch(RemoteException re){
             System.err.println("There was an error retrieving ermergency funds: " + re.getMessage());
             System.exit(1);
+        }
+        catch(UnknownUserException uue){
+            System.out.println(uue.getMessage());
         }
         return temp;
     }
@@ -176,6 +191,9 @@ public class Client {
 			re.printStackTrace();
             System.exit(1);
         }
+        catch(UnknownUserException uue){
+            System.out.println(uue.getMessage());
+        }
         return hand;
     }
 
@@ -208,6 +226,9 @@ public class Client {
         catch(RemoteException re) {
             System.err.println("There was an error receiving a card: " + re.getMessage());
             System.exit(1);
+        }
+        catch(UnknownUserException uue){
+            System.out.println(uue.getMessage());
         }
         return temp;
     }
@@ -243,6 +264,9 @@ public class Client {
             System.err.println("There was an error checking bust: " + re.getMessage());
             System.exit(1);
         }
+        catch(UnknownUserException uue){
+            System.out.println(uue.getMessage());
+        }
         return bool;
     }
 
@@ -277,7 +301,18 @@ public class Client {
             System.err.println("There was an error checking win: " + re.getMessage());
             System.exit(1);
         }
+        catch(UnknownUserException uue){
+            System.out.println(uue.getMessage());
+        }
         return s;
+    }
+
+    /**
+     * Get this client's specific userID
+     * @return
+     */
+    public int getCurrentUserID(){
+        return currentUserID;
     }
 
     /**
@@ -346,6 +381,9 @@ public class Client {
         } catch(RemoteException e) {
             System.err.println("Client error: " + e.getMessage());
         }
+        catch(UnknownUserException uue){
+            System.out.println(uue.getMessage());
+        }
         return ok;
     }
 
@@ -367,6 +405,9 @@ public class Client {
         } catch(RemoteException e) {
             System.err.println("Client error: " + e.getMessage());
         }
+        catch(UnknownUserException uue){
+            System.out.println(uue.getMessage());
+        }
         return ai;
     }
 
@@ -382,6 +423,9 @@ public class Client {
             System.out.println("Writing successful!");
         } catch(RemoteException e) {
             System.err.println("Client error: " + e.getMessage());
+        }
+        catch(UnknownUserException uue){
+            System.out.println(uue.getMessage());
         }
     }
 }
