@@ -108,6 +108,14 @@ public interface RMIInterface extends Remote
     public double updateBank(int userID, double money) throws RemoteException, UnknownUserException;
 
     /**
+     * Updates the database for user based on their action
+     * @param userID
+     * @param character
+     * @throws java.rmi.RemoteException
+     */
+    public void updateUserCardStats(int userID, char character) throws RemoteException;
+
+    /**
      * Adds emergency funding for this user
      * @param userID
      * @param money
