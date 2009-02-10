@@ -55,32 +55,42 @@ public class Table extends javax.swing.JPanel
 	
 	private void betBtn1ActionPerformed(java.awt.event.ActionEvent evt)
 	{
-		bet += 1;
-        betAmountLabel.setText("" + bet);
+        if(!dealt){
+            bet += 1;
+            betAmountLabel.setText("" + bet);
+        }
 	}
 	
 	private void betBtn10ActionPerformed(java.awt.event.ActionEvent evt)
 	{
-		bet += 10;
-        betAmountLabel.setText("" + bet);
+        if(!dealt){
+            bet += 10;
+            betAmountLabel.setText("" + bet);
+        }
 	}
 	
 	private void betBtn25ActionPerformed(java.awt.event.ActionEvent evt)
 	{
-		bet += 25;
-        betAmountLabel.setText("" + bet);
+		if(!dealt){
+            bet += 25;
+            betAmountLabel.setText("" + bet);
+        }
 	}
 
 	private void betBtn50ActionPerformed(java.awt.event.ActionEvent evt)
 	{
-		bet += 50;
-        betAmountLabel.setText("" + bet);
+        if(!dealt){
+            bet += 50;
+            betAmountLabel.setText("" + bet);
+        }
 	}
 
 	private void betBtnx100ActionPerformed(java.awt.event.ActionEvent evt)
 	{
-		bet *= 100;
-        betAmountLabel.setText("" + bet);
+        if(!dealt){
+            bet *= 100;
+            betAmountLabel.setText("" + bet);
+        }
 	}
 
 	private void dealButtonActionPerformed(java.awt.event.ActionEvent evt)
