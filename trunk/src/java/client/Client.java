@@ -155,6 +155,21 @@ public class Client {
         return bank;
     }
 
+   public double addMoney(double money) {
+        double bank = 0;
+        try {
+            bank = server.updateBank(currentUserID, money);
+        }
+        catch(RemoteException re) {
+            System.err.println("There was an error updating the bank: " + re.getMessage());
+            System.exit(1);
+        }
+        catch(UnknownUserException uue){
+            System.out.println(uue.getMessage());
+        }
+        return bank;
+    }
+
     /**
      * Adds emergency funds to this client
      * @param userID

@@ -326,16 +326,16 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 		userID = 0;
 		if(userNameTextField.getText().equals(""))
 		{
-			JOptionPane.showMessageDialog(null, "Enter your user name");
+			JOptionPane.showMessageDialog(this, "Enter your user name");
 		}
 		else if(String.valueOf(passwordField.getPassword()).equals(""))
 		{
-			JOptionPane.showMessageDialog(null, "Enter your password");
+			JOptionPane.showMessageDialog(this, "Enter your password");
 		}
         else {
             userID = client.login(userNameTextField.getText(), String.valueOf(passwordField.getPassword()));
             if(userID == RMIInterface.LOGIN_FAILED) {
-                JOptionPane.showMessageDialog(null, "Unable to login!");
+                JOptionPane.showMessageDialog(this, "Unable to login!");
                 passwordField.setText("");
                 userNameTextField.setText("");
             }
@@ -392,49 +392,48 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         
 		if(regUserNameTextField.getText().equals(""))
 		{
-			JOptionPane.showMessageDialog(null, "Enter your user name");
+			JOptionPane.showMessageDialog(this, "Enter your user name");
             registerOk = false;
         }
 		else if(emailTextField.getText().equals(""))
 		{
-			JOptionPane.showMessageDialog(null, "Enter an email");
+			JOptionPane.showMessageDialog(this, "Enter an email");
             registerOk = false;
         }
 		else if(String.valueOf((regPasswordField.getPassword())).equals(""))
 		{
-			JOptionPane.showMessageDialog(null, "Enter a password");
+			JOptionPane.showMessageDialog(this, "Enter a password");
             registerOk = false;
         }
 		else if(String.valueOf((regPasswordTwoField.getPassword())).equals(""))
 		{
-			JOptionPane.showMessageDialog(null, "Repeat your password");
+			JOptionPane.showMessageDialog(this, "Repeat your password");
             registerOk = false;
         }
 		else if(!(String.valueOf(regPasswordField.getPassword()).equals(String.valueOf((regPasswordTwoField.getPassword())))))
 		{
-			JOptionPane.showMessageDialog(null, "Your passwords don't match.");
+			JOptionPane.showMessageDialog(this, "Your passwords don't match.");
 			regPasswordField.setText(""); regPasswordTwoField.setText("");
             registerOk = false;
         }
 		else if(firstNameTextField.getText().equals(""))
 		{
-			JOptionPane.showMessageDialog(null, "Enter your first name");
+			JOptionPane.showMessageDialog(this, "Enter your first name");
             registerOk = false;
         }
 		else if(moneyTextField.getText().equals(""))
 		{
-			JOptionPane.showMessageDialog(null, "Enter a credit card");
+			JOptionPane.showMessageDialog(this, "Enter a credit card");
             registerOk = false;
         }
 		else if(lastNameTextField.getText().equals(""))
 		{
-			JOptionPane.showMessageDialog(null, "Enter your last name");
+			JOptionPane.showMessageDialog(this, "Enter your last name");
             registerOk = false;
         }
 		else
 		{
-				//String initCashStr = JOptionPane.showInputDialog(null, "How much money would you like to put into your account?");
-				String initCashStr = moneyTextField.getText();
+                String initCashStr = moneyTextField.getText();
                 try
 				{
 					initCash = Double.parseDouble(initCashStr);
@@ -467,12 +466,12 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
             {
                 if(methodRegistration()== RMIInterface.LOGIN_FAILED)
                 {
-                    JOptionPane.showMessageDialog(null, "Impossible to register, this login is already taken. Try another");
+                    JOptionPane.showMessageDialog(this, "Impossible to register, this login is already taken. Try another");
                     registerOk = false;
                 }
                 else
                 {
-                    JOptionPane.showMessageDialog(null, "Registration successful!");
+                    JOptionPane.showMessageDialog(this, "Registration successful!");
                     expanding = true;
                     if(expandTimer != null)
                     {
@@ -547,7 +546,41 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 
     public void addMoneyBtnActionPerformed(ActionEvent evt)
     {
+        Boolean validAmount = true;
+        double moneyToAddDbl = 0;
+        String moneyToAddString = JOptionPane.showInputDialog(this, "How much money would you like to put into your account?");
+        try
+        {
+            moneyToAddDbl = Double.parseDouble(moneyToAddString);
 
+            if(moneyToAddDbl < 0)
+            {
+                  JOptionPane.showMessageDialog(this, "You've entered negative money amount to add, please re-enter a positive amount.");
+                  validAmount = false;
+            }
+            if(1000000 - initCash < moneyToAddDbl)
+            {
+                JOptionPane.showMessageDialog(this, "You've maxed out the addable amount. Maximum amount you can have is 1000000. Please, re-enter.");
+                validAmount = false;
+            }
+        }
+        catch(NumberFormatException nfe)
+        {
+            JOptionPane.showMessageDialog(this, "You have entered an invalid number.");
+            validAmount = false;
+        }
+        catch(NullPointerException npe)
+        {
+            JOptionPane.showMessageDialog(this, "You need to enter a number.");
+            validAmount = false;
+        }
+
+        if(validAmount)
+        {
+            client.addMoney(moneyToAddDbl);
+            this.revalidate();
+            JOptionPane.showMessageDialog(this, "You have successfully added $" + moneyToAddDbl + " to your account.");
+        }
     }
 
     public void logoutBtnActionPerformed(ActionEvent evt)
