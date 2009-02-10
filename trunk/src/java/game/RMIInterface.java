@@ -24,7 +24,7 @@ public interface RMIInterface extends Remote
 
 	
 	/**
-     * Register a new user
+     * Register a new user and return their userID
      * @param userName
      * @param password
      * @param fName
@@ -35,7 +35,7 @@ public interface RMIInterface extends Remote
      * @return
      * @throws java.rmi.RemoteException
      */
-	public boolean register(String userName, String password, String fName, String lName, String email,
+	public int register(String userName, String password, String fName, String lName, String email,
                         	String creditCard, double startingCash) throws RemoteException;
 
     /**

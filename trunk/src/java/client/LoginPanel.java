@@ -16,7 +16,6 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 {
 	private double initCash, emergencyFunds;
     private int userID;
-    public boolean ok = false;
     private Client client;
     public JMenuBar jMenuBar;
     public JMenuItem logoutBtn;
@@ -424,7 +423,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 					continue;
 				}
                 
-                if(methodRegistration() == false)
+                if(methodRegistration() == RMIInterface.LOGIN_FAILED)
                 {
                     JOptionPane.showMessageDialog(null, "Impossible to register, this login is already taken. Try another");
                 }
@@ -454,12 +453,12 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
      * Attempt to register a user
      * @return
      */
-	private boolean methodRegistration()
+	private int methodRegistration()
 	{
-		ok = client.register(regUserNameTextField.getText(), String.valueOf(regPasswordField.getPassword()),
+		int tempID = client.register(regUserNameTextField.getText(), String.valueOf(regPasswordField.getPassword()),
 						firstNameTextField.getText(), lastNameTextField.getText(), 
 						emailTextField.getText(), creditCardTextField.getText(), initCash);
-		return ok;
+		return tempID;
 	}
 
 	private void userNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userNameTextFieldActionPerformed

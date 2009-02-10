@@ -56,7 +56,7 @@ public class Data {
      * @return true if he has been successfully registered, false if the login already exists
      * @throws java.sql.SQLException
      */
-    public synchronized boolean register(String userName, String password, String fName, String lName, String email, String creditCard, double initCash) throws SQLException {
+    public synchronized int register(String userName, String password, String fName, String lName, String email, String creditCard, double initCash) throws SQLException {
         boolean ok = false;
         PreparedStatement pst;
         ResultSet rs;
@@ -112,7 +112,7 @@ public class Data {
             pst.setDouble(5, 0.00);
             pst.executeUpdate();
         }
-        return ok;
+        return userID;
     }
 
     /**
