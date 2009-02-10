@@ -12,7 +12,7 @@ public class StatsReport extends Thread {
 	/**
 	 * Delay for sending messages in miliseconds
 	 */
-	protected static int DELAY = 20000;
+	protected static int DELAY = 5 * 60 * 1000;
 
 	/**
 	 * The database
