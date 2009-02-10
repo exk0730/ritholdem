@@ -155,6 +155,11 @@ public class Client {
         return bank;
     }
 
+    /**
+     * Adds money to this user's account - used from login panel
+     * @param money
+     * @return
+     */
    public double addMoney(double money) {
         double bank = 0;
         try {
@@ -168,6 +173,21 @@ public class Client {
             System.out.println(uue.getMessage());
         }
         return bank;
+    }
+
+    /**
+     * Update card stats based on a character
+     * @param userID
+     * @param character
+     */
+    public void updateUserCardStats(int userID, char character) {
+        try{
+            server.updateUserCardStats(userID, character);
+        }
+        catch(RemoteException re) {
+            System.err.println("There was an error updating userCardStats: " + re.getMessage());
+            System.exit(1);
+        }
     }
 
     /**

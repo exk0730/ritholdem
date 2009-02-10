@@ -212,6 +212,12 @@ public class Data {
         return s;
     }
 
+    /**
+     * Updates the database for user based on their action
+     * @param userID
+     * @param character
+     * @throws java.sql.SQLException
+     */
     public synchronized void updateUserCardStats(int userID, char character) throws SQLException{
         PreparedStatement pst = null;
         ResultSet rs = null;

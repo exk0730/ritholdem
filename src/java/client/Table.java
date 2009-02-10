@@ -134,6 +134,7 @@ public class Table extends javax.swing.JPanel
         {
             try{
                 Card temp = client.hit(userID);
+                client.updateUserCardStats(userID, 'h');
                 renderHitCard(temp, true);
                 if(client.bust(userID,true)) {
                     renderDealerCard();
@@ -152,6 +153,7 @@ public class Table extends javax.swing.JPanel
             JOptionPane.showMessageDialog(null, "You must receive cards to do this");
         }
         else{
+            client.updateUserCardStats(userID, 's');
             cardCount = 2;
             renderDealerCard();
             dealerActions();
@@ -169,6 +171,7 @@ public class Table extends javax.swing.JPanel
             betAmountLabel.setText("" + bet);
             try{
                 Card temp = client.hit(userID);
+                client.updateUserCardStats(userID, 'd');
                 renderHitCard(temp, true);
                 //if client busted:
                 if(client.bust(userID, true)) {
@@ -215,8 +218,9 @@ public class Table extends javax.swing.JPanel
             }
             //See if client wins, pushes, or loses
             String s = client.checkWin(userID, bet);
-            String temp = s.substring(0, s.indexOf('_'));
-            JOptionPane.showMessageDialog(null, temp);
+            String message = s.substring(0, s.indexOf('_'));
+            updateDatabaseWin(message);
+            JOptionPane.showMessageDialog(null, message);
             bet = Double.parseDouble(s.substring(s.indexOf('_')+1, s.length()));
             initCash = client.updateBank(userID, bet);
             if(initCash <= 0) { getEmergFunds(); }
@@ -245,6 +249,23 @@ public class Table extends javax.swing.JPanel
         catch(Exception e){
             JOptionPane.showMessageDialog(null, "You have no emergency funds available");
         }
+    }
+
+    /**
+     * Private method to update user card stats
+     */
+    private void updateDatabaseWin(String s){
+        char c = ' ';
+        if(s.equals("You win!")){
+            c = 'w';
+        }
+        else if(s.equals("You lose.")){
+            c = 'l';
+        }
+        else if(s.equals("Winner, winner, chicken dinner!")){
+            c = 'b';
+        }
+        client.updateUserCardStats(userID, c);
     }
 
     /**

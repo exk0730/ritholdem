@@ -376,6 +376,22 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     }
 
     /**
+     * Updates user card stats of this user
+     * @param userID
+     * @param character
+     * @throws java.rmi.RemoteException
+     */
+    @Override
+    public synchronized void updateUserCardStats(int userID, char character) throws RemoteException {
+        try{
+            data.updateUserCardStats(userID, character);
+        }
+        catch(SQLException sqle){
+            System.err.println("Error in updating user card stats: " + sqle.getMessage());
+        }
+    }
+
+    /**
      * Adds emergency funds to a user's account
      * @param userID
      * @param money
