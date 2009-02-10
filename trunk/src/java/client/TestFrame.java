@@ -28,10 +28,10 @@ public class TestFrame extends javax.swing.JFrame implements WindowListener{
 
     /** Creates new form TestFrame */
     public TestFrame() {
-
+		loginPanel1 = null;
         initComponents();
         jMenuBar.setVisible(false);
-
+		this.addWindowListener(this);
     }
 
     /** This method is called from within the constructor to
@@ -164,31 +164,37 @@ public class TestFrame extends javax.swing.JFrame implements WindowListener{
     // End of variables declaration//GEN-END:variables
 
     public void windowOpened(WindowEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //throw new UnsupportedOperationException("Not supported yet.");
     }
 
+	/**
+	 * Called when we close the window
+	 * @param e
+	 */
     public void windowClosing(WindowEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if(loginPanel1 != null){
+			loginPanel1.logout();
+		}
     }
 
     public void windowClosed(WindowEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void windowIconified(WindowEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void windowDeiconified(WindowEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void windowActivated(WindowEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void windowDeactivated(WindowEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }
