@@ -118,7 +118,8 @@ CREATE TABLE IF NOT EXISTS `UserInfo` (
 INSERT INTO `UserInfo` (`userID`, `fName`, `lName`, `email`, `dateLastPlayed`, `dateJoined`) VALUES
 (1, 'Slick', 'Devil', 'toTheExtreme@maxx.com', '2009-01-15', '2008-08-13'),
 (2, 'James', 'Bond', 'shootToKill@goldeneye.com', '2009-01-15', '2008-12-13'),
-(3, 'Paul', 'Bunyon', 'blueOxBuddy@outdoors.com', '2009-01-15', '2007-04-18');
+(3, 'Paul', 'Bunyon', 'blueOxBuddy@outdoors.com', '2009-01-15', '2007-04-18'),
+(4, 'Thomas', 'Anderson', 'neo@thematrix.com', '2009-01-15', '2007-04-18');
 
 -- --------------------------------------------------------
 
