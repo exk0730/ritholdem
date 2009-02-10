@@ -18,6 +18,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
     private int userID;
     private Client client;
     public JMenuBar jMenuBar;
+    public JMenuItem addMoneyBtn;
     public JMenuItem logoutBtn;
 	 
 	//---------------------------
@@ -30,10 +31,11 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 	int iterator =	0;
 	 
 	/** Creates new form LoginPanel	*/
-	public LoginPanel(String host, JMenuBar _jMenuBar, JMenuItem _logoutBtn)
+	public LoginPanel(String host, JMenuBar _jMenuBar, JMenuItem _addMoneyBtn, JMenuItem _logoutBtn)
 	{
         client = Client.instance(host);
         jMenuBar = _jMenuBar;
+        addMoneyBtn = _addMoneyBtn;
         logoutBtn = _logoutBtn;
 		initComponents();
 	}
@@ -70,8 +72,10 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         firstNameTextField = new javax.swing.JTextField();
         lastNameLabel = new javax.swing.JLabel();
         lastNameTextField = new javax.swing.JTextField();
-        creditCardLabel = new javax.swing.JLabel();
-        creditCardTextField = new javax.swing.JTextField();
+        moneyLabel = new javax.swing.JLabel();
+        moneyTextField = new javax.swing.JTextField();
+        creditCardLabel1 = new javax.swing.JLabel();
+        creditCardTextField1 = new javax.swing.JTextField();
 
         setPreferredSize(new java.awt.Dimension(800, 600));
         setLayout(new java.awt.BorderLayout());
@@ -174,7 +178,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         emailTextField.setPreferredSize(new java.awt.Dimension(150, 25));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         registerPanel.add(emailTextField, gridBagConstraints);
 
@@ -190,7 +194,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         registerPanel.add(finishBtn, gridBagConstraints);
 
@@ -227,11 +231,11 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         registerPanel.add(reenterPasswordLabel, gridBagConstraints);
 
-        emailLabel.setFont(new java.awt.Font("Tahoma", 1, 14));
+        emailLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         emailLabel.setText("Enter email address: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         registerPanel.add(emailLabel, gridBagConstraints);
 
@@ -269,22 +273,39 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         registerPanel.add(lastNameTextField, gridBagConstraints);
 
-        creditCardLabel.setFont(new java.awt.Font("Tahoma", 1, 14));
-        creditCardLabel.setText("Credit Card No.:");
+        moneyLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        moneyLabel.setText("Money Amount: ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        registerPanel.add(moneyLabel, gridBagConstraints);
+
+        moneyTextField.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        moneyTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        moneyTextField.setPreferredSize(new java.awt.Dimension(150, 25));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        registerPanel.add(moneyTextField, gridBagConstraints);
+
+        creditCardLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        creditCardLabel1.setText("Credit Card No.:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
-        registerPanel.add(creditCardLabel, gridBagConstraints);
+        registerPanel.add(creditCardLabel1, gridBagConstraints);
 
-        creditCardTextField.setFont(new java.awt.Font("Tahoma", 1, 14));
-        creditCardTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        creditCardTextField.setPreferredSize(new java.awt.Dimension(150, 25));
+        creditCardTextField1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        creditCardTextField1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        creditCardTextField1.setPreferredSize(new java.awt.Dimension(150, 25));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
-        registerPanel.add(creditCardTextField, gridBagConstraints);
+        registerPanel.add(creditCardTextField1, gridBagConstraints);
 
         jSplitPane.setRightComponent(registerPanel);
 
@@ -328,6 +349,12 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
                 logoutBtn.addActionListener(new java.awt.event.ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent evt) {
                         logoutBtnActionPerformed(evt);
+                    }
+                });
+
+                addMoneyBtn.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        addMoneyBtnActionPerformed(evt);
                     }
                 });
 
@@ -381,7 +408,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 		{
 			JOptionPane.showMessageDialog(null, "Enter your first name");
 		}
-		else if(creditCardTextField.getText().equals(""))
+		else if(moneyTextField.getText().equals(""))
 		{
 			JOptionPane.showMessageDialog(null, "Enter a credit card");
 		}
@@ -392,17 +419,27 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 		else
 		{
             boolean no = false;
-			while(true)
+			while(no)
 			{
-				String initCashStr = JOptionPane.showInputDialog(null, "How much money would you like to put into your account?");
-				try
+				//String initCashStr = JOptionPane.showInputDialog(null, "How much money would you like to put into your account?");
+				String initCashStr = moneyTextField.getText();
+                try
 				{
 					initCash = Double.parseDouble(initCashStr);
-                    if(initCash > 1000000){
-                        JOptionPane.showMessageDialog(null, "You've maxed out your credit card!!!! Setting bank to max amount");
+                    if(initCash < 0)
+                    {
+                          JOptionPane.showMessageDialog(this, "You've entered negative money amount, please re-enter.");
+                    }
+                    if(initCash > 1000000)
+                    {
+                        JOptionPane.showMessageDialog(this, "You've maxed out your credit card!!!! Setting bank to max amount");
                         initCash = 1000000;
                     }
-                    String answer = JOptionPane.showInputDialog(null, "Would you like to have emergency funds? (y/n)");
+                    else
+                    {
+                        no = true;
+                    }
+                   /* String answer = JOptionPane.showInputDialog(null, "Would you like to have emergency funds? (y/n)");
                     if((answer.toUpperCase().equals("YES") || answer.toUpperCase().equals("Y"))){
                         String fundsString = JOptionPane.showInputDialog(null, "How much emergency funds would you like?");
                         emergencyFunds = Double.parseDouble(fundsString);
@@ -410,7 +447,9 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
                             emergencyFunds = 100000000;
                         }
                     }
-                    else {no = true;}
+                    else {no = true;
+                    }
+                    */
                 }
 				catch(NumberFormatException nfe)
 				{
@@ -456,7 +495,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 	{
 		userID = client.register(regUserNameTextField.getText(), String.valueOf(regPasswordField.getPassword()),
 						firstNameTextField.getText(), lastNameTextField.getText(), 
-						emailTextField.getText(), creditCardTextField.getText(), initCash);
+						emailTextField.getText(), moneyTextField.getText(), initCash);
 		return userID;
 	}
 
@@ -497,7 +536,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 	
 	private void clearFields()
 	{
-		creditCardTextField.setText("");
+		moneyTextField.setText("");
 		emailTextField.setText("");
 		firstNameTextField.setText("");
 		lastNameTextField.setText("");
@@ -505,6 +544,11 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 		regPasswordTwoField.setText("");
 		regUserNameTextField.setText("");
 	}
+
+    public void addMoneyBtnActionPerformed(ActionEvent evt)
+    {
+
+    }
 
     public void logoutBtnActionPerformed(ActionEvent evt)
     {
@@ -529,8 +573,8 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 	
 	
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel creditCardLabel;
-    private javax.swing.JTextField creditCardTextField;
+    private javax.swing.JLabel creditCardLabel1;
+    private javax.swing.JTextField creditCardTextField1;
     private javax.swing.JLabel emailLabel;
     private javax.swing.JTextField emailTextField;
     private javax.swing.JLabel enterPasswordLabel;
@@ -542,6 +586,8 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
     private javax.swing.JLabel lastNameLabel;
     private javax.swing.JTextField lastNameTextField;
     private javax.swing.JButton loginBtn;
+    private javax.swing.JLabel moneyLabel;
+    private javax.swing.JTextField moneyTextField;
     private javax.swing.JPasswordField passwordField;
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JLabel reenterPasswordLabel;
