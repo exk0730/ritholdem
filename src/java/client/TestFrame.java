@@ -52,8 +52,8 @@ public class TestFrame extends javax.swing.JFrame implements WindowListener{
         jLabel1 = new javax.swing.JLabel();
         jMenuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        addMoneyBtn = new javax.swing.JMenuItem();
         logoutBtn = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -111,13 +111,13 @@ public class TestFrame extends javax.swing.JFrame implements WindowListener{
 
         jMenu1.setText("File");
 
+        addMoneyBtn.setText("Add money");
+        jMenu1.add(addMoneyBtn);
+
         logoutBtn.setText("Logout");
         jMenu1.add(logoutBtn);
 
         jMenuBar.add(jMenu1);
-
-        jMenu2.setText("Edit");
-        jMenuBar.add(jMenu2);
 
         setJMenuBar(jMenuBar);
 
@@ -133,7 +133,7 @@ public class TestFrame extends javax.swing.JFrame implements WindowListener{
         url = ipAddressTextField.getText();
 
         connectionPanel.removeAll();
-        loginPanel1 = new client.LoginPanel(url, jMenuBar, logoutBtn);
+        loginPanel1 = new client.LoginPanel(url, jMenuBar, addMoneyBtn,logoutBtn);
         connectionPanel.add(loginPanel1, java.awt.BorderLayout.CENTER);
         connectionPanel.revalidate();
 
@@ -151,6 +151,7 @@ public class TestFrame extends javax.swing.JFrame implements WindowListener{
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem addMoneyBtn;
     private javax.swing.JButton connectBtn;
     private javax.swing.JPanel connectionPanel;
     private javax.swing.JPanel guiPanel;
@@ -158,7 +159,6 @@ public class TestFrame extends javax.swing.JFrame implements WindowListener{
     private javax.swing.JTextField ipAddressTextField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenuItem logoutBtn;
     // End of variables declaration//GEN-END:variables
