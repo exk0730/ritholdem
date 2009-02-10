@@ -118,7 +118,7 @@ public class Data {
                     "INSERT INTO UserCardStats (userID) VALUES (?)"
                     );
             pst.setInt(1,userID);
-            pst.executeQuery();
+            pst.executeUpdate();
         }
 
         if(ok){
@@ -126,7 +126,7 @@ public class Data {
                     "INSERT INTO UserMoneyStats (userID) VALUES (?)"
                     );
             pst.setInt(1,userID);
-            pst.executeQuery();
+            pst.executeUpdate();
         }
         return userID;
     }
