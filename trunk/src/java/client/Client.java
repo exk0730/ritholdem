@@ -168,9 +168,6 @@ public class Client {
             System.err.println("There was an error registering ermergency funds: " + re.getMessage());
             System.exit(1);
         }
-        catch(UnknownUserException uue){
-            System.out.println(uue.getMessage());
-        }
     }
 
     /**
@@ -186,9 +183,6 @@ public class Client {
         catch(RemoteException re){
             System.err.println("There was an error retrieving ermergency funds: " + re.getMessage());
             System.exit(1);
-        }
-        catch(UnknownUserException uue){
-            System.out.println(uue.getMessage());
         }
         return temp;
     }

@@ -113,7 +113,7 @@ public interface RMIInterface extends Remote
      * @param money
      * @throws java.rmi.RemoteException
      */
-    public void addEmergencyFunds(int userID, double money) throws RemoteException, UnknownUserException;
+    public void addEmergencyFunds(int userID, double money) throws RemoteException;
 
     /**
      * Retrieves emergency funding for this user
@@ -121,7 +121,7 @@ public interface RMIInterface extends Remote
      * @return
      * @throws java.rmi.RemoteException
      */
-    public double retrieveEmergencyFunds(int userID) throws RemoteException, UnknownUserException;
+    public double retrieveEmergencyFunds(int userID) throws RemoteException;
 
     /**
      * Write a user's infos to the database

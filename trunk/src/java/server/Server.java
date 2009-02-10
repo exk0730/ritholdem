@@ -382,19 +382,13 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @throws java.rmi.RemoteException
      */
     @Override
-    public synchronized void addEmergencyFunds(int userID, double money) throws RemoteException, UnknownUserException{
-        if(userExists(userID)){
-            try {
-                data.addEmergencryFunds(userID, money);
-            }
-            catch(SQLException sqle){
-                System.err.println("Error in registering emergency funds: " + sqle.getMessage());
-                System.exit(1);
-            }
+    public synchronized void addEmergencyFunds(int userID, double money) throws RemoteException{
+        try {
+            data.addEmergencryFunds(userID, money);
         }
-        else{
-            throw new UnknownUserException("Can't add emergency funds for user with" +
-                    " userID " + userID + ": doesn't exist in server list");
+        catch(SQLException sqle){
+            System.err.println("Error in registering emergency funds: " + sqle.getMessage());
+            System.exit(1);
         }
     }
 
@@ -405,20 +399,14 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @throws java.rmi.RemoteException
      */
     @Override
-    public synchronized double retrieveEmergencyFunds(int userID) throws RemoteException, UnknownUserException {
+    public synchronized double retrieveEmergencyFunds(int userID) throws RemoteException {
         double temp = -1;
-        if(userExists(userID)){
-            try {
-                temp = data.retrieveEmergencyFunds(userID);
-            }
-            catch(SQLException sqle){
-                System.err.println("Error in retrieving emergency funds: " + sqle.getMessage());
-                System.exit(1);
-            }
+        try {
+            temp = data.retrieveEmergencyFunds(userID);
         }
-        else{
-            throw new UnknownUserException("Can't retrieve emergency funds for user with" +
-                    " userID " + userID + ": doesn't exist in server list");
+        catch(SQLException sqle){
+            System.err.println("Error in retrieving emergency funds: " + sqle.getMessage());
+            System.exit(1);
         }
         return temp;
     }
