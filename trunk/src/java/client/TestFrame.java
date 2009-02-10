@@ -9,6 +9,7 @@ package client;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.Scanner;
+import server.Server;
 
 /**
  *
@@ -108,7 +109,7 @@ public class TestFrame extends javax.swing.JFrame implements WindowListener{
     }
 
     public void windowClosing(WindowEvent e) {
-         System.out.println("Something before closing");
+        System.out.println("Something before closing");
         //throw new UnsupportedOperationException("Not supported yet.");
     }
 

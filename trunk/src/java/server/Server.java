@@ -26,6 +26,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     private ArrayList<Integer> users = new ArrayList<Integer>();
     private static Date startTime;
     private Date currentTime;
+    private UnknownUserException uue;
     /**
      * Unique instance (Singleton Design Pattern)
      */
@@ -43,7 +44,6 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     private Server() throws SQLException, RemoteException {
         data = Data.instance();
 		statsreport = StatsReport.instance();
-
     }
 
     /**
@@ -92,20 +92,22 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @throws java.rmi.RemoteException
      */
     @Override
-    public synchronized Card hit(int userID) throws RemoteException
+    public synchronized Card hit(int userID) throws RemoteException, UnknownUserException
     {
         Card temp = null;
-    	/**
-    	 * TODO use userID somewhere
-    	 */
-        try{
-            temp = deck.getNextCard();
+        if(userExists(userID)){
+            try{
+                temp = deck.getNextCard();
+            }
+            catch(IndexOutOfBoundsException ioobe){
+                initGame(false);
+                temp = deck.getNextCard();
+            }
+            checkLogic.updatePlayer(temp);
         }
-        catch(IndexOutOfBoundsException ioobe){
-            initGame(false);
-            temp = deck.getNextCard();
+        else{
+            throw new UnknownUserException();
         }
-        checkLogic.updatePlayer(temp);
    		return temp;
     }
 
@@ -157,17 +159,19 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @throws java.rmi.RemoteException
      */
     @Override
-    public synchronized PlayerCards deal(int userID, double bet)throws RemoteException
+    public synchronized PlayerCards deal(int userID, double bet)throws RemoteException, UnknownUserException
     {
-    	/**
-    	 * TODO use userID somewhere
-    	 */
-    	try{
-            playerHand.nextHand();
+        if(userExists(userID)){
+            try{
+                playerHand.nextHand();
+            }
+            catch(IndexOutOfBoundsException ioobe){
+                initGame(true);
+                playerHand.nextHand();
+            }
         }
-        catch(IndexOutOfBoundsException ioobe){
-            initGame(true);
-            playerHand.nextHand();
+        else{
+            throw new UnknownUserException();
         }
     	return playerHand;
     }
@@ -181,13 +185,21 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @throws java.rmi.RemoteException
      */
     @Override
-    public synchronized boolean bust(int userID, boolean playerOrDealer) throws RemoteException {
-        if(playerOrDealer){
-            return (checkLogic.checkBust(true));
+    public synchronized boolean bust(int userID, boolean playerOrDealer) throws RemoteException, UnknownUserException
+    {
+        boolean bust = false;
+        if(userExists(userID)){
+            if(playerOrDealer){
+                bust = checkLogic.checkBust(true);
+            }
+            else{
+                bust = checkLogic.checkBust(false);
+            }
         }
         else{
-            return (checkLogic.checkBust(false));
+            throw new UnknownUserException();
         }
+        return bust;
     }
 
     /**
@@ -211,27 +223,32 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @throws java.rmi.RemoteException
      */
     @Override
-    public synchronized String checkWin(int userID, double bet) throws RemoteException {
+    public synchronized String checkWin(int userID, double bet) throws RemoteException, UnknownUserException {
         String s = "";
-        switch(checkLogic.returnTypeOfWin())
-        {
-            case -1:
-                bet *= -1;
-                s = "You lose.";
-                break;
-            case 1:
-                s = "You win!";
-                break;
-            case 2:
-                bet = bet * 1.5;
-                s = "Winner, winner, chicken dinner!";
-                break;
-            default:
-                bet = 0;
-                s = "Push.";
-                break;
+        if(userExists(userID)){
+            switch(checkLogic.returnTypeOfWin())
+            {
+                case -1:
+                    bet *= -1;
+                    s = "You lose.";
+                    break;
+                case 1:
+                    s = "You win!";
+                    break;
+                case 2:
+                    bet = bet * 1.5;
+                    s = "Winner, winner, chicken dinner!";
+                    break;
+                default:
+                    bet = 0;
+                    s = "Push.";
+                    break;
+            }
+            s = s + "_" + bet;
         }
-        s = s + "_" + bet;
+        else{
+            throw new UnknownUserException();
+        }
         return s;
     }
 
@@ -332,18 +349,22 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @param int userID
      * @return double
      */
-    public synchronized double getBank(int userID) throws RemoteException {
+    public synchronized double getBank(int userID) throws RemoteException, UnknownUserException {
         double bank = 0;
         if(userExists(userID)){
             try {
                 bank = data.getBank(userID);
             }
             catch(SQLException sqle){
-                System.err.println("Error in retreiving bank: " + sqle.getMessage());
+                System.err.println("Error in retrieving bank: " + sqle.getMessage());
             }
             if(bank == -1){
-                System.out.println("Error retreiving bank");
+                System.out.println("Error retrieving bank");
             }
+        }
+        else{
+            throw new UnknownUserException("Can't get bank for user with" +
+                    " userID " + userID + ": doesn't exist in server list");
         }
         return bank;
     }
@@ -355,7 +376,8 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @return bank money
      * @throws java.rmi.RemoteException
      */
-    public synchronized double updateBank(int userID, double money) throws RemoteException {
+    @Override
+    public synchronized double updateBank(int userID, double money) throws RemoteException, UnknownUserException {
         double temp = -1;
         if(userExists(userID)){
             try {
@@ -364,6 +386,10 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
             catch(SQLException sqle){
                 System.err.println("Error in updating bank: " + sqle.getMessage());
             }
+        }
+        else{
+            throw new UnknownUserException("Can't update bank for user with" +
+                    " userID " + userID + ": doesn't exist in server list");
         }
         return temp;
     }
@@ -375,7 +401,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @throws java.rmi.RemoteException
      */
     @Override
-    public synchronized void addEmergencyFunds(int userID, double money) throws RemoteException {
+    public synchronized void addEmergencyFunds(int userID, double money) throws RemoteException, UnknownUserException{
         if(userExists(userID)){
             try {
                 data.addEmergencryFunds(userID, money);
@@ -384,6 +410,10 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
                 System.err.println("Error in registering emergency funds: " + sqle.getMessage());
                 System.exit(1);
             }
+        }
+        else{
+            throw new UnknownUserException("Can't add emergency funds for user with" +
+                    " userID " + userID + ": doesn't exist in server list");
         }
     }
 
@@ -394,7 +424,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @throws java.rmi.RemoteException
      */
     @Override
-    public synchronized double retrieveEmergencyFunds(int userID) throws RemoteException {
+    public synchronized double retrieveEmergencyFunds(int userID) throws RemoteException, UnknownUserException {
         double temp = -1;
         if(userExists(userID)){
             try {
@@ -404,6 +434,10 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
                 System.err.println("Error in retrieving emergency funds: " + sqle.getMessage());
                 System.exit(1);
             }
+        }
+        else{
+            throw new UnknownUserException("Can't retrieve emergency funds for user with" +
+                    " userID " + userID + ": doesn't exist in server list");
         }
         return temp;
     }
@@ -415,7 +449,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @throws java.rmi.RemoteException
      */
     @Override
-	public synchronized boolean deleteAccount(int userID) throws RemoteException {
+	public synchronized boolean deleteAccount(int userID) throws RemoteException, UnknownUserException {
         boolean ok = false;
         if(userExists(userID)){
             try {
@@ -423,6 +457,9 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
             } catch(SQLException e){
                 System.err.println("Error in deleteAccount(): " + e.getMessage());
             }
+        }
+        else{
+            throw new UnknownUserException("Can't delete user with userID " + userID + ": does not exist in server list");
         }
         return ok;
     }
@@ -435,7 +472,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @throws java.rmi.RemoteException
      */
 	@Override
-    public synchronized AccountInformation getInfos(int userID) throws RemoteException {
+    public synchronized AccountInformation getInfos(int userID) throws RemoteException, UnknownUserException {
         AccountInformation ai = null;
         if(userExists(userID)){
             try {
@@ -443,6 +480,10 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
             } catch(SQLException e){
                 System.err.println("Error in getInfos(): " + e.getMessage());
             }
+        }
+        else{
+            throw new UnknownUserException("Can't get infos for user with userID "
+                    + userID + ": doesn't exist in server list");
         }
         return ai;
     }
@@ -454,13 +495,17 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @throws java.rmi.RemoteException
      */
     @Override
-    public synchronized void writeInfos(int userID, AccountInformation ai) throws RemoteException {
+    public synchronized void writeInfos(int userID, AccountInformation ai) throws RemoteException, UnknownUserException {
         if(userExists(userID)){
             try {
                 data.writeInfos(userID, ai);
             } catch(SQLException e){
                 System.err.println("Error in writeInfos(): " + e.getMessage());
             }
+        }
+        else{
+            throw new UnknownUserException("Can't write infos for user with" +
+                    " userID " + userID + ": doesn't exist in server list");
         }
     }
 
@@ -470,16 +515,16 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @return
      */
     private synchronized boolean userExists(int userID){
-        boolean ok = false;
+        boolean exists = false;
         for(int i = 0; i < users.size(); i++){
             if(userID == users.get(i)){
-                ok = true;
+                exists = true;
             }
         }
-        return ok;
+        return exists;
     }
 
-    private synchronized boolean kickUser(int userID){
+    public synchronized boolean kickUser(int userID){
         boolean removed = false;
         if(userExists(userID)){
             try{ removeUser(userID); }
@@ -488,7 +533,6 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         }
         return removed;
     }
-
 
     /**
      * The main program
@@ -530,6 +574,4 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         currentTime = new Date();
         return currentTime.getTime();
     }
-
-
 }

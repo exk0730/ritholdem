@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.rmi.Naming;
 import java.rmi.RemoteException;
+import server.UnknownUserException;
 import game.*;
 
 /**
@@ -69,11 +70,15 @@ public class AdminServlet extends HttpServlet {
         kick(userID);
         try
         {
-        server.deleteAccount(userID);
+            server.deleteAccount(userID);
         }
         catch(RemoteException ex)
         {
             exception = ex;
+        }
+
+        catch(UnknownUserException uue){
+            exception = uue;
         }
         return exception == null;
 	}

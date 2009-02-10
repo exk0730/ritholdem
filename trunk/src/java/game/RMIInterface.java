@@ -1,4 +1,5 @@
 package game;
+import server.UnknownUserException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -66,7 +67,7 @@ public interface RMIInterface extends Remote
      * @return
      * @throws java.rmi.RemoteException
      */
-	public boolean deleteAccount(int userID) throws RemoteException;
+	public boolean deleteAccount(int userID) throws RemoteException, UnknownUserException;
 
 
     /**
@@ -75,7 +76,7 @@ public interface RMIInterface extends Remote
      * @return
      * @throws java.rmi.RemoteException
      */
-	public AccountInformation getInfos(int userID) throws RemoteException;
+	public AccountInformation getInfos(int userID) throws RemoteException, UnknownUserException;
 
     /**
      * Get the bank of a user
@@ -83,7 +84,7 @@ public interface RMIInterface extends Remote
      * @return monetary amount
      * @throws java.rmi.RemoteException
      */
-    public double getBank(int userID) throws RemoteException;
+    public double getBank(int userID) throws RemoteException, UnknownUserException;
 
     /**
      * Updates the money in a user's bank
@@ -92,7 +93,7 @@ public interface RMIInterface extends Remote
      * @return the user's updated bank
      * @throws java.rmi.RemoteException
      */
-    public double updateBank(int userID, double money) throws RemoteException;
+    public double updateBank(int userID, double money) throws RemoteException, UnknownUserException;
 
     /**
      * Adds emergency funding for this user
@@ -100,7 +101,7 @@ public interface RMIInterface extends Remote
      * @param money
      * @throws java.rmi.RemoteException
      */
-    public void addEmergencyFunds(int userID, double money) throws RemoteException;
+    public void addEmergencyFunds(int userID, double money) throws RemoteException, UnknownUserException;
 
     /**
      * Retrieves emergency funding for this user
@@ -108,14 +109,15 @@ public interface RMIInterface extends Remote
      * @return
      * @throws java.rmi.RemoteException
      */
-    public double retrieveEmergencyFunds(int userID) throws RemoteException;
+    public double retrieveEmergencyFunds(int userID) throws RemoteException, UnknownUserException;
+
     /**
      * Write a user's infos to the database
      * @param userID
      * @param ai user's infos
      * @throws java.rmi.RemoteException
      */
-    public void writeInfos(int userID, AccountInformation ai) throws RemoteException;
+    public void writeInfos(int userID, AccountInformation ai) throws RemoteException, UnknownUserException;
     
 
     /**
@@ -125,7 +127,7 @@ public interface RMIInterface extends Remote
      * @return
      * @throws java.rmi.RemoteException
      */
-    public PlayerCards deal(int userID, double bet) throws RemoteException;
+    public PlayerCards deal(int userID, double bet) throws RemoteException, UnknownUserException;
 
     /**
      * method to get dealer's cards
@@ -141,7 +143,7 @@ public interface RMIInterface extends Remote
      * @return
      * @throws java.rmi.RemoteException
      */
-    public boolean bust(int userID, boolean playerOrDealer) throws RemoteException;
+    public boolean bust(int userID, boolean playerOrDealer) throws RemoteException, UnknownUserException;
 
     /**
      * method for dealer to stand at 16 and above
@@ -157,7 +159,7 @@ public interface RMIInterface extends Remote
      * @return
      * @throws java.rmi.RemoteException
      */
-    public String checkWin(int userID, double bet) throws RemoteException;
+    public String checkWin(int userID, double bet) throws RemoteException, UnknownUserException;
 
     /**
      * method to hit
@@ -165,7 +167,7 @@ public interface RMIInterface extends Remote
      * @return
      * @throws java.rmi.RemoteException
      */
-    public Card hit(int userID) throws RemoteException;
+    public Card hit(int userID) throws RemoteException, UnknownUserException;
 
     /**
      * method for dealer hit
