@@ -45,6 +45,7 @@ public class Table extends javax.swing.JPanel
 	{
 		initCash = startCash;
 		initComponents();
+        cashAmountLabel.setText(""+initCash);
         this.userID = userID;
 		this.client = client;
 		bet = 0;
