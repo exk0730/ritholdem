@@ -30,6 +30,7 @@ public class TestFrame extends javax.swing.JFrame implements WindowListener{
     public TestFrame() {
 
         initComponents();
+        jMenuBar.setVisible(false);
 
     }
 
@@ -49,6 +50,10 @@ public class TestFrame extends javax.swing.JFrame implements WindowListener{
         ipAddressTextField = new javax.swing.JTextField();
         connectBtn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jMenuBar = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        logoutBtn = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -64,7 +69,7 @@ public class TestFrame extends javax.swing.JFrame implements WindowListener{
         guiPanel.add(ipAddressLabel, new java.awt.GridBagConstraints());
 
         ipAddressTextField.setBackground(new java.awt.Color(51, 204, 0));
-        ipAddressTextField.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        ipAddressTextField.setFont(new java.awt.Font("Tahoma", 1, 18));
         ipAddressTextField.setText("localhost");
         ipAddressTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         ipAddressTextField.setPreferredSize(new java.awt.Dimension(150, 25));
@@ -104,6 +109,18 @@ public class TestFrame extends javax.swing.JFrame implements WindowListener{
 
         getContentPane().add(connectionPanel, java.awt.BorderLayout.PAGE_START);
 
+        jMenu1.setText("File");
+
+        logoutBtn.setText("Logout");
+        jMenu1.add(logoutBtn);
+
+        jMenuBar.add(jMenu1);
+
+        jMenu2.setText("Edit");
+        jMenuBar.add(jMenu2);
+
+        setJMenuBar(jMenuBar);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -116,7 +133,7 @@ public class TestFrame extends javax.swing.JFrame implements WindowListener{
         url = ipAddressTextField.getText();
 
         connectionPanel.removeAll();
-        loginPanel1 = new client.LoginPanel(url);
+        loginPanel1 = new client.LoginPanel(url, jMenuBar, logoutBtn);
         connectionPanel.add(loginPanel1, java.awt.BorderLayout.CENTER);
         connectionPanel.revalidate();
 
@@ -140,6 +157,10 @@ public class TestFrame extends javax.swing.JFrame implements WindowListener{
     private javax.swing.JLabel ipAddressLabel;
     private javax.swing.JTextField ipAddressTextField;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar;
+    private javax.swing.JMenuItem logoutBtn;
     // End of variables declaration//GEN-END:variables
 
     public void windowOpened(WindowEvent e) {

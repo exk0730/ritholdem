@@ -18,6 +18,8 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
     private int userID;
     public boolean ok = false;
     private Client client;
+    public JMenuBar jMenuBar;
+    public JMenuItem logoutBtn;
 	 
 	//---------------------------
 	//Variables for sliding panel
@@ -29,9 +31,11 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 	int iterator =	0;
 	 
 	/** Creates new form LoginPanel	*/
-	public LoginPanel(String host)
+	public LoginPanel(String host, JMenuBar _jMenuBar, JMenuItem _logoutBtn)
 	{
         client = Client.instance(host);
+        jMenuBar = _jMenuBar;
+        logoutBtn = _logoutBtn;
 		initComponents();
 	}
 	
@@ -320,6 +324,14 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
                 }
                 this.removeAll();
                 Table table1 = new Table(initCash, userID, client);
+
+                jMenuBar.setVisible(true);
+                logoutBtn.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        logoutBtnActionPerformed(evt);
+                    }
+                });
+
                 this.setLayout(new java.awt.BorderLayout());
                 this.add(table1,	java.awt.BorderLayout.CENTER);
                 JLabel statusLabel = new JLabel("...");
@@ -495,6 +507,14 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 		regPasswordTwoField.setText("");
 		regUserNameTextField.setText("");
 	}
+
+    public void logoutBtnActionPerformed(ActionEvent evt)
+    {
+        this.removeAll();
+        initComponents();
+        jMenuBar.setVisible(false);
+        this.revalidate();
+    }
 		
 	@Override
 	public void paintComponent(Graphics g)
