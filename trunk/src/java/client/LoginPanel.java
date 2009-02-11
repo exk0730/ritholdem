@@ -550,39 +550,42 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         Boolean validAmount = true;
         double moneyToAddDbl = 0;
         String moneyToAddString = JOptionPane.showInputDialog(this, "How much money would you like to put into your account?");
-        try
+        if(!moneyToAddString.equals(""))
         {
-            moneyToAddDbl = Double.parseDouble(moneyToAddString);
+            try
+            {
+                moneyToAddDbl = Double.parseDouble(moneyToAddString);
 
-            if(moneyToAddDbl < 0)
-            {
-                  JOptionPane.showMessageDialog(this, "You've entered negative money amount to add, please re-enter a positive amount.");
-                  validAmount = false;
+                if(moneyToAddDbl < 0)
+                {
+                      JOptionPane.showMessageDialog(this, "You've entered negative money amount to add, please re-enter a positive amount.");
+                      validAmount = false;
+                }
+                if(1000000 - initCash < moneyToAddDbl)
+                {
+                    JOptionPane.showMessageDialog(this, "You've maxed out the addable amount. Maximum amount you can have is 1000000. Please, re-enter.");
+                    validAmount = false;
+                }
             }
-            if(1000000 - initCash < moneyToAddDbl)
+            catch(NumberFormatException nfe)
             {
-                JOptionPane.showMessageDialog(this, "You've maxed out the addable amount. Maximum amount you can have is 1000000. Please, re-enter.");
+                JOptionPane.showMessageDialog(this, "You have entered an invalid number.");
                 validAmount = false;
             }
-        }
-        catch(NumberFormatException nfe)
-        {
-            JOptionPane.showMessageDialog(this, "You have entered an invalid number.");
-            validAmount = false;
-        }
-        catch(NullPointerException npe)
-        {
-            JOptionPane.showMessageDialog(this, "You need to enter a number.");
-            validAmount = false;
-        }
+            catch(NullPointerException npe)
+            {
+                JOptionPane.showMessageDialog(this, "You need to enter a number.");
+                validAmount = false;
+            }
 
-        if(validAmount)
-        {
-            client.addMoney(moneyToAddDbl);
-            initCash += moneyToAddDbl;
-            table1.updateCashAmount(initCash);
+            if(validAmount)
+            {
+                client.addMoney(moneyToAddDbl);
+                initCash += moneyToAddDbl;
+                table1.updateCashAmount(initCash);
 
-            JOptionPane.showMessageDialog(this, "You have successfully added $" + moneyToAddDbl + " to your account.");
+                JOptionPane.showMessageDialog(this, "You have successfully added $" + moneyToAddDbl + " to your account.");
+            }
         }
     }
 
