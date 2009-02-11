@@ -265,6 +265,9 @@ public class Table extends javax.swing.JPanel
         else if(s.equals("Winner, winner, chicken dinner!")){
             c = 'b';
         }
+        else{
+            c = 'p';
+        }
         client.updateUserCardStats(userID, c);
     }
 
