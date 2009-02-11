@@ -116,20 +116,16 @@ public class Client {
 
     /**
      * Returns this user's money
-     * @param userID
-     * @return
+     * @return the user's money
      */
-    public double getBank(int userID) {
+    public double getBank() throws UnknownUserException {
         double bank = 0;
         try {
-            bank = server.getBank(userID);
+            bank = server.getBank(currentUserID);
         }
         catch(RemoteException re){
             System.err.println("There was an error retreiving bank: " + re.getMessage());
             System.exit(1);
-        }
-        catch(UnknownUserException uue){
-            System.out.println(uue.getMessage());
         }
         return bank;
     }

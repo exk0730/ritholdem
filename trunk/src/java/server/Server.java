@@ -344,8 +344,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
             }
         }
         else{
-            throw new UnknownUserException("Can't get bank for user with" +
-                    " userID " + userID + ": doesn't exist in server list");
+            throw new UnknownUserException();
         }
         return bank;
     }

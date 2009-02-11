@@ -1,6 +1,8 @@
 package client;
 
 import game.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import server.UnknownUserException;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -57,7 +59,7 @@ public class Table extends javax.swing.JPanel
 	{
         if(!dealt){
             bet += 1;
-            betAmountLabel.setText("" + bet);
+            updateBetAmount(bet);
         }
 	}
 	
@@ -65,7 +67,7 @@ public class Table extends javax.swing.JPanel
 	{
         if(!dealt){
             bet += 10;
-            betAmountLabel.setText("" + bet);
+            updateBetAmount(bet);
         }
 	}
 	
@@ -73,7 +75,7 @@ public class Table extends javax.swing.JPanel
 	{
 		if(!dealt){
             bet += 25;
-            betAmountLabel.setText("" + bet);
+            updateBetAmount(bet);
         }
 	}
 
@@ -81,7 +83,7 @@ public class Table extends javax.swing.JPanel
 	{
         if(!dealt){
             bet += 50;
-            betAmountLabel.setText("" + bet);
+            updateBetAmount(bet);
         }
 	}
 
@@ -89,12 +91,22 @@ public class Table extends javax.swing.JPanel
 	{
         if(!dealt){
             bet *= 100;
-            betAmountLabel.setText("" + bet);
+            updateBetAmount(bet);
         }
 	}
 
 	private void dealButtonActionPerformed(java.awt.event.ActionEvent evt)
 	{
+		try {
+			//Update the client's money
+			initCash = client.getBank();
+		} catch (UnknownUserException uue) {
+			JOptionPane.showMessageDialog(null, uue.getMessage());
+			return;
+		}
+		
+		updateCashAmount(initCash);
+		
 		if(bet == 0)
 		{
 			JOptionPane.showMessageDialog(null, "You have to enter a bet first");
@@ -102,7 +114,7 @@ public class Table extends javax.swing.JPanel
         else if(initCash - bet < 0){
             JOptionPane.showMessageDialog(null, "You don't have enough money to make this bet!");
             bet = 0;
-            betAmountLabel.setText("" + bet);
+            updateBetAmount(bet);
         }
 		else if(!dealt)
 		{
@@ -168,7 +180,7 @@ public class Table extends javax.swing.JPanel
         }
         else{
             bet *= 2;
-            betAmountLabel.setText("" + bet);
+            updateBetAmount(bet);
             try{
                 Card temp = client.hit(userID);
                 client.updateUserCardStats(userID, 'd');
@@ -198,7 +210,7 @@ public class Table extends javax.swing.JPanel
         if(initCash <= 0) { getEmergFunds(); }
         cashAmountLabel.setText("" + initCash);
         bet = 0;
-        betAmountLabel.setText("" + bet);
+        updateBetAmount(bet);
         wipe();
         dealt = false;
     }
@@ -226,7 +238,7 @@ public class Table extends javax.swing.JPanel
             if(initCash <= 0) { getEmergFunds(); }
             cashAmountLabel.setText("" + initCash );
             bet = 0;
-            betAmountLabel.setText("" + bet);
+            updateBetAmount(bet);
             wipe();
         }
         catch(UnknownUserException uue){
@@ -361,6 +373,10 @@ public class Table extends javax.swing.JPanel
     {
        this.cashAmountLabel.setText("" + cashAmount);
     }
+
+	public void updateBetAmount(double amount){
+		this.betAmountLabel.setText("" + amount);
+	}
     
 	private void update()
 	{
