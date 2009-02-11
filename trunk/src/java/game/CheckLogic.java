@@ -61,6 +61,7 @@ public class CheckLogic
 	
     /**
      * See if player gets a blackjack
+     * TODO check dealer blackjack
      * @return
      */
     public boolean checkBlackJack()

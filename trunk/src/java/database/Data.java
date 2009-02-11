@@ -273,6 +273,14 @@ public class Data {
                 getStatement = "numOfLoss";
                 updateStatement = "UPDATE UserCardStats SET numOfLoss = (?) WHERE userID = (?)";
                 break;
+            case 'p':
+                pst = db.newPreparedStatement("SELECT numOfPushes FROM UserCardStats " +
+                        "WHERE userID = (?)");
+                pst.setInt(1,userID);
+                rs = pst.executeQuery();
+                getStatement = "numOfPushes";
+                updateStatement = "UPDATE UserCardStats SET numOfPushes = (?) WHERE userID = (?)";
+                break;
             default:
                 break;
         }
