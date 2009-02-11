@@ -82,6 +82,7 @@ CREATE TABLE IF NOT EXISTS `UserCardStats` (
   `numOfDoubles` smallint(6) default '0',
   `numOfWins` smallint(6) default '0',
   `numOfLoss` smallint(6) default '0',
+`numOfPushes` smallint(6) default '0',
   PRIMARY KEY  (`userID`)
 ) TYPE=MyISAM;
 
@@ -89,11 +90,11 @@ CREATE TABLE IF NOT EXISTS `UserCardStats` (
 -- Content of table `UserCardStats`
 --
 
-INSERT INTO `UserCardStats` (`userID`, `numOfBlackjacks`, `numOfHits`, `numOfStands`, `numOfDoubles`, `numOfWins`, `numOfLoss`) VALUES
-(1, 4, 27, 18, 3, 30, 50),
-(2, 13, 57, 13, 9, 83, 70),
-(3, 1, 5, 2, 2, 12, 90),
-(4, 0, 0, 0, 0, 0, 0);
+INSERT INTO `UserCardStats` (`userID`, `numOfBlackjacks`, `numOfHits`, `numOfStands`, `numOfDoubles`, `numOfWins`, `numOfLoss`, `numOfPushes`) VALUES
+(1, 4, 27, 18, 3, 30, 50, 7),
+(2, 13, 57, 13, 9, 83, 70, 5),
+(3, 1, 5, 2, 2, 12, 90, 0),
+(4, 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
