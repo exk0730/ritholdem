@@ -374,8 +374,8 @@ public class Table extends javax.swing.JPanel
 		super.paintComponent(g); 
 		Graphics2D graphics = (Graphics2D)g;
 		
-		RadialGradientPaint p = new RadialGradientPaint(new Point2D.Double((getWidth()+getWidth()/3) / 2.0,
-		(getHeight()/2)-getHeight()/8), getWidth() / 2.5f, new float[]{0.0f, 1.0f},
+		RadialGradientPaint p = new RadialGradientPaint(new Point2D.Double(getWidth() / 2,
+		getHeight()/2.3), getWidth() / 3.2f, new float[]{0.0f, 1.0f},
 		new Color[]{Color.GREEN, Color.BLACK});
 	      
 		graphics.setPaint(p);
@@ -414,7 +414,12 @@ public class Table extends javax.swing.JPanel
         betLabel = new javax.swing.JLabel();
         betAmountLabel = new javax.swing.JLabel();
         startGame = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        serverMessagesLabel = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea = new javax.swing.JTextArea();
 
+        setPreferredSize(new java.awt.Dimension(1000, 550));
         setLayout(new java.awt.BorderLayout());
 
         betBar.setBackground(new java.awt.Color(0, 0, 0));
@@ -602,6 +607,31 @@ public class Table extends javax.swing.JPanel
         scoreInfo.add(startGame, gridBagConstraints);
 
         add(scoreInfo, java.awt.BorderLayout.LINE_START);
+
+        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel1.setPreferredSize(new java.awt.Dimension(200, 130));
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        serverMessagesLabel.setBackground(new java.awt.Color(0, 0, 0));
+        serverMessagesLabel.setFont(new java.awt.Font("Lucida Handwriting", 0, 18)); // NOI18N
+        serverMessagesLabel.setForeground(new java.awt.Color(255, 255, 255));
+        serverMessagesLabel.setText("Server Messages");
+        jPanel1.add(serverMessagesLabel, java.awt.BorderLayout.PAGE_START);
+
+        jTextArea.setBackground(new java.awt.Color(0, 0, 0));
+        jTextArea.setColumns(20);
+        jTextArea.setEditable(false);
+        jTextArea.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
+        jTextArea.setForeground(new java.awt.Color(255, 255, 204));
+        jTextArea.setLineWrap(true);
+        jTextArea.setRows(5);
+        jTextArea.setText("JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.JMS MESSAGES ARE GOING TO BE SHOWN HERE.");
+        jTextArea.setWrapStyleWord(true);
+        jScrollPane1.setViewportView(jTextArea);
+
+        jPanel1.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        add(jPanel1, java.awt.BorderLayout.LINE_END);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -618,7 +648,11 @@ public class Table extends javax.swing.JPanel
     private javax.swing.JButton dealButton;
     private javax.swing.JButton doubleButton;
     private javax.swing.JButton hitButton;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea;
     private javax.swing.JPanel scoreInfo;
+    private javax.swing.JLabel serverMessagesLabel;
     private javax.swing.JButton standButton;
     private javax.swing.JButton startGame;
     // End of variables declaration//GEN-END:variables
