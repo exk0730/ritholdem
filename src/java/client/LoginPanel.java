@@ -6,7 +6,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*; 
+import server.UnknownUserException;
 
 /**
  *  Register and login panels
@@ -340,34 +343,41 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
                 userNameTextField.setText("");
             }
             else {
-                initCash = client.getBank(userID);
-                if(initCash <= 0){
-                    try{
-                        initCash = client.retrieveEmergencyFunds(userID);
-                    }
-                    catch(Exception e) { initCash = 0; }
-                }
-                this.removeAll();
-                table1 = new Table(initCash, userID, client);
+				try {
+					initCash = client.getBank();
 
-                jMenuBar.setVisible(true);
-                logoutBtn.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent evt) {
-                        logoutBtnActionPerformed(evt);
-                    }
-                });
+					if(initCash <= 0){
+						try{
+							initCash = client.retrieveEmergencyFunds(userID);
+						}
+						catch(Exception e) { initCash = 0; }
+					}
+					this.removeAll();
+					table1 = new Table(initCash, userID, client);
 
-                addMoneyBtn.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent evt) {
-                        addMoneyBtnActionPerformed(evt);
-                    }
-                });
+					jMenuBar.setVisible(true);
+					logoutBtn.addActionListener(new java.awt.event.ActionListener() {
+						public void actionPerformed(java.awt.event.ActionEvent evt) {
+							logoutBtnActionPerformed(evt);
+						}
+					});
 
-                this.setLayout(new java.awt.BorderLayout());
-                this.add(table1,	java.awt.BorderLayout.CENTER);
-                //JLabel statusLabel = new JLabel("...");
-                //this.add(statusLabel, java.awt.BorderLayout.SOUTH);
-                this.revalidate();
+					addMoneyBtn.addActionListener(new java.awt.event.ActionListener() {
+						public void actionPerformed(java.awt.event.ActionEvent evt) {
+							addMoneyBtnActionPerformed(evt);
+						}
+					});
+
+					this.setLayout(new java.awt.BorderLayout());
+					this.add(table1,	java.awt.BorderLayout.CENTER);
+					//JLabel statusLabel = new JLabel("...");
+					//this.add(statusLabel, java.awt.BorderLayout.SOUTH);
+					this.revalidate();
+
+
+				} catch (UnknownUserException ex) { //Occurs only if we've been  kicked when we log in (very rare)
+					System.err.println("Ooops");
+				}
 
             }
         }
@@ -547,6 +557,12 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
     public void addMoneyBtnActionPerformed(ActionEvent evt)
     {
         Boolean validAmount = true;
+		try {
+			initCash = client.getBank();
+		} catch (UnknownUserException uue) {
+			 JOptionPane.showMessageDialog(null, uue.getMessage());
+			 return;
+		}
         double moneyToAddDbl = 0;
         String moneyToAddString = JOptionPane.showInputDialog(this, "How much money would you like to put into your account?");
         if(!moneyToAddString.equals(""))
