@@ -78,10 +78,9 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         creditCardLabel1 = new javax.swing.JLabel();
         creditCardTextField1 = new javax.swing.JTextField();
 
-        setPreferredSize(new java.awt.Dimension(800, 600));
         setLayout(new java.awt.BorderLayout());
 
-        jSplitPane.setDividerLocation(600);
+        jSplitPane.setDividerLocation(800);
         jSplitPane.setDividerSize(0);
         jSplitPane.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
@@ -232,7 +231,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         registerPanel.add(reenterPasswordLabel, gridBagConstraints);
 
-        emailLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        emailLabel.setFont(new java.awt.Font("Tahoma", 1, 14));
         emailLabel.setText("Enter email address: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -274,7 +273,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         registerPanel.add(lastNameTextField, gridBagConstraints);
 
-        moneyLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        moneyLabel.setFont(new java.awt.Font("Tahoma", 1, 14));
         moneyLabel.setText("Money Amount: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -282,7 +281,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         registerPanel.add(moneyLabel, gridBagConstraints);
 
-        moneyTextField.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        moneyTextField.setFont(new java.awt.Font("Tahoma", 1, 14));
         moneyTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         moneyTextField.setPreferredSize(new java.awt.Dimension(150, 25));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -291,7 +290,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         registerPanel.add(moneyTextField, gridBagConstraints);
 
-        creditCardLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        creditCardLabel1.setFont(new java.awt.Font("Tahoma", 1, 14));
         creditCardLabel1.setText("Credit Card No.:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -299,7 +298,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         registerPanel.add(creditCardLabel1, gridBagConstraints);
 
-        creditCardTextField1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        creditCardTextField1.setFont(new java.awt.Font("Tahoma", 1, 14));
         creditCardTextField1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         creditCardTextField1.setPreferredSize(new java.awt.Dimension(150, 25));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -366,8 +365,8 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 
                 this.setLayout(new java.awt.BorderLayout());
                 this.add(table1,	java.awt.BorderLayout.CENTER);
-                JLabel statusLabel = new JLabel("...");
-                this.add(statusLabel, java.awt.BorderLayout.SOUTH);
+                //JLabel statusLabel = new JLabel("...");
+                //this.add(statusLabel, java.awt.BorderLayout.SOUTH);
                 this.revalidate();
 
             }
@@ -525,9 +524,9 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 			currentDividerLoc+=iterator;
 			this.jSplitPane.setDividerLocation(currentDividerLoc);
 
-			if	(currentDividerLoc >= 800)
+			if	(currentDividerLoc >= 850)
 			{
-					this.jSplitPane.setDividerLocation(800);
+					this.jSplitPane.setDividerLocation(850);
 					expandTimer.stop();
 					expanding = false;
 			}
@@ -598,17 +597,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         this.revalidate();
     }
 		
-	@Override
-	public void paintComponent(Graphics g)
-	{
-		super.paintComponent(g); 
-		
-		Graphics2D	graphics	= (Graphics2D)g;
-			
-		graphics.setPaint(Color.GREEN);
-			//graphics.setPaint(new GradientPaint(0,	300, Color.WHITE,	800, 400, Color.GREEN));
-			//graphics.fillRect(0,	0,	getWidth(),	getHeight());
-	}
+
 	
 	
     // Variables declaration - do not modify//GEN-BEGIN:variables

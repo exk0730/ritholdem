@@ -28,10 +28,12 @@ public class TestFrame extends javax.swing.JFrame implements WindowListener{
 
     /** Creates new form TestFrame */
     public TestFrame() {
+
 		loginPanel1 = null;
         initComponents();
         jMenuBar.setVisible(false);
 		this.addWindowListener(this);
+        
     }
 
     /** This method is called from within the constructor to
@@ -53,14 +55,15 @@ public class TestFrame extends javax.swing.JFrame implements WindowListener{
         jMenuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         addMoneyBtn = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JSeparator();
         logoutBtn = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        connectionPanel.setPreferredSize(new java.awt.Dimension(1050, 700));
         connectionPanel.setLayout(new java.awt.BorderLayout());
 
         guiPanel.setBackground(new java.awt.Color(0, 102, 0));
-        guiPanel.setPreferredSize(new java.awt.Dimension(800, 600));
         guiPanel.setLayout(new java.awt.GridBagLayout());
 
         ipAddressLabel.setFont(new java.awt.Font("Tahoma", 0, 18));
@@ -113,6 +116,7 @@ public class TestFrame extends javax.swing.JFrame implements WindowListener{
 
         addMoneyBtn.setText("Add money");
         jMenu1.add(addMoneyBtn);
+        jMenu1.add(jSeparator1);
 
         logoutBtn.setText("Logout");
         jMenu1.add(logoutBtn);
@@ -160,6 +164,7 @@ public class TestFrame extends javax.swing.JFrame implements WindowListener{
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JMenuItem logoutBtn;
     // End of variables declaration//GEN-END:variables
 
