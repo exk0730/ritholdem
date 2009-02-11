@@ -565,6 +565,15 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
                     JOptionPane.showMessageDialog(this, "You've maxed out the addable amount. Maximum amount you can have is 1000000. Please, re-enter.");
                     validAmount = false;
                 }
+
+                if(validAmount)
+                {
+                    client.addMoney(moneyToAddDbl);
+                    initCash += moneyToAddDbl;
+                    table1.updateCashAmount(initCash);
+
+                    JOptionPane.showMessageDialog(this, "You have successfully added $" + moneyToAddDbl + " to your account.");
+                }
             }
             catch(NumberFormatException nfe)
             {
@@ -577,14 +586,6 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
                 validAmount = false;
             }
 
-            if(validAmount)
-            {
-                client.addMoney(moneyToAddDbl);
-                initCash += moneyToAddDbl;
-                table1.updateCashAmount(initCash);
-
-                JOptionPane.showMessageDialog(this, "You have successfully added $" + moneyToAddDbl + " to your account.");
-            }
         }
     }
 
