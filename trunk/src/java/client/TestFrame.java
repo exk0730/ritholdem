@@ -59,6 +59,7 @@ public class TestFrame extends javax.swing.JFrame implements WindowListener{
         logoutBtn = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         connectionPanel.setPreferredSize(new java.awt.Dimension(1050, 700));
         connectionPanel.setLayout(new java.awt.BorderLayout());
