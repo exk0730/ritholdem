@@ -110,7 +110,7 @@ public class TestFrame extends javax.swing.JFrame implements WindowListener{
 
         connectionPanel.add(guiPanel, java.awt.BorderLayout.CENTER);
 
-        getContentPane().add(connectionPanel, java.awt.BorderLayout.PAGE_START);
+        getContentPane().add(connectionPanel, java.awt.BorderLayout.CENTER);
 
         jMenu1.setText("File");
 
