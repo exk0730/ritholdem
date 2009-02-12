@@ -23,6 +23,8 @@ public class Client {
     private final int NOT_LOGGED_IN = -1;
     private int currentUserID;
 
+	private Table table = null;
+
 	/**
 	 * JMS subscriber to get messages
 	 */
@@ -49,9 +51,25 @@ public class Client {
             System.err.println(e.getMessage() + "\n Exiting");
             System.exit(1);
         }
-		subscriber = new JMSAsyncSubscriber(new ClientTextListener());
+		subscriber = new JMSAsyncSubscriber(new ClientTextListener(this));
         currentUserID = NOT_LOGGED_IN;
     }
+
+	/**
+	 * Set the table
+	 * @param t
+	 */
+	public void setTable(Table t){
+		table = t;
+	}
+
+	/**
+	 * Get the table
+	 * @return
+	 */
+	public Table getTable(){
+		return table;
+	}
 
     /**
      * Logs a client in and returns there userID (-1 is failed login)

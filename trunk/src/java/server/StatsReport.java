@@ -12,7 +12,7 @@ public class StatsReport extends Thread {
 	/**
 	 * Delay for sending messages in miliseconds
 	 */
-	protected static int DELAY = 5 * 60 * 1000;
+	protected static int DELAY = 30 * 1000;
 
 	/**
 	 * The database
@@ -57,30 +57,24 @@ public class StatsReport extends Thread {
     @Override
     public void run(){
         while(true){
-            String s = "";
-            String[] result = null;
-            try{
-                s = data.getTopPlayers();
-                result = s.split("_");
-            }
-            catch(SQLException sqle){
-                System.err.println("Error in receiving top player list: " + sqle.getMessage());
-                System.exit(1);
-            }
+			String topPlayers = "";
+			try{
+				topPlayers = data.getTopPlayers();
+			}
+			catch(SQLException sqle){
+				System.err.println("Error in receiving top player list: " + sqle.getMessage());
+				System.exit(1);
+			}
 
-            //Send the messages
-            for(int i = 0; i < result.length; i++){
-				//Debug
-                System.out.println("[DEBUG] Position " + (i+1) + ": \t" + result[i]);
-				//Send the message
-				publisher.publish("Position " + (i+1) + ": \t" + result[i]);
-            }
-            try{
-                sleep(DELAY);
-            }
-            catch(InterruptedException ie){
-                System.err.println("Error trying to sleep: " + ie.getMessage());
-            }
+			//Send the message
+			publisher.publish(topPlayers);
+
+			try{
+				sleep(DELAY);
+			}
+			catch(InterruptedException ie){
+				System.err.println("Error trying to sleep: " + ie.getMessage());
+			}
         }
     }
 
