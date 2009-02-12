@@ -50,6 +50,7 @@ public class Table extends javax.swing.JPanel
         cashAmountLabel.setText(""+initCash);
         this.userID = userID;
 		this.client = client;
+		this.client.setTable(this);
 		bet = 0;
 		cardCount = 0;
 		dealt = false;
@@ -369,15 +370,30 @@ public class Table extends javax.swing.JPanel
         update();
     }
 
+	/**
+	 * Update cash
+	 * @param cashAmount
+	 */
     public void updateCashAmount(double cashAmount)
     {
        this.cashAmountLabel.setText("" + cashAmount);
     }
 
+	/**
+	 * Update bet
+	 * @param amount
+	 */
 	public void updateBetAmount(double amount){
 		this.betAmountLabel.setText("" + amount);
 	}
-    
+
+	/**
+	 * Update the textarea
+	 */
+    public void updateTextArea(String s){
+		jTextArea.setText(s);
+	}
+
 	private void update()
 	{
 		this.validate();

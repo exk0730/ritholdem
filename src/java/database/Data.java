@@ -207,7 +207,7 @@ public class Data {
                                         "NATURAL JOIN UserInfo ORDER BY userEarnings DESC");
         while(rs.next()){
             s += "First Name: " + rs.getString("fName") + ", Last Name: " + rs.getString("lName") +
-                     ", Current Earnings: " + rs.getString("userEarnings") + "_";
+                     ", Current Earnings: " + rs.getString("userEarnings") + "\n";
         }
         return s;
     }

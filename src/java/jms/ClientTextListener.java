@@ -7,14 +7,19 @@
 
 package jms;
 
+import client.Client;
+import client.Table;
 import javax.jms.*;
 
 public class ClientTextListener implements MessageListener {
 
+	private Client client;
+
     /**
      * Constructor
      */
-    public ClientTextListener() {
+    public ClientTextListener(Client c) {
+		client = c;
     }
 
     /**
@@ -26,14 +31,12 @@ public class ClientTextListener implements MessageListener {
     public void onMessage(Message message) {
         try {
             if(message instanceof TextMessage){
-              String msg = ((TextMessage)message).getText();
+				String msg = ((TextMessage)message).getText();
 
-              //TODO this is just for deliv 3
-              if(msg.equals("END")) {
-                  System.exit(0);
-              }
-              
-              System.out.println("Received: " + msg);
+				Table table = client.getTable();
+				if(table != null){
+					table.updateTextArea(msg);
+				}
             }
         }
         catch(JMSException jmse){
