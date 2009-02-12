@@ -1,7 +1,8 @@
 package server;
 
-import java.sql.*;
 import database.*;
+import java.sql.SQLException;
+import java.util.Date;
 import jms.JMSPublisher;
 /**
  * StatsReport will send a top player list using JMS
@@ -57,9 +58,9 @@ public class StatsReport extends Thread {
     @Override
     public void run(){
         while(true){
-			String topPlayers = "";
+			String topPlayers = "Top players so far ("+new Date()+"):\n\n";
 			try{
-				topPlayers = data.getTopPlayers();
+				topPlayers += data.getTopPlayers();
 			}
 			catch(SQLException sqle){
 				System.err.println("Error in receiving top player list: " + sqle.getMessage());
