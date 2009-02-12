@@ -205,9 +205,10 @@ public class Data {
         String s = "";
         ResultSet rs = db.executeQuery("SELECT fName, lName, userEarnings FROM UserMoneyStats " +
                                         "NATURAL JOIN UserInfo ORDER BY userEarnings DESC");
+		int i = 1;
         while(rs.next()){
-            s += "First Name: " + rs.getString("fName") + ", Last Name: " + rs.getString("lName") +
-                     ", Current Earnings: " + rs.getString("userEarnings") + "\n";
+            s += i++ + ": " + rs.getString("fName") + " " + rs.getString("lName") +
+                     " - $" + rs.getString("userEarnings") + "\n";
         }
         return s;
     }
