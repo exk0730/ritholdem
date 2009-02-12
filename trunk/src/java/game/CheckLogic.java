@@ -56,7 +56,22 @@ public class CheckLogic
      */
     public boolean checkPush()
 	{
-		return(getCombinedPlayerHand() == getCombinedDealerHand());
+        boolean push = false;
+        if(getCombinedPlayerHand() == getCombinedDealerHand()){
+            if(checkBlackJack() && (getCombinedDealerHand() == 21 && dealerHand.getSize() == 2)){
+                push = true;
+            }
+            else if(!checkBlackJack() && (getCombinedDealerHand() == 21 && dealerHand.getSize() == 2)){
+                push = false;
+            }
+            else if(checkBlackJack() && (getCombinedDealerHand() == 21 && dealerHand.getSize() != 2)){
+                push = false;
+            }
+            else{
+                push = true;
+            }
+        }
+		return push;
 	}
 	
     /**
@@ -171,14 +186,17 @@ public class CheckLogic
 		{
 			temp = 1;
 		}
-		else if(checkBlackJack())
+		if(checkBlackJack())
 		{
 			temp = 2;
 		}
-		else if(checkLoss())
+		if(checkLoss())
 		{
 			temp = -1;
 		}
+        if(checkPush()){
+            temp = 0;
+        }
 		return temp;
 	}
 	
@@ -197,7 +215,7 @@ public class CheckLogic
         CheckLogic cl = new CheckLogic(player,dealer);
         cl.updatePlayer(card1);//3,1
         cl.updatePlayer(card2);//1,1
-        cl.updateDealer(card3);/////2,10
+        cl.updateDealer(card3);/////2,9
         cl.updateDealer(card4);/////2,1
         cl.updateDealer(card5);//4,1
         //cl.updatePlayer(card6);//1,8
@@ -213,7 +231,7 @@ public class CheckLogic
 			System.out.println(dealer.getCardAt(i).toString());
 		}
 
-        System.out.println("combinedHand: " + cl.getCombinedPlayerHand());
+        System.out.println("combinedHand: " + cl.getCombinedPlayerHand() + " dealerHand: " + cl.getCombinedDealerHand());
 				
 		System.out.println("blackjack: " + cl.checkBlackJack() + "\npush: " + cl.checkPush() +
 								 "\nwin: " + cl.checkWin() + "\nloss: " + cl.checkLoss());
