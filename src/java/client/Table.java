@@ -1,8 +1,6 @@
 package client;
 
 import game.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import server.UnknownUserException;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -102,7 +100,7 @@ public class Table extends javax.swing.JPanel
 			//Update the client's money
 			initCash = client.getBank();
 		} catch (UnknownUserException uue) {
-			JOptionPane.showMessageDialog(null, uue.getMessage());
+			JOptionPane.showMessageDialog(this, uue.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		
@@ -110,10 +108,10 @@ public class Table extends javax.swing.JPanel
 		
 		if(bet == 0)
 		{
-			JOptionPane.showMessageDialog(null, "You have to enter a bet first");
+			JOptionPane.showMessageDialog(this, "You have to enter a bet first", "Information", JOptionPane.INFORMATION_MESSAGE);
 		}
         else if(initCash - bet < 0){
-            JOptionPane.showMessageDialog(null, "You don't have enough money to make this bet!");
+            JOptionPane.showMessageDialog(this, "You don't have enough money to make this bet!", "Information", JOptionPane.INFORMATION_MESSAGE);
             bet = 0;
             updateBetAmount(bet);
         }
@@ -133,7 +131,7 @@ public class Table extends javax.swing.JPanel
             dealt = true;
 		}
         else{
-            JOptionPane.showMessageDialog(null, "You already have a hand");
+            JOptionPane.showMessageDialog(this, "You already have a hand", "Information", JOptionPane.INFORMATION_MESSAGE);
         }
 	}
 
@@ -141,7 +139,7 @@ public class Table extends javax.swing.JPanel
 	{
 		if(!dealt)
 		{
-			JOptionPane.showMessageDialog(null, "You have not received any cards yet");
+			JOptionPane.showMessageDialog(this, "You have not received any cards yet", "Information", JOptionPane.INFORMATION_MESSAGE);
 		}
 		else
         {
@@ -155,7 +153,7 @@ public class Table extends javax.swing.JPanel
                 }
             }
             catch(UnknownUserException uue){
-                JOptionPane.showMessageDialog(null, uue.getMessage());
+                JOptionPane.showMessageDialog(this, uue.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
 		}
 	}
@@ -163,7 +161,7 @@ public class Table extends javax.swing.JPanel
 	private void standButtonActionPerformed(java.awt.event.ActionEvent evt)
 	{
         if(!dealt){
-            JOptionPane.showMessageDialog(null, "You must receive cards to do this");
+            JOptionPane.showMessageDialog(this, "You must receive cards to do this", "Information", JOptionPane.INFORMATION_MESSAGE);
         }
         else{
             client.updateUserCardStats(userID, 's');
@@ -177,7 +175,7 @@ public class Table extends javax.swing.JPanel
 	private void doubleButtonActionPerformed(java.awt.event.ActionEvent evt)
 	{
         if(!dealt){
-            JOptionPane.showMessageDialog(null, "You must receive cards first");
+            JOptionPane.showMessageDialog(this, "You must receive cards first", "Information", JOptionPane.INFORMATION_MESSAGE);
         }
         else{
             bet *= 2;
@@ -198,17 +196,16 @@ public class Table extends javax.swing.JPanel
                 }
             }
             catch(UnknownUserException uue){
-                JOptionPane.showMessageDialog(null, uue.getMessage());
+                JOptionPane.showMessageDialog(this, uue.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
             dealt = false;
         }
 	}
 
     private void playerBust() {
-        JOptionPane.showMessageDialog(null, "You busted");
+        JOptionPane.showMessageDialog(this, "You busted", "Lose", JOptionPane.INFORMATION_MESSAGE);
         bet *= -1;
         initCash = client.updateBank(userID, bet);
-        if(initCash <= 0) { getEmergFunds(); }
         cashAmountLabel.setText("" + initCash);
         bet = 0;
         updateBetAmount(bet);
@@ -233,36 +230,23 @@ public class Table extends javax.swing.JPanel
             String s = client.checkWin(userID, bet);
             String message = s.substring(0, s.indexOf('_'));
             updateDatabaseWin(message);
-            JOptionPane.showMessageDialog(null, message);
+            JOptionPane.showMessageDialog(this, message, "", JOptionPane.INFORMATION_MESSAGE);
             bet = Double.parseDouble(s.substring(s.indexOf('_')+1, s.length()));
             initCash = client.updateBank(userID, bet);
-            if(initCash <= 0) { getEmergFunds(); }
             cashAmountLabel.setText("" + initCash );
             bet = 0;
             updateBetAmount(bet);
             wipe();
         }
         catch(UnknownUserException uue){
-            JOptionPane.showMessageDialog(null, uue.getMessage());
+            JOptionPane.showMessageDialog(this, uue.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
         catch(NumberFormatException nfe){
-            System.err.println("Error receiving bet during checkWin: " + nfe.getMessage());
+            JOptionPane.showMessageDialog(this, "Error receiving bet during checkWin: " + nfe.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             System.exit(1);
         }
     }
 
-    /**
-     * Tries to set a user's cash amount to emergency funds when they have no initial money left
-     */
-    private void getEmergFunds(){
-        try{
-            initCash = client.retrieveEmergencyFunds(userID);
-            JOptionPane.showMessageDialog(null, "Retrieved your emergency funds");
-        }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(null, "You have no emergency funds available");
-        }
-    }
 
     /**
      * Private method to update user card stats
@@ -407,7 +391,7 @@ public class Table extends javax.swing.JPanel
 		Graphics2D graphics = (Graphics2D)g;
 		
 		RadialGradientPaint p = new RadialGradientPaint(new Point2D.Double(getWidth() / 2,
-		getHeight()/2.3), getWidth() / 3.2f, new float[]{0.0f, 1.0f},
+		getHeight()/2.15), getWidth() / 3.2f, new float[]{0.0f, 1.0f},
 		new Color[]{Color.GREEN, Color.BLACK});
 	      
 		graphics.setPaint(p);
@@ -645,10 +629,13 @@ public class Table extends javax.swing.JPanel
         jPanel1.setLayout(new java.awt.BorderLayout());
 
         serverMessagesLabel.setBackground(new java.awt.Color(0, 0, 0));
-        serverMessagesLabel.setFont(new java.awt.Font("Lucida Handwriting", 0, 18)); // NOI18N
+        serverMessagesLabel.setFont(new java.awt.Font("Lucida Handwriting", 0, 18));
         serverMessagesLabel.setForeground(new java.awt.Color(255, 255, 255));
         serverMessagesLabel.setText("Server Messages");
         jPanel1.add(serverMessagesLabel, java.awt.BorderLayout.PAGE_START);
+
+        jScrollPane1.setBackground(new java.awt.Color(0, 0, 0));
+        jScrollPane1.setBorder(null);
 
         jTextArea.setBackground(new java.awt.Color(0, 0, 0));
         jTextArea.setColumns(20);
@@ -659,7 +646,7 @@ public class Table extends javax.swing.JPanel
         jTextArea.setRows(5);
         jTextArea.setText("\nWelcome into Team2's Blackjack server!");
         jTextArea.setWrapStyleWord(true);
-        jTextArea.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jTextArea.setBorder(null);
         jScrollPane1.setViewportView(jTextArea);
 
         jPanel1.add(jScrollPane1, java.awt.BorderLayout.CENTER);
