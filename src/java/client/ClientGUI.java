@@ -13,6 +13,9 @@ package client;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -134,14 +137,21 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
 }//GEN-LAST:event_ipAddressTextFieldActionPerformed
 
     private void connectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectBtnActionPerformed
-        // TODO add your handling code here:
+        boolean ok = false;
         url = ipAddressTextField.getText();
+        
+		try {
+			loginPanel1 = new client.LoginPanel(url, jMenuBar, addMoneyBtn, logoutBtn);
+			ok = true;
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(this, "Unable to connect to the server.");
+		}
 
-        connectionPanel.removeAll();
-        loginPanel1 = new client.LoginPanel(url, jMenuBar, addMoneyBtn,logoutBtn);
-        connectionPanel.add(loginPanel1, java.awt.BorderLayout.CENTER);
-        connectionPanel.revalidate();
-
+		if(ok){
+			connectionPanel.removeAll();
+			connectionPanel.add(loginPanel1, java.awt.BorderLayout.CENTER);
+			connectionPanel.revalidate();
+		}
 }//GEN-LAST:event_connectBtnActionPerformed
 
     /**

@@ -1,5 +1,6 @@
 package client;
 import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import game.*;
 import jms.ClientTextListener;
@@ -34,7 +35,7 @@ public class Client {
      * Singelton Design Pattern
      * @return the existing instance of Client or creats one
      */
-    public static Client instance(String url){
+    public static Client instance(String url) throws Exception {
         if(instance == null){
           instance = new Client(url);
         }
@@ -43,14 +44,15 @@ public class Client {
     /**
      * Constructor
      */
-    private Client(String host){
-        try {
+    private Client(String host) throws Exception {
+        //try {
             server = (RMIInterface) Naming.lookup(PRE_HOST + host + POST_HOST + RMIInterface.SERVER_NAME);
-        } catch(Exception e) {
+        /*} catch(Exception e) {
             System.err.println("The client cannot resolve the server. Did you launch it?");
             System.err.println(e.getMessage() + "\n Exiting");
             System.exit(1);
-        }
+        //}
+		 */
 		subscriber = new JMSAsyncSubscriber(new ClientTextListener(this));
         currentUserID = NOT_LOGGED_IN;
     }

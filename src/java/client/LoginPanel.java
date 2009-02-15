@@ -35,8 +35,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 	int iterator =	0;
 	 
 	/** Creates new form LoginPanel	*/
-	public LoginPanel(String host, JMenuBar _jMenuBar, JMenuItem _addMoneyBtn, JMenuItem _logoutBtn)
-	{
+	public LoginPanel(String host, JMenuBar _jMenuBar, JMenuItem _addMoneyBtn, JMenuItem _logoutBtn) throws Exception {
         client = Client.instance(host);
         jMenuBar = _jMenuBar;
         addMoneyBtn = _addMoneyBtn;
