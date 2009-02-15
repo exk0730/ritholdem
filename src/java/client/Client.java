@@ -45,14 +45,7 @@ public class Client {
      * Constructor
      */
     private Client(String host) throws Exception {
-        //try {
-            server = (RMIInterface) Naming.lookup(PRE_HOST + host + POST_HOST + RMIInterface.SERVER_NAME);
-        /*} catch(Exception e) {
-            System.err.println("The client cannot resolve the server. Did you launch it?");
-            System.err.println(e.getMessage() + "\n Exiting");
-            System.exit(1);
-        //}
-		 */
+		server = (RMIInterface) Naming.lookup(PRE_HOST + host + POST_HOST + RMIInterface.SERVER_NAME);
 		subscriber = new JMSAsyncSubscriber(new ClientTextListener(this));
         currentUserID = NOT_LOGGED_IN;
     }
