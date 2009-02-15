@@ -398,41 +398,6 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         }
     }
 
-    /**
-     * Adds emergency funds to a user's account
-     * @param userID
-     * @param money
-     * @throws java.rmi.RemoteException
-     */
-    @Override
-    public synchronized void addEmergencyFunds(int userID, double money) throws RemoteException{
-        try {
-            data.addEmergencryFunds(userID, money);
-        }
-        catch(SQLException sqle){
-            System.err.println("Error in registering emergency funds: " + sqle.getMessage());
-            System.exit(1);
-        }
-    }
-
-    /**
-     * Retrieves emergency funds for this user
-     * @param userID
-     * @return
-     * @throws java.rmi.RemoteException
-     */
-    @Override
-    public synchronized double retrieveEmergencyFunds(int userID) throws RemoteException {
-        double temp = -1;
-        try {
-            temp = data.retrieveEmergencyFunds(userID);
-        }
-        catch(SQLException sqle){
-            System.err.println("Error in retrieving emergency funds: " + sqle.getMessage());
-            System.exit(1);
-        }
-        return temp;
-    }
 
     /**
      * Delete a user account
