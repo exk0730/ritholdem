@@ -237,8 +237,8 @@ public class Client {
      * @param bet
      * @return
      */
-    public PlayerCards deal(int userID, double bet) throws UnknownUserException{
-        PlayerCards hand = null;
+    public Hand deal(int userID, double bet) throws UnknownUserException{
+        Hand hand = null;
         try {
             hand = server.deal(userID, bet);
         }
@@ -254,8 +254,8 @@ public class Client {
      * Deals a hand for the dealer (server)
      * @return
      */
-    public DealerCards deal() {
-        DealerCards dealer = null;
+    public Hand deal() {
+        Hand dealer = null;
         try {
             dealer = server.deal();
         }

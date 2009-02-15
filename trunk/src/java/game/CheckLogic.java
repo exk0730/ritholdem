@@ -6,15 +6,15 @@ package game;
  */
 public class CheckLogic
 {
-	private PlayerCards playerHand;
-    private DealerCards dealerHand;
+	private Hand playerHand;
+    private Hand dealerHand;
 	
     /**
      * Constructor
      * @param player
      * @param dealer
      */
-    public CheckLogic(PlayerCards player, DealerCards dealer)
+    public CheckLogic(Hand player, Hand dealer)
 	{
 		playerHand = player;
 		dealerHand = dealer;
@@ -90,7 +90,7 @@ public class CheckLogic
      */
     public boolean checkLoss()
 	{
-		return(getCombinedPlayerHand() < getCombinedDealerHand());
+		return(getCombinedPlayerHand() < getCombinedDealerHand() && !checkBust(false));
 	}
 	
     /**
@@ -99,7 +99,7 @@ public class CheckLogic
      */
     public boolean checkWin()
 	{
-		return( (getCombinedPlayerHand() > getCombinedDealerHand() && (!checkBlackJack()) ) || (checkBust(false)));
+		return( (getCombinedPlayerHand() > getCombinedDealerHand() && (!checkBlackJack())) || (checkBust(false)) );
 	}
 	
     /**
@@ -199,43 +199,16 @@ public class CheckLogic
         }
 		return temp;
 	}
-	
-    public static void main(String [] args)
-	{
-		Card card1 = new Card(3,10);
-		Card card2 = new Card(1,1);
-		Card card3 = new Card(2,9);
-		Card card4 = new Card(2,1);
-        Card card5 = new Card(4,1);
-        Card card6 = new Card(1,8);
-		Deck deck = new Deck();
 
-        PlayerCards player = new PlayerCards(deck);
-        DealerCards dealer = new DealerCards(deck);
-        CheckLogic cl = new CheckLogic(player,dealer);
-        cl.updatePlayer(card1);//3,1
-        cl.updatePlayer(card2);//1,1
-        cl.updateDealer(card3);/////2,9
-        cl.updateDealer(card4);/////2,1
-        cl.updateDealer(card5);//4,1
-        //cl.updatePlayer(card6);//1,8
+    //TESTING PURPOSES
+    @Override
+    public String toString(){
+        String s = "combinedHand: " + getCombinedPlayerHand() + " dealerHand: " + getCombinedDealerHand();
 
-        System.out.println("------PLAYER HAND-------");
-		for(int i = 0; i < player.getSize(); i++)
-		{
-			System.out.println(player.getCardAt(i).toString());
-		}
-        System.out.println("\n------DEALER HAND-----");
-		for(int i = 0; i < dealer.getSize(); i++)
-		{
-			System.out.println(dealer.getCardAt(i).toString());
-		}
+		s += "\nblackjack: " + checkBlackJack() + "\npush: " + checkPush() +
+								 "\nwin: " + checkWin() + "\nloss: " + checkLoss();
 
-        System.out.println("combinedHand: " + cl.getCombinedPlayerHand() + " dealerHand: " + cl.getCombinedDealerHand());
-				
-		System.out.println("blackjack: " + cl.checkBlackJack() + "\npush: " + cl.checkPush() +
-								 "\nwin: " + cl.checkWin() + "\nloss: " + cl.checkLoss());
-		
-		System.out.println("\n\nWin Type: " + cl.returnTypeOfWin());
-	}
+		s+= "\n\nWin Type: " + returnTypeOfWin();
+        return s;
+    }
 }

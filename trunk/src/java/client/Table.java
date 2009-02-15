@@ -30,8 +30,7 @@ public class Table extends javax.swing.JPanel
                                 //cardCount * CARD_WIDTH will render the card at the next open spot
 	private double initCash, bet;
 	private Client client;
-    private PlayerCards hand; // player's hand
-    private DealerCards dealer; //dealer's hand
+    private Hand playerHand, dealerHand; // player's hand and dealer's hand
 	private boolean dealt; //true if hand has been dealt
 	private Card dealerCard; //holds the face-down dealer card for rendering later
     private JLabel jl; //holds the card_back image for dealer card
@@ -120,10 +119,10 @@ public class Table extends javax.swing.JPanel
 			this.setLayout(null);
             cardCount = 0;
             try{
-                hand = client.deal(userID, bet);
-                renderPlayerHand(hand);
-                dealer = client.deal();
-                renderDealerHand(dealer);
+                playerHand = client.deal(userID, bet);
+                renderPlayerHand(playerHand);
+                dealerHand = client.deal();
+                renderDealerHand(dealerHand);
             }
             catch(UnknownUserException uue){
                 JOptionPane.showMessageDialog(null, uue.getMessage());
@@ -272,7 +271,7 @@ public class Table extends javax.swing.JPanel
      * Render's this player's hand
      * @param hand
      */
-	private void renderPlayerHand(PlayerCards hand)
+	private void renderPlayerHand(Hand hand)
 	{
 		for(int i = 0; i < hand.getSize(); i++)
 		{
@@ -291,7 +290,7 @@ public class Table extends javax.swing.JPanel
      * Render the dealer's hand
      * @param dealer
      */
-	private void renderDealerHand(DealerCards dealer)
+	private void renderDealerHand(Hand dealer)
 	{
 		dealerCard = dealer.getCardAt(0);
 		Card cardD = dealer.getCardAt(1);
