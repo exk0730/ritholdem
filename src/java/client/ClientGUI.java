@@ -102,7 +102,7 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
 
         titleLabel.setFont(new java.awt.Font("Tahoma", 2, 48)); // NOI18N
         titleLabel.setForeground(new java.awt.Color(255, 255, 255));
-        titleLabel.setText("Black Jack Game");
+        titleLabel.setText("Blackjack Game");
 
         teamName1.setBackground(new java.awt.Color(255, 255, 255));
         teamName1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -122,7 +122,7 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
         teamName4.setBackground(new java.awt.Color(255, 255, 255));
         teamName4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         teamName4.setForeground(new java.awt.Color(255, 255, 255));
-        teamName4.setText("TylerSchindler");
+        teamName4.setText("Tyler Schindel");
 
         javax.swing.GroupLayout guiPanelLayout = new javax.swing.GroupLayout(guiPanel);
         guiPanel.setLayout(guiPanelLayout);
@@ -140,20 +140,19 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
                     .addComponent(teamName4)
                     .addComponent(teamName3))
                 .addContainerGap())
-            .addGroup(guiPanelLayout.createSequentialGroup()
-                .addGap(186, 186, 186)
-                .addComponent(titleLabel)
-                .addContainerGap(483, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, guiPanelLayout.createSequentialGroup()
                 .addContainerGap(280, Short.MAX_VALUE)
-                .addComponent(ipAddressLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(guiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
+                    .addComponent(titleLabel)
                     .addGroup(guiPanelLayout.createSequentialGroup()
-                        .addComponent(ipAddressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(ipAddressLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(connectBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(guiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(guiPanelLayout.createSequentialGroup()
+                                .addComponent(ipAddressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(connectBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(369, 369, 369))
         );
         guiPanelLayout.setVerticalGroup(
@@ -166,9 +165,9 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
                 .addComponent(teamName3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(teamName4)
-                .addGap(76, 76, 76)
+                .addGap(56, 56, 56)
                 .addComponent(titleLabel)
-                .addGap(68, 68, 68)
+                .addGap(88, 88, 88)
                 .addGroup(guiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ipAddressLabel)
                     .addComponent(ipAddressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
