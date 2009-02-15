@@ -516,8 +516,10 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         return exists;
     }
 
-    public synchronized boolean kickUser(int userID) throws RemoteException {
-        return logout(userID);
+    public synchronized void kickUser(int userID) throws RemoteException, UnknownUserException {
+        if(!logout(userID)){
+			throw new UnknownUserException();
+		}
     }
 
     /**

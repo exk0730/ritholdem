@@ -79,7 +79,7 @@ public interface RMIInterface extends Remote
 	 * @return true if the userID has been kicked
 	 * @throws java.rmi.RemoteException
 	 */
-	public boolean kickUser(int userID) throws RemoteException;
+	public void kickUser(int userID) throws RemoteException, UnknownUserException;
 
 
     /**

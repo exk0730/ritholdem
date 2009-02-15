@@ -53,13 +53,12 @@ public class AdminServlet extends HttpServlet {
 	 * @return true if no error, false otherwise
 	 */
 	protected boolean kick(int userID){
-		boolean res = false;
 		try {
-			res = server.kickUser(userID);
-		} catch (RemoteException ex) {
-			exception = ex;
+			server.kickUser(userID);
+		} catch (Exception e) {
+			exception = e;
 		}
-		return res && exception == null;
+		return exception == null;
 	}
 	
 	/**
@@ -157,11 +156,6 @@ public class AdminServlet extends HttpServlet {
 		}
 		return res;
 	}
-
-
-
-
-
 
 	/**
 	 * Print the current users

@@ -1,19 +1,20 @@
-<%-- 
-    Document   : index
-    Created on : 2 févr. 2009, 18:52:21
-    Author     : Emilien Girault
---%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" import="servlet.ServerAdminWebController" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
+
+<%!
+ServerAdminWebController server = new ServerAdminWebController();
+%>
 
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Blackjack Server Administration Panel</title>
+		<link type="text/css" rel="stylesheet" href ="style.css" />
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Blackjack Server Administration Panel</h1>
+
+		<p><%= server.getCurrentUsers() %></p>
     </body>
 </html>
