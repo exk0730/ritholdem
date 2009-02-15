@@ -102,14 +102,11 @@ public class Data {
         if(ok)
         {
             pst = db.newPreparedStatement(
-                    "INSERT INTO FinancialData (userID, bank, creditCardNum, allowEmergencyFunding" +
-                                                ", emergencyFundAmt) VALUES (?, ?, ?, ?, ?)"
+                    "INSERT INTO FinancialData (userID, bank, creditCardNum VALUES (?, ?, ?)"
                     );
             pst.setInt(1, userID);
             pst.setDouble(2, initCash);
             pst.setString(3, creditCard);
-            pst.setInt(4, 0);
-            pst.setDouble(5, 0.00);
             pst.executeUpdate();
         }
 
@@ -194,6 +191,24 @@ public class Data {
 
         }
         return ai;
+    }
+
+    /**
+     * Gets the users card stats
+     * @param userID
+     * @return
+     * @throws java.sql.SQLException
+     */
+    public AccountCardStats getCardStats(int userID) throws SQLException {
+        AccountCardStats acs = null;
+        PreparedStatement pst = db.newPreparedStatement("SELECT * FROM UserCardStats WHERE userID = (?)");
+        pst.setInt(1, userID);
+        ResultSet rs = pst.executeQuery();
+        if(rs.next()){
+            acs = new AccountCardStats(rs.getInt("numOfBlackjacks"), rs.getInt("numOfHits"),rs.getInt("numOfStands"),
+                    rs.getInt("numOfDoubles"), rs.getInt("numOfWins"), rs.getInt("numOfLoss"), rs.getInt("numOfPushes"));
+        }
+        return acs;
     }
 
     /**
@@ -295,22 +310,8 @@ public class Data {
         }
     }
 
-    /**
-     * Gets the users card stats
-     * @param userID
-     * @return
-     * @throws java.sql.SQLException
-     */
-    public AccountCardStats getCardStats(int userID) throws SQLException {
-        AccountCardStats acs = null;
-        PreparedStatement pst = db.newPreparedStatement("SELECT * FROM UserCardStats WHERE userID = (?)");
-        pst.setInt(1, userID);
-        ResultSet rs = pst.executeQuery();
-        if(rs.next()){
-            acs = new AccountCardStats(rs.getInt("numOfBlackjacks"), rs.getInt("numOfHits"),rs.getInt("numOfStands"),
-                    rs.getInt("numOfDoubles"), rs.getInt("numOfWins"), rs.getInt("numOfLoss"), rs.getInt("numOfPushes"));
-        }
-        return acs;
+    public synchronized void updateUserMoneyStats(int userID) throws SQLException {
+
     }
 
     /**
@@ -352,49 +353,7 @@ public class Data {
         }
         return temp;
     }
-
-    /**
-     * Adds money to emergency funding
-     * @param userID
-     * @param money
-     * @throws java.sql.SQLException
-     */
-    public synchronized void addEmergencyFunds(int userID, double money) throws SQLException {
-        PreparedStatement pst = db.newPreparedStatement("SELECT allowEmergencyFunding, emergencyFundAmt FROM " +
-                                                    "FinancialData WHERE FinancialData.userID = (?)");
-        pst.setInt(1, userID);
-        ResultSet rs = pst.executeQuery();
-        if(rs.next()){
-            pst = db.newPreparedStatement("UPDATE FinancialData SET allowEmergencyFunding = (?), emergencyFundAmt = (?) " +
-                                            "WHERE FinancialData.userID = (?)");
-            pst.setInt(1, 1);
-            pst.setDouble(2, money);
-            pst.setInt(3, userID);
-            pst.executeUpdate();
-        }
-    }
-
-    /**
-     * Retrieves a user's emergency funding and sets their bank to this amount
-     * @param userID
-     * @return
-     * @throws java.sql.SQLException
-     */
-    public synchronized double retrieveEmergencyFunds(int userID) throws SQLException {
-        double temp = -1;
-        PreparedStatement pst = db.newPreparedStatement("SELECT emergencyFundAmt FROM FinancialData WHERE FinancialData.userID = (?)");
-        pst.setInt(1, userID);
-        ResultSet rs = pst.executeQuery();
-        if(rs.next()){
-            temp = rs.getDouble("emergencyFundAmt");
-            pst = db.newPreparedStatement("UPDATE FinancialData SET bank = (?) WHERE userID = (?)");
-            pst.setDouble(1, temp);
-            pst.setInt(2, userID);
-            pst.executeUpdate();
-        }
-        return temp;
-    }
-
+    
     /**
      * Write the user's infos to the database
      * @param userID
@@ -510,7 +469,7 @@ public class Data {
             pst.executeUpdate();
         }
     }
-        /**
+     /**
      * Updates server with number of users played
      * @param serverID
      * @param usersPlayed

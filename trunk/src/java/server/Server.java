@@ -29,7 +29,10 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * Unique instance (Singleton Design Pattern)
      */
     private static Server instance = null;
-
+    /**
+     * Server's ID
+     */
+     private final int SERVER_ID = 1;
 	/**
 	 * Stats reporter
 	 */
@@ -397,7 +400,6 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
             System.err.println("Error in updating user card stats: " + sqle.getMessage());
         }
     }
-
 
     /**
      * Delete a user account

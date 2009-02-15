@@ -155,9 +155,7 @@ public class Client {
      */
     public void updateUserCardStats(int userID, char character) throws RemoteException {
         server.updateUserCardStats(userID, character);
-
     }
-
 
     /**
      * Deals a hand for the player

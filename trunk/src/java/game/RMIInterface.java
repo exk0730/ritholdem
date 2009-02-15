@@ -115,7 +115,6 @@ public interface RMIInterface extends Remote
      */
     public void updateUserCardStats(int userID, char character) throws RemoteException;
 
-
     /**
      * Write a user's infos to the database
      * @param userID
