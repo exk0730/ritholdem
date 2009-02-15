@@ -1,5 +1,6 @@
 /**
  * Server Administration Module
+ * Used by the JSP to perform actions on the server
  * @author Emilien Girault
  * @date 2/15/09
  */
@@ -29,6 +30,14 @@ public class ServerAdminWebController {
             server = null;
 			exception = e;
         }
+	}
+
+	/**
+	 * Return true if connected to the server, false otherwise
+	 * @return true if connected to the server, false otherwise
+	 */
+	public boolean isConnected(){
+		return server != null;
 	}
 
 	/**

@@ -15,6 +15,12 @@ ServerAdminWebController server = new ServerAdminWebController();
     <body>
         <h1>Blackjack Server Administration Panel</h1>
 
-		<p><%= server.getCurrentUsers() %></p>
+		<% if(server.isConnected()){ %>
+
+		<p>Users : <%= server.getCurrentUsers() %></p>
+
+		<% } else { //if !server.isConnected() %>
+			<p>Unable to connect to server.</p>
+		<% } %>
     </body>
 </html>

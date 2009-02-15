@@ -539,8 +539,13 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         }
         
         System.out.println("Starting the server.");
-        
+
+		//Add a hook to unbind the server when we close it
+		Runtime.getRuntime().addShutdownHook(new ServerExitThread());
+
+		//Bind the server
         server.bind();
+		
         System.out.println("Server started");
     }
 
