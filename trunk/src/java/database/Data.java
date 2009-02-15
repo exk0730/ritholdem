@@ -296,6 +296,24 @@ public class Data {
     }
 
     /**
+     * Gets the users card stats
+     * @param userID
+     * @return
+     * @throws java.sql.SQLException
+     */
+    public AccountCardStats getCardStats(int userID) throws SQLException {
+        AccountCardStats acs = null;
+        PreparedStatement pst = db.newPreparedStatement("SELECT * FROM UserCardStats WHERE userID = (?)");
+        pst.setInt(1, userID);
+        ResultSet rs = pst.executeQuery();
+        if(rs.next()){
+            acs = new AccountCardStats(rs.getInt("numOfBlackjacks"), rs.getInt("numOfHits"),rs.getInt("numOfStands"),
+                    rs.getInt("numOfDoubles"), rs.getInt("numOfWins"), rs.getInt("numOfLoss"), rs.getInt("numOfPushes"));
+        }
+        return acs;
+    }
+
+    /**
      * Get a user's bank amount
      * @param userID
      * @return user's money
