@@ -116,6 +116,14 @@ public interface RMIInterface extends Remote
     public void updateUserCardStats(int userID, char character) throws RemoteException;
 
     /**
+     * Retrieves this user's card stats
+     * @param userID
+     * @return
+     * @throws java.rmi.RemoteException
+     */
+    public AccountCardStats getCardStats(int userID) throws RemoteException;
+
+    /**
      * Write a user's infos to the database
      * @param userID
      * @param ai user's infos

@@ -402,6 +402,23 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     }
 
     /**
+     * Retrieves this user's card stats
+     * @param userID
+     * @return
+     * @throws java.rmi.RemoteException
+     */
+    public synchronized AccountCardStats getCardStats(int userID) throws RemoteException {
+        AccountCardStats acs = null;
+        try{
+            acs = data.getCardStats(userID);
+        }
+        catch(SQLException sqle){
+            System.err.println("Error in getting user card stats: " + sqle.getMessage());
+        }
+        return acs;
+    }
+
+    /**
      * Delete a user account
      * @param userID
      * @return
