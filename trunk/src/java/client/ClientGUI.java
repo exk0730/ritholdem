@@ -13,8 +13,6 @@ package client;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 
@@ -47,7 +45,6 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         connectionPanel = new javax.swing.JPanel();
         guiPanel = new javax.swing.JPanel();
@@ -55,6 +52,11 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
         ipAddressTextField = new javax.swing.JTextField();
         connectBtn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        titleLabel = new javax.swing.JLabel();
+        teamName1 = new javax.swing.JLabel();
+        teamName2 = new javax.swing.JLabel();
+        teamName3 = new javax.swing.JLabel();
+        teamName4 = new javax.swing.JLabel();
         jMenuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         addMoneyBtn = new javax.swing.JMenuItem();
@@ -68,15 +70,13 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
         connectionPanel.setLayout(new java.awt.BorderLayout());
 
         guiPanel.setBackground(new java.awt.Color(0, 102, 0));
-        guiPanel.setLayout(new java.awt.GridBagLayout());
 
-        ipAddressLabel.setFont(new java.awt.Font("Tahoma", 0, 18));
+        ipAddressLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         ipAddressLabel.setForeground(new java.awt.Color(153, 255, 0));
-        ipAddressLabel.setText("IP address:");
-        guiPanel.add(ipAddressLabel, new java.awt.GridBagConstraints());
+        ipAddressLabel.setText("Enter IP address: ");
 
         ipAddressTextField.setBackground(new java.awt.Color(51, 204, 0));
-        ipAddressTextField.setFont(new java.awt.Font("Tahoma", 1, 18));
+        ipAddressTextField.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         ipAddressTextField.setText("localhost");
         ipAddressTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         ipAddressTextField.setPreferredSize(new java.awt.Dimension(150, 25));
@@ -85,9 +85,6 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
                 ipAddressTextFieldActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-        guiPanel.add(ipAddressTextField, gridBagConstraints);
 
         connectBtn.setBackground(new java.awt.Color(0, 153, 51));
         connectBtn.setForeground(new java.awt.Color(153, 255, 0));
@@ -99,18 +96,87 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
                 connectBtnActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
-        guiPanel.add(connectBtn, gridBagConstraints);
 
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("(Ex: 129.234.13.13, localhost)");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        guiPanel.add(jLabel1, gridBagConstraints);
+
+        titleLabel.setFont(new java.awt.Font("Tahoma", 2, 48)); // NOI18N
+        titleLabel.setForeground(new java.awt.Color(255, 255, 255));
+        titleLabel.setText("Black Jack Game");
+
+        teamName1.setBackground(new java.awt.Color(255, 255, 255));
+        teamName1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        teamName1.setForeground(new java.awt.Color(255, 255, 255));
+        teamName1.setText("Emilien Girault");
+
+        teamName2.setBackground(new java.awt.Color(255, 255, 255));
+        teamName2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        teamName2.setForeground(new java.awt.Color(255, 255, 255));
+        teamName2.setText("Eric Kisner");
+
+        teamName3.setBackground(new java.awt.Color(255, 255, 255));
+        teamName3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        teamName3.setForeground(new java.awt.Color(255, 255, 255));
+        teamName3.setText("Daniyar Amanchin");
+
+        teamName4.setBackground(new java.awt.Color(255, 255, 255));
+        teamName4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        teamName4.setForeground(new java.awt.Color(255, 255, 255));
+        teamName4.setText("TylerSchindler");
+
+        javax.swing.GroupLayout guiPanelLayout = new javax.swing.GroupLayout(guiPanel);
+        guiPanel.setLayout(guiPanelLayout);
+        guiPanelLayout.setHorizontalGroup(
+            guiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, guiPanelLayout.createSequentialGroup()
+                .addContainerGap(870, Short.MAX_VALUE)
+                .addGroup(guiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(teamName2)
+                    .addComponent(teamName1))
+                .addGap(39, 39, 39))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, guiPanelLayout.createSequentialGroup()
+                .addContainerGap(870, Short.MAX_VALUE)
+                .addGroup(guiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(teamName4)
+                    .addComponent(teamName3))
+                .addContainerGap())
+            .addGroup(guiPanelLayout.createSequentialGroup()
+                .addGap(186, 186, 186)
+                .addComponent(titleLabel)
+                .addContainerGap(483, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, guiPanelLayout.createSequentialGroup()
+                .addContainerGap(280, Short.MAX_VALUE)
+                .addComponent(ipAddressLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(guiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addGroup(guiPanelLayout.createSequentialGroup()
+                        .addComponent(ipAddressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(connectBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(369, 369, 369))
+        );
+        guiPanelLayout.setVerticalGroup(
+            guiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(guiPanelLayout.createSequentialGroup()
+                .addComponent(teamName1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(teamName2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(teamName3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(teamName4)
+                .addGap(76, 76, 76)
+                .addComponent(titleLabel)
+                .addGap(68, 68, 68)
+                .addGroup(guiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ipAddressLabel)
+                    .addComponent(ipAddressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(connectBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel1)
+                .addContainerGap(144, Short.MAX_VALUE))
+        );
 
         connectionPanel.add(guiPanel, java.awt.BorderLayout.CENTER);
 
@@ -144,7 +210,7 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
 			loginPanel1 = new client.LoginPanel(url, jMenuBar, addMoneyBtn, logoutBtn);
 			ok = true;
 		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(this, "Unable to connect to the server.");
+			JOptionPane.showMessageDialog(this, "Unable to connect to the server.", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 
 		if(ok){
@@ -177,6 +243,11 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JMenuItem logoutBtn;
+    private javax.swing.JLabel teamName1;
+    private javax.swing.JLabel teamName2;
+    private javax.swing.JLabel teamName3;
+    private javax.swing.JLabel teamName4;
+    private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables
 
     public void windowOpened(WindowEvent e) {
