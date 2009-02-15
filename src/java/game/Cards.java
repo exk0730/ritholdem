@@ -34,8 +34,8 @@ public abstract class Cards implements Serializable
 	*@param n The position where the card should be
 	*@return Card object
 	*/
-	public Card getCardAt(int n)
-   {
+	public Card getCardAt(int n) throws IndexOutOfBoundsException
+    {
 		return cards.get(n);
 	}
 	

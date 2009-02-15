@@ -20,13 +20,11 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      */
     public Data data; //TODO change into private
     public Deck deck; //TODO catch IndexOutOfBoundsExceptions - deck runs out of cards
-    private PlayerCards playerHand;
-    private DealerCards dealer;
+    private Hand playerHand, dealerHand;
     private CheckLogic checkLogic;
     private ArrayList<Integer> users = new ArrayList<Integer>();
     private static Date startTime;
     private Date currentTime;
-    private UnknownUserException uue;
     /**
      * Unique instance (Singleton Design Pattern)
      */
@@ -77,11 +75,14 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     }
 
     private void initGame(boolean newHand){
-        deck = new Deck();
+        try{
+            deck = Deck.instance();
+        }
+        catch(Exception e) { System.err.println("Error in retrieving isntance of deck"); }
         if(newHand){
-            playerHand = new PlayerCards(deck);
-            dealer = new DealerCards(deck);
-            checkLogic = new CheckLogic(playerHand, dealer);
+            playerHand = new Hand();
+            dealerHand = new Hand();
+            checkLogic = new CheckLogic(playerHand, dealerHand);
         }
     }
 
@@ -138,17 +139,18 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @throws java.rmi.RemoteException
      */
     @Override
-    public synchronized DealerCards deal() throws RemoteException
+    public synchronized Hand deal() throws RemoteException
     {
         try{
-            dealer.nextHand();
+            dealerHand.nextHand();
         }
         catch(IndexOutOfBoundsException ioobe){
             initGame(true);
-            dealer.nextHand();
+            dealerHand = new Hand();
+            dealerHand.nextHand();
         }
-        checkLogic = new CheckLogic(playerHand, dealer);
-    	return dealer;
+        checkLogic = new CheckLogic(playerHand, dealerHand);
+    	return dealerHand;
     }
 
     /**
@@ -159,7 +161,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @throws java.rmi.RemoteException
      */
     @Override
-    public synchronized PlayerCards deal(int userID, double bet)throws RemoteException, UnknownUserException
+    public synchronized Hand deal(int userID, double bet)throws RemoteException, UnknownUserException
     {
         if(userExists(userID)){
             try{
@@ -167,6 +169,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
             }
             catch(IndexOutOfBoundsException ioobe){
                 initGame(true);
+                playerHand = new Hand();
                 playerHand.nextHand();
             }
         }
@@ -245,6 +248,8 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
                     break;
             }
             s = s + "_" + bet;
+            System.out.println("Just checked win - String s= " + s + " checklogic is as follows: " +
+                    checkLogic.toString());
         }
         else{
             throw new UnknownUserException();
@@ -314,6 +319,9 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
             }
             else{
                 initGame(true);
+                playerHand = new Hand();
+                dealerHand = new Hand();
+                checkLogic = new CheckLogic(playerHand, dealerHand);
                 users.add(userID);
             }
         } catch(SQLException e) {
