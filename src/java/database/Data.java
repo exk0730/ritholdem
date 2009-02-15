@@ -1,6 +1,6 @@
 /**
  * Database connection layer
- * @author Emilien Girault
+ * @author Emilien Girault, Tyler Schindel
  * @date 1/12/09
  */
 package database;
