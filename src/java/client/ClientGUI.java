@@ -102,7 +102,7 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
 
         titleLabel.setFont(new java.awt.Font("Tahoma", 2, 48)); // NOI18N
         titleLabel.setForeground(new java.awt.Color(255, 255, 255));
-        titleLabel.setText("Blackjack Game");
+        titleLabel.setText("Blackjack Game ");
 
         teamName1.setBackground(new java.awt.Color(255, 255, 255));
         teamName1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N

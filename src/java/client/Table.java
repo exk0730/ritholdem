@@ -9,6 +9,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RadialGradientPaint;
 import java.awt.geom.Point2D;
+import java.rmi.RemoteException;
 
 /**
  * Playing table
@@ -96,9 +97,13 @@ public class Table extends javax.swing.JPanel
 	private void dealButtonActionPerformed(java.awt.event.ActionEvent evt)
 	{
 		try {
-			//Update the client's money
-			initCash = client.getBank();
-		} catch (UnknownUserException uue) {
+                //Update the client's money
+                initCash = client.getBank();
+            } 
+		catch (RemoteException ex) {
+                JOptionPane.showMessageDialog(this, "Connection Problem. Error retreiving bank.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        catch (UnknownUserException uue) {
 			JOptionPane.showMessageDialog(this, uue.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
@@ -125,7 +130,11 @@ public class Table extends javax.swing.JPanel
                 renderDealerHand(dealerHand);
             }
             catch(UnknownUserException uue){
-                JOptionPane.showMessageDialog(null, uue.getMessage());
+                JOptionPane.showMessageDialog(this, uue.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            catch(RemoteException re)
+            {
+               JOptionPane.showMessageDialog(this, "Connection Problem. Error Dealing.", "Error", JOptionPane.ERROR_MESSAGE);
             }
             dealt = true;
 		}
@@ -142,18 +151,41 @@ public class Table extends javax.swing.JPanel
 		}
 		else
         {
+            Card temp = null;
+            boolean ok = false;
             try{
-                Card temp = client.hit(userID);
-                client.updateUserCardStats(userID, 'h');
-                renderHitCard(temp, true);
-                if(client.bust(userID,true)) {
-                    renderDealerCard();
-                    playerBust();
+
+                try
+                {
+                temp = client.hit(userID);
+                ok = true;
+                }
+                catch(RemoteException re)
+                {
+                   JOptionPane.showMessageDialog(this, "Connection Problem. Error receiving card.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                if(ok)
+                {
+                    try {
+                        client.updateUserCardStats(userID, 'h');
+                    } catch (RemoteException ex) {
+                        JOptionPane.showMessageDialog(this, "Connection Problem. Error updating user stats.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    renderHitCard(temp, true);
+                    try {
+                        if (client.bust(userID, true)) {
+                            renderDealerCard();
+                            playerBust();
+                        }
+                    } catch (RemoteException ex) {
+                        JOptionPane.showMessageDialog(this, "Connection Problem. Error busting.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
             catch(UnknownUserException uue){
                 JOptionPane.showMessageDialog(this, uue.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
+
 		}
 	}
 
@@ -163,7 +195,11 @@ public class Table extends javax.swing.JPanel
             JOptionPane.showMessageDialog(this, "You must receive cards to do this", "Information", JOptionPane.INFORMATION_MESSAGE);
         }
         else{
-            client.updateUserCardStats(userID, 's');
+            try {
+                client.updateUserCardStats(userID, 's');
+            } catch (RemoteException ex) {
+                JOptionPane.showMessageDialog(this, "Connection Problem. Error updating user cards.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
             cardCount = 2;
             renderDealerCard();
             dealerActions();
@@ -179,19 +215,34 @@ public class Table extends javax.swing.JPanel
         else{
             bet *= 2;
             updateBetAmount(bet);
+            Card temp = null;
             try{
-                Card temp = client.hit(userID);
-                client.updateUserCardStats(userID, 'd');
-                renderHitCard(temp, true);
-                //if client busted:
-                if(client.bust(userID, true)) {
-                    renderDealerCard();
-                    playerBust();
+                try
+                {
+                    temp = client.hit(userID);
                 }
-                else{
-                    cardCount = 2;
-                    renderDealerCard();
-                    dealerActions();
+                catch(RemoteException re)
+                {
+                    JOptionPane.showMessageDialog(this, "Connection Problem. Error doubling.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                try {
+                    client.updateUserCardStats(userID, 'd');
+                } catch (RemoteException ex) {
+                    JOptionPane.showMessageDialog(this, "Connection Problem. Error updating user stats.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                renderHitCard(temp, true);
+                try {
+                    //if client busted:
+                    if (client.bust(userID, true)) {
+                        renderDealerCard();
+                        playerBust();
+                    } else {
+                        cardCount = 2;
+                        renderDealerCard();
+                        dealerActions();
+                    }
+                } catch (RemoteException ex) {
+                    JOptionPane.showMessageDialog(this, "Connection Problem. Error busting.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
             catch(UnknownUserException uue){
@@ -204,7 +255,13 @@ public class Table extends javax.swing.JPanel
     private void playerBust() {
         JOptionPane.showMessageDialog(this, "You busted", "Lose", JOptionPane.INFORMATION_MESSAGE);
         bet *= -1;
-        initCash = client.updateBank(userID, bet);
+        try {
+            initCash = client.updateBank(userID, bet);
+        } catch (RemoteException ex) {
+            JOptionPane.showMessageDialog(this, "Connection Problem. Error updating bank.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (UnknownUserException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
         cashAmountLabel.setText("" + initCash);
         bet = 0;
         updateBetAmount(bet);
@@ -217,21 +274,34 @@ public class Table extends javax.swing.JPanel
      */
 	private void dealerActions() {
         try{
-            while(!client.dealerStand()){
-                Card temp = client.hit();
-                renderHitCard(temp, false);
-                //if dealer busts:
-                if(client.bust(userID, false)) {
-                    break;
+            try {
+                while (!client.dealerStand()) {
+                    Card temp = client.hit();
+                    renderHitCard(temp, false);
+                    //if dealer busts:
+                    if (client.bust(userID, false)) {
+                        break;
+                    }
                 }
+            } catch (RemoteException ex) {
+                JOptionPane.showMessageDialog(this, "Connection Problem. Error dealer standing.", "Error", JOptionPane.ERROR_MESSAGE);
             }
             //See if client wins, pushes, or loses
-            String s = client.checkWin(userID, bet);
+            String s = null;
+            try {
+                s = client.checkWin(userID, bet);
+            } catch (RemoteException ex) {
+                JOptionPane.showMessageDialog(this, "Connection Problem. Error checking win.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
             String message = s.substring(0, s.indexOf('_'));
             updateDatabaseWin(message);
             JOptionPane.showMessageDialog(this, message, "", JOptionPane.INFORMATION_MESSAGE);
             bet = Double.parseDouble(s.substring(s.indexOf('_')+1, s.length()));
-            initCash = client.updateBank(userID, bet);
+            try {
+                initCash = client.updateBank(userID, bet);
+            } catch (RemoteException ex) {
+                JOptionPane.showMessageDialog(this, "Connection Problem. Error updating bank.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
             cashAmountLabel.setText("" + initCash );
             bet = 0;
             updateBetAmount(bet);
@@ -264,7 +334,11 @@ public class Table extends javax.swing.JPanel
         else{
             c = 'p';
         }
-        client.updateUserCardStats(userID, c);
+        try {
+            client.updateUserCardStats(userID, c);
+        } catch (RemoteException ex) {
+            JOptionPane.showMessageDialog(this, "Connection Problem. Error updating user stats.", "Error", JOptionPane.ERROR_MESSAGE); 
+        }
     }
 
     /**

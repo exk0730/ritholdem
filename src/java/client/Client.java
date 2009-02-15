@@ -1,6 +1,5 @@
 package client;
 import java.rmi.Naming;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import game.*;
 import jms.ClientTextListener;
@@ -72,16 +71,13 @@ public class Client {
      * @param pwd
      * @return int
      */
-    public int login(String userName, String pwd) {
+    public int login(String userName, String pwd) throws RemoteException {
         int userID = RMIInterface.LOGIN_FAILED;
-        try {
+
             userID = server.login(userName, pwd);
             currentUserID = userID;
-        }
-        catch(RemoteException re){
-            System.err.println("There was an error logging in: " + re.getMessage());
-            System.exit(1);
-        }
+
+
         return userID;
     }
 
@@ -90,14 +86,10 @@ public class Client {
 	 * Log out the current user
 	 * @return
 	 */
-	public boolean logout(){
+	public boolean logout() throws RemoteException{
 		boolean res = false;
-		try{
-			res = server.logout(currentUserID);
-		} catch(RemoteException re){
-			System.err.println("There was an error logging out: " + re.getMessage());
-            System.exit(1);
-		}
+		res = server.logout(currentUserID);
+
 		return res;
 	}
 
@@ -114,16 +106,12 @@ public class Client {
      * @return
      */
     public int register(String loginID, String password, String fName,
-                            String lName, String email, String creditCard, double startingCash){
+                            String lName, String email, String creditCard, double startingCash) throws RemoteException{
         int id = RMIInterface.LOGIN_FAILED;
-        try {
-            id = server.register(loginID, password, fName, lName, email, creditCard, startingCash);
-            currentUserID = id;
-        }
-        catch(RemoteException re){
-            System.err.println("There was an error registering: " + re.getMessage());
-            System.exit(1);
-        }
+
+        id = server.register(loginID, password, fName, lName, email, creditCard, startingCash);
+        currentUserID = id;
+
         return id;
     }
 
@@ -131,15 +119,9 @@ public class Client {
      * Returns this user's money
      * @return the user's money
      */
-    public double getBank() throws UnknownUserException {
+    public double getBank() throws UnknownUserException, RemoteException {
         double bank = 0;
-        try {
-            bank = server.getBank(currentUserID);
-        }
-        catch(RemoteException re){
-            System.err.println("There was an error retreiving bank: " + re.getMessage());
-            System.exit(1);
-        }
+        bank = server.getBank(currentUserID);
         return bank;
     }
 
@@ -149,18 +131,9 @@ public class Client {
      * @param money
      * @return
      */
-    public double updateBank(int userID, double money) {
+    public double updateBank(int userID, double money) throws RemoteException, UnknownUserException {
         double bank = 0;
-        try {
-            bank = server.updateBank(userID, money);
-        }
-        catch(RemoteException re) {
-            System.err.println("There was an error updating the bank: " + re.getMessage());
-            System.exit(1);
-        }
-        catch(UnknownUserException uue){
-            System.out.println(uue.getMessage());
-        }
+        bank = server.updateBank(userID, money);
         return bank;
     }
 
@@ -169,18 +142,9 @@ public class Client {
      * @param money
      * @return
      */
-   public double addMoney(double money) {
+   public double addMoney(double money) throws RemoteException, UnknownUserException {
         double bank = 0;
-        try {
-            bank = server.updateBank(currentUserID, money);
-        }
-        catch(RemoteException re) {
-            System.err.println("There was an error updating the bank: " + re.getMessage());
-            System.exit(1);
-        }
-        catch(UnknownUserException uue){
-            System.out.println(uue.getMessage());
-        }
+        bank = server.updateBank(currentUserID, money);
         return bank;
     }
 
@@ -189,47 +153,11 @@ public class Client {
      * @param userID
      * @param character
      */
-    public void updateUserCardStats(int userID, char character) {
-        try{
-            server.updateUserCardStats(userID, character);
-        }
-        catch(RemoteException re) {
-            System.err.println("There was an error updating userCardStats: " + re.getMessage());
-            System.exit(1);
-        }
+    public void updateUserCardStats(int userID, char character) throws RemoteException {
+        server.updateUserCardStats(userID, character);
+
     }
 
-    /**
-     * Adds emergency funds to this client
-     * @param userID
-     * @param money
-     */
-    public void addEmergencyFunds(int userID, double money) {
-        try{
-            server.addEmergencyFunds(userID, money);
-        }
-        catch(RemoteException re){
-            System.err.println("There was an error registering ermergency funds: " + re.getMessage());
-            System.exit(1);
-        }
-    }
-
-    /**
-     * Retrieves emergency funds for this user
-     * @param userID
-     * @return
-     */
-    public double retrieveEmergencyFunds(int userID) {
-        double temp = -1;
-        try {
-            temp = server.retrieveEmergencyFunds(userID);
-        }
-        catch(RemoteException re){
-            System.err.println("There was an error retrieving ermergency funds: " + re.getMessage());
-            System.exit(1);
-        }
-        return temp;
-    }
 
     /**
      * Deals a hand for the player
@@ -237,16 +165,9 @@ public class Client {
      * @param bet
      * @return
      */
-    public Hand deal(int userID, double bet) throws UnknownUserException{
+    public Hand deal(int userID, double bet) throws UnknownUserException, RemoteException{
         Hand hand = null;
-        try {
-            hand = server.deal(userID, bet);
-        }
-        catch(RemoteException re) {
-            System.err.println("There was an error receiving player's hand: " + re.getMessage());
-			re.printStackTrace();
-            System.exit(1);
-        }
+        hand = server.deal(userID, bet);
         return hand;
     }
 
@@ -254,15 +175,9 @@ public class Client {
      * Deals a hand for the dealer (server)
      * @return
      */
-    public Hand deal() {
+    public Hand deal() throws RemoteException {
         Hand dealer = null;
-        try {
-            dealer = server.deal();
-        }
-        catch(RemoteException re) {
-            System.err.println("There was an error receiving dealer's hand: " + re.getMessage());
-            System.exit(1);
-        }
+        dealer = server.deal();
         return dealer;
     }
 
@@ -271,15 +186,9 @@ public class Client {
      * @param userID
      * @return
      */
-    public Card hit(int userID) throws UnknownUserException {
+    public Card hit(int userID) throws UnknownUserException, RemoteException {
         Card temp = null;
-        try {
-            temp = server.hit(userID);
-        }
-        catch(RemoteException re) {
-            System.err.println("There was an error receiving a card: " + re.getMessage());
-            System.exit(1);
-        }
+        temp = server.hit(userID);
         return temp;
     }
 
@@ -287,15 +196,9 @@ public class Client {
      * Server gets a new card
      * @return
      */
-    public Card hit(){
+    public Card hit() throws RemoteException{
         Card temp = null;
-        try {
-            temp = server.hit();
-        }
-        catch(RemoteException re) {
-            System.err.println("There was an error receiving a card: " + re.getMessage());
-            System.exit(1);
-        }
+        temp = server.hit();
         return temp;
     }
 
@@ -305,15 +208,9 @@ public class Client {
      * @param playerOrDealer
      * @return
      */
-    public boolean bust(int userID, boolean playerOrDealer) throws UnknownUserException {
+    public boolean bust(int userID, boolean playerOrDealer) throws UnknownUserException, RemoteException {
         boolean bool = false;
-        try {
-            bool = server.bust(userID, playerOrDealer);
-        }
-        catch(RemoteException re){
-            System.err.println("There was an error checking bust: " + re.getMessage());
-            System.exit(1);
-        }
+        bool = server.bust(userID, playerOrDealer);
         return bool;
     }
 
@@ -321,15 +218,9 @@ public class Client {
      * Checks if dealer needs to stand (at 16 or more)
      * @return
      */
-    public boolean dealerStand() {
+    public boolean dealerStand() throws RemoteException {
         boolean bool = false;
-        try {
-            bool = server.dealerStand();
-        }
-        catch(RemoteException re) {
-            System.err.println("There was an error in dealer standing: " + re.getMessage());
-            System.exit(1);
-        }
+        bool = server.dealerStand();
         return bool;
     }
 
@@ -339,15 +230,9 @@ public class Client {
      * @param bet
      * @return
      */
-    public String checkWin(int userID, double bet) throws UnknownUserException {
+    public String checkWin(int userID, double bet) throws UnknownUserException, RemoteException {
         String s = "";
-        try {
-            s = server.checkWin(userID, bet);
-        }
-        catch(RemoteException re){
-            System.err.println("There was an error checking win: " + re.getMessage());
-            System.exit(1);
-        }
+        s = server.checkWin(userID, bet);
         return s;
     }
 

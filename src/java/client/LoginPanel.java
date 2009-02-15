@@ -3,6 +3,7 @@ package client;
 import game.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 import javax.swing.*; 
 import server.UnknownUserException;
 
@@ -313,7 +314,11 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 	 * Logout the client
 	 */
 	public void logout(){
-		client.logout();
+        try {
+            client.logout();
+        } catch (RemoteException ex) {
+            JOptionPane.showMessageDialog(this, "Connection Problem. Error logging out.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
 	}
 
 
@@ -330,7 +335,15 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 			JOptionPane.showMessageDialog(this, "Enter your password", "Error", JOptionPane.ERROR_MESSAGE);
 		}
         else {
-            userID = client.login(userNameTextField.getText(), String.valueOf(passwordField.getPassword()));
+            try
+            {
+                userID = client.login(userNameTextField.getText(), String.valueOf(passwordField.getPassword()));
+            }
+            catch(RemoteException e)
+            {
+            JOptionPane.showMessageDialog(this, "Unable to login!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            
             if(userID == RMIInterface.LOGIN_FAILED) {
                 JOptionPane.showMessageDialog(this, "Unable to login!", "Error", JOptionPane.ERROR_MESSAGE);
                 passwordField.setText("");
@@ -338,14 +351,12 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
             }
             else {
 				try {
-					initCash = client.getBank();
+                    try {
+                        initCash = client.getBank();
+                    } catch (RemoteException ex) {
+                        JOptionPane.showMessageDialog(this, "Connection Problem. Error retreiving bank.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
 
-					if(initCash <= 0){
-						try{
-							initCash = client.retrieveEmergencyFunds(userID);
-						}
-						catch(Exception e) { initCash = 0; }
-					}
 					this.removeAll();
 					table1 = new Table(initCash, userID, client);
 
@@ -358,7 +369,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 
 					addMoneyBtn.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(java.awt.event.ActionEvent evt) {
-							addMoneyBtnActionPerformed(evt);
+                                addMoneyBtnActionPerformed(evt);
 						}
 					});
 
@@ -370,7 +381,8 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 
 
 				} catch (UnknownUserException ex) { //Occurs only if we've been  kicked when we log in (very rare)
-				}
+				JOptionPane.showMessageDialog(this, "You have been kicked.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
 
             }
         }
@@ -495,9 +507,11 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
      */
 	private int methodRegistration()
 	{
-		userID = client.register(regUserNameTextField.getText(), String.valueOf(regPasswordField.getPassword()),
-						firstNameTextField.getText(), lastNameTextField.getText(), 
-						emailTextField.getText(), moneyTextField.getText(), initCash);
+        try {
+            userID = client.register(regUserNameTextField.getText(), String.valueOf(regPasswordField.getPassword()), firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), moneyTextField.getText(), initCash);
+        } catch (RemoteException ex) {
+            JOptionPane.showMessageDialog(this, "Connection Problem. Error Registering", "Error", JOptionPane.ERROR_MESSAGE);
+        }
 		return userID;
 	}
 
@@ -553,7 +567,11 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 		try {
 			initCash = client.getBank();
 		} catch (UnknownUserException uue) {
-			 JOptionPane.showMessageDialog(null, uue.getMessage());
+			 JOptionPane.showMessageDialog(this, uue.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			 return;
+		}
+        catch (RemoteException uue) {
+			 JOptionPane.showMessageDialog(this, "Connection Problem. Error retreiving bank.", "Error", JOptionPane.ERROR_MESSAGE);
 			 return;
 		}
         double moneyToAddDbl = 0;
@@ -577,7 +595,13 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 
                 if(validAmount)
                 {
-                    client.addMoney(moneyToAddDbl);
+                    try {
+                        client.addMoney(moneyToAddDbl);
+                    } catch (RemoteException ex) {
+                        JOptionPane.showMessageDialog(this, "Connection Problem. Error adding money.", "Error", JOptionPane.ERROR_MESSAGE);
+                    } catch (UnknownUserException ex) {
+                        JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                     initCash += moneyToAddDbl;
                     table1.updateCashAmount(initCash);
 
@@ -600,7 +624,11 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 
     public void logoutBtnActionPerformed(ActionEvent evt)
     {
-		client.logout();
+        try {
+            client.logout();
+        } catch (RemoteException ex) {
+            JOptionPane.showMessageDialog(this, "Connection Problem. Error Logging out.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
         this.removeAll();
         initComponents();
         jMenuBar.setVisible(false);
