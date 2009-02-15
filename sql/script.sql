@@ -36,11 +36,11 @@ CREATE TABLE IF NOT EXISTS `FinancialData` (
 -- Content of table `FinancialData`
 --
 
-INSERT INTO `FinancialData` (`userID`, `bank`, `creditCardNum`, `allowEmergencyFunding`, `emergencyFundAmt`) VALUES
-(1, 4030.00, '555893245', 1, 300.00),
-(2, 44560.00, '888772345', 1, 5000.00),
-(3, 560.00, NULL, 0, 0.00),
-(4, 10000.00, NULL, 0, 0.00);
+INSERT INTO `FinancialData` (`userID`, `bank`, `creditCardNum`) VALUES
+(1, 4030.00, '555893245'),
+(2, 44560.00, '888772345'),
+(3, 560.00, NULL),
+(4, 10000.00, NULL);
 
 -- --------------------------------------------------------
 
