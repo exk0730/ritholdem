@@ -1,10 +1,8 @@
-package servlet;
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * This is the old servlet, not using JSP. It has been used for devlierable 4, but should not be used anymore.
  */
 
+package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;

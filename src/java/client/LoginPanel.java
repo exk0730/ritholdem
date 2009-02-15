@@ -335,27 +335,33 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 			JOptionPane.showMessageDialog(this, "Enter your password", "Error", JOptionPane.ERROR_MESSAGE);
 		}
         else {
+			boolean connectionOK = false;
             try
             {
                 userID = client.login(userNameTextField.getText(), String.valueOf(passwordField.getPassword()));
+				connectionOK = true;
             }
             catch(RemoteException e)
             {
-            JOptionPane.showMessageDialog(this, "Unable to login!", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Unable to login due to a connection problem.", "Error", JOptionPane.ERROR_MESSAGE);
             }
+
+			if(connectionOK){
             
-            if(userID == RMIInterface.LOGIN_FAILED) {
-                JOptionPane.showMessageDialog(this, "Unable to login!", "Error", JOptionPane.ERROR_MESSAGE);
-                passwordField.setText("");
-                userNameTextField.setText("");
-            }
-            else {
-				try {
-                    try {
-                        initCash = client.getBank();
-                    } catch (RemoteException ex) {
-                        JOptionPane.showMessageDialog(this, "Connection Problem. Error retreiving bank.", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
+				if(userID == RMIInterface.LOGIN_FAILED) {
+					JOptionPane.showMessageDialog(this, "Invalid username or password!", "Error", JOptionPane.ERROR_MESSAGE);
+					passwordField.setText("");
+					userNameTextField.setText("");
+				}
+				else {
+					
+					try {
+						initCash = client.getBank();
+					} catch (RemoteException ex) {
+						JOptionPane.showMessageDialog(this, "Connection Problem. Error retreiving bank.", "Error", JOptionPane.ERROR_MESSAGE);
+					} catch (UnknownUserException ex) {
+						JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					}
 
 					this.removeAll();
 					table1 = new Table(initCash, userID, client);
@@ -369,7 +375,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 
 					addMoneyBtn.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                addMoneyBtnActionPerformed(evt);
+								addMoneyBtnActionPerformed(evt);
 						}
 					});
 
@@ -379,12 +385,8 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 					//this.add(statusLabel, java.awt.BorderLayout.SOUTH);
 					this.revalidate();
 
-
-				} catch (UnknownUserException ex) { //Occurs only if we've been  kicked when we log in (very rare)
-				JOptionPane.showMessageDialog(this, "You have been kicked.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-
-            }
+				}
+			}
         }
 	}                                        
 
