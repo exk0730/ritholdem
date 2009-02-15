@@ -3,6 +3,7 @@ package server;
 import database.*;
 import java.sql.SQLException;
 import java.util.Date;
+import java.text.DateFormat;
 import jms.JMSPublisher;
 /**
  * StatsReport will send a top player list using JMS
@@ -58,7 +59,8 @@ public class StatsReport extends Thread {
     @Override
     public void run(){
         while(true){
-			String topPlayers = "Top players so far ("+new Date()+"):\n\n";
+			String topPlayers = "Top players so far ("+
+                    DateFormat.getDateTimeInstance(DateFormat.SHORT,DateFormat.SHORT).format(new Date())+"):\n\n";
 			try{
 				topPlayers += data.getTopPlayers();
 			}
@@ -77,15 +79,5 @@ public class StatsReport extends Thread {
 				System.err.println("Error trying to sleep: " + ie.getMessage());
 			}
         }
-    }
-
-
-    public static void main(String [] args){
-        StatsReport sr = null;
-        try{
-            sr = new StatsReport();
-        }
-        catch(SQLException sqle){}
-        sr.start();
     }
 }
