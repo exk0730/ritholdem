@@ -4,7 +4,7 @@
  */
 
 /*
- * TestFrame.java
+ * ClientGUI.java
  *
  * Created on 09.02.2009, 18:51:53
  */
@@ -19,15 +19,15 @@ import java.awt.event.WindowListener;
  *
  * @author Admin
  */
-public class TestFrame extends javax.swing.JFrame implements WindowListener{
+public class ClientGUI extends javax.swing.JFrame implements WindowListener{
 
     String url;
 
 
     private client.LoginPanel loginPanel1;
 
-    /** Creates new form TestFrame */
-    public TestFrame() {
+    /** Creates new form ClientGUI */
+    public ClientGUI() {
 
 		loginPanel1 = null;
         initComponents();
@@ -150,7 +150,7 @@ public class TestFrame extends javax.swing.JFrame implements WindowListener{
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TestFrame().setVisible(true);
+                new ClientGUI().setVisible(true);
             }
         });
     }
