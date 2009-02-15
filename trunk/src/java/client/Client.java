@@ -1,7 +1,11 @@
 package client;
+import java.net.MalformedURLException;
 import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import game.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import jms.ClientTextListener;
 import jms.JMSAsyncSubscriber;
 import server.UnknownUserException;
@@ -22,6 +26,9 @@ public class Client {
     private final String POST_HOST = ":1099/";
     private final int NOT_LOGGED_IN = -1;
     private int currentUserID;
+
+	protected String host;
+	protected boolean connected = false;
 
 	private Table table = null;
 
@@ -44,10 +51,23 @@ public class Client {
      * Constructor
      */
     private Client(String host) throws Exception {
-		server = (RMIInterface) Naming.lookup(PRE_HOST + host + POST_HOST + RMIInterface.SERVER_NAME);
+		this.host = host;
+		reconnect();
 		subscriber = new JMSAsyncSubscriber(new ClientTextListener(this));
         currentUserID = NOT_LOGGED_IN;
     }
+
+
+	protected void reconnect() throws RemoteException{
+		if(!connected){
+			try {
+				server = (RMIInterface) Naming.lookup(PRE_HOST + host + POST_HOST + RMIInterface.SERVER_NAME);
+			}
+			catch (NotBoundException ex) {}
+			catch (MalformedURLException ex) {}
+			connected = true;
+		}
+	}
 
 	/**
 	 * Set the table
@@ -73,11 +93,14 @@ public class Client {
      */
     public int login(String userName, String pwd) throws RemoteException {
         int userID = RMIInterface.LOGIN_FAILED;
-
-            userID = server.login(userName, pwd);
-            currentUserID = userID;
-
-
+		reconnect();
+		try {
+			userID = server.login(userName, pwd);
+			currentUserID = userID;
+		} catch(RemoteException e) {
+			connected = false;
+			throw e;
+		}
         return userID;
     }
 
@@ -108,9 +131,14 @@ public class Client {
     public int register(String loginID, String password, String fName,
                             String lName, String email, String creditCard, double startingCash) throws RemoteException{
         int id = RMIInterface.LOGIN_FAILED;
-
-        id = server.register(loginID, password, fName, lName, email, creditCard, startingCash);
-        currentUserID = id;
+		reconnect();
+		try {
+			id = server.register(loginID, password, fName, lName, email, creditCard, startingCash);
+			currentUserID = id;
+		} catch(RemoteException e){
+			connected = false;
+			throw e;
+		}
 
         return id;
     }
