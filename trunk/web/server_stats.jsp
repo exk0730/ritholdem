@@ -21,21 +21,10 @@ protected ServerAdminWebController server = new ServerAdminWebController();
 		<%
 		if(server.isConnected()){
 
-			%>
-			<p>Server log:</p>
-			<ul>
-			<%
-			ArrayList<Integer> entries = server.getServerStatsEntries();
-			for(Integer serverID : entries){%>
-				<li><%= serverID %></li>
-			<%} %>
-			</ul>
-			
+			%>			
 			<p>Current server statistics:</p>
 			<%
 			ServerStatistics ss = server.getCurrentServerStats();
-			out.println("a: "+ss);
-			/*
 			%>
 			<table id = "server_stats">
 				<tr><th>New users</th><td><%= ss.getNumNewUsers() %></td></tr>
@@ -44,10 +33,21 @@ protected ServerAdminWebController server = new ServerAdminWebController();
 				<tr><th>Number of dealer's wins</th><td><%= ss.getDealerWins() %></td></tr>
 				<tr><th>Number of users' wins</th><td><%= ss.getUserWins() %></td></tr>
 				<tr><th>Number of blackjacks</th><td><%= ss.getTotalBlackjacks() %></td></tr>
+				<tr><th>Last reboot:</th><td><%= ss.getLastServerReboot() %></td></tr>
 			</table>
+
 			<p><a href = "server_stats.jsp">Click here to refresh</a></p>
 
-		<% */
+
+			<p>Server log:</p>
+			<ul>
+			<%
+			ArrayList<Integer> entries = server.getServerStatsEntries();
+			for(Integer serverID : entries){%>
+				<li><%= serverID %></li>
+			<%} %>
+			</ul>
+		<% 
 			} else { /* if !server.isConnected() */ %>
 			<p>Unable to connect to server.</p>
 		<% } %>
