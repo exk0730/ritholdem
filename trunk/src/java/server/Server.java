@@ -362,7 +362,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @return
      * @throws java.rmi.RemoteException
      */
-    public synchronized ServerStatistics getServerStats() throws RemoteException {
+    public synchronized ServerStatistics getCurrentServerStats() throws RemoteException {
         ServerStatistics ss = null;
         try{
             ss = data.getCurrServerStats();
@@ -372,6 +372,38 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         }
         return ss;
     }
+
+	/**
+     * Get the server stats corresponding to a given entry
+     * @return server stats
+     * @throws SQLException
+     */
+    public ServerStatistics getServerStats(int serverID) throws RemoteException {
+		ServerStatistics ss = null;
+        try{
+            ss = data.getServerStats(serverID);
+        }
+        catch(SQLException sqle){
+            System.err.println("Error in getting server stats: " + sqle.getMessage());
+        }
+        return ss;
+	}
+
+	/**
+     * Get all the server stats entries
+     * @return server stats entries
+     * @throws SQLException
+     */
+    public ArrayList<Integer> getServerStatsEntries() throws  RemoteException {
+		ArrayList<Integer> res = null;
+        try{
+            res = data.getServerStatsEntries();
+        }
+        catch(SQLException sqle){
+            System.err.println("Error in getting server stats entries: " + sqle.getMessage());
+        }
+        return res;
+	}
 
 
     /**
