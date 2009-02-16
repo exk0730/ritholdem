@@ -13,13 +13,7 @@ public class Game implements Serializable {
     private Deck deck;
 
     public Game(int uID){
-        try{
-            deck = Deck.instance();
-        }
-        catch(Exception e){ System.err.println(e.getMessage()); }
-        playerHand = new Hand();
-        dealerHand = new Hand();
-        checkLogic = new CheckLogic(playerHand, dealerHand);
+        initGame();
         userID = uID;
     }
 
@@ -66,14 +60,14 @@ public class Game implements Serializable {
     //
     //Update
     //
-    public void updateDeck(){
-        try{
-            deck = Deck.instance();
-        }
-        catch(Exception e){ }
+    public void updateCheckLogic(){
+        checkLogic = new CheckLogic(playerHand, dealerHand);
     }
 
-    public void updateCheckLogic(){
+    public void initGame(){
+        deck = new Deck();
+        playerHand = new Hand(deck);
+        dealerHand = new Hand(deck);
         checkLogic = new CheckLogic(playerHand, dealerHand);
     }
 
@@ -83,31 +77,10 @@ public class Game implements Serializable {
 
     /**
      *
-     * @param atDealerHand
-     * @param atPlayerHand
-     */
-    private void ranOutOfCards(boolean atDealerHand, boolean atPlayerHand){
-        updateDeck();
-        if(atDealerHand || !atDealerHand){
-            setDealerHand(new Hand());
-            setPlayerHand(new Hand());
-        }
-        updateCheckLogic();
-    }
-
-    /**
-     *
      * @return
      */
     public Card hit() {
-        Card temp = null;
-        try{
-            temp = deck.getNextCard();
-        }
-        catch(IndexOutOfBoundsException ioobe){
-            ranOutOfCards(false, false);
-            temp = deck.getNextCard();
-        }
+        Card temp = deck.getNextCard();
         checkLogic.updatePlayer(temp);
         return temp;
     }
@@ -117,14 +90,7 @@ public class Game implements Serializable {
      * @return
      */
     public Card dealerHit() {
-        Card temp = null;
-        try{
-            temp = deck.getNextCard();
-        }
-        catch(IndexOutOfBoundsException ioobe){
-            ranOutOfCards(false, false);
-            temp = deck.getNextCard();
-        }
+        Card temp = deck.getNextCard();
         checkLogic.updateDealer(temp);
         return temp;
     }
@@ -134,13 +100,7 @@ public class Game implements Serializable {
      * @return
      */
     public Hand dealPlayer() {
-        try{
-            playerHand.nextHand();
-        }
-        catch(IndexOutOfBoundsException ioobe){
-            ranOutOfCards(false, true);
-            playerHand.nextHand();
-        }
+        playerHand.nextHand();
         return playerHand;
     }
 
@@ -149,13 +109,7 @@ public class Game implements Serializable {
      * @return
      */
     public Hand dealDealer() {
-        try {
-            dealerHand.nextHand();
-        }
-        catch(IndexOutOfBoundsException ioobe){
-            ranOutOfCards(true, false);
-            dealerHand.nextHand();
-        }
+        dealerHand.nextHand();
         return dealerHand;
     }
 
@@ -209,8 +163,8 @@ public class Game implements Serializable {
                 break;
         }
         s = s + "_" + bet;
-        System.out.println("Just checked win - String s= " + s + " checklogic is as follows: " +
-                checkLogic.toString());
+        //System.out.println("Just checked win - String s= " + s + " checklogic is as follows: " +
+        //        checkLogic.toString());
         return s;
     }
 }

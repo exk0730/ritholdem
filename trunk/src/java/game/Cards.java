@@ -109,7 +109,7 @@ public abstract class Cards implements Serializable
 	*Get the next card
 	*@return The next Card object in this collection
 	*/
-	public Card getNextCard() throws IndexOutOfBoundsException
+	public Card getNextCard()
 	{
 		Card c = cards.get(selectedIndex);
 		increment();

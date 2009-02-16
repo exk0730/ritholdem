@@ -200,7 +200,7 @@ public class CheckLogic
 		return temp;
 	}
 
-    //TESTING PURPOSES
+    /**
     @Override
     public String toString(){
         String s = "combinedHand: " + getCombinedPlayerHand() + " dealerHand: " + getCombinedDealerHand();
@@ -227,5 +227,5 @@ public class CheckLogic
                     "\n";
         }catch(Exception e){}
         return s;
-    }
+    }*/
 }

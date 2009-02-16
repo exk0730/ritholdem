@@ -12,14 +12,9 @@ public class Hand extends Cards implements Serializable
      * Constructor
      * @param deck
      */
-    public Hand()
+    public Hand(Deck deck)
 	{
-        try{
-            deck = Deck.instance();
-        }
-        catch(Exception e){
-            
-        }
+        this.deck = deck;
 	}
 
     /**
