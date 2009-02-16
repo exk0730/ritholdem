@@ -263,7 +263,7 @@ public class Table extends javax.swing.JPanel
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
         cashAmountLabel.setText("" + initCash);
-        bet = 0;
+        //bet = 0;
         updateBetAmount(bet);
         wipe();
         dealt = false;
@@ -303,7 +303,7 @@ public class Table extends javax.swing.JPanel
                 JOptionPane.showMessageDialog(this, "Connection Problem. Error updating bank.", "Error", JOptionPane.ERROR_MESSAGE);
             }
             cashAmountLabel.setText("" + initCash );
-            bet = 0;
+            //bet = 0;
             updateBetAmount(bet);
             wipe();
         }
@@ -499,6 +499,7 @@ public class Table extends javax.swing.JPanel
         hitButton = new javax.swing.JButton();
         standButton = new javax.swing.JButton();
         doubleButton = new javax.swing.JButton();
+        resetBetBtn = new javax.swing.JButton();
         scoreInfo = new javax.swing.JPanel();
         cashLabel = new javax.swing.JLabel();
         cashAmountLabel = new javax.swing.JLabel();
@@ -538,7 +539,6 @@ public class Table extends javax.swing.JPanel
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 150);
         betBar.add(betBtnx100, gridBagConstraints);
 
         betBtn10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/bet10.jpg"))); // NOI18N
@@ -641,6 +641,19 @@ public class Table extends javax.swing.JPanel
         gridBagConstraints.gridy = 0;
         betBar.add(doubleButton, gridBagConstraints);
 
+        resetBetBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/resetbet.jpg"))); // NOI18N
+        resetBetBtn.setPreferredSize(new java.awt.Dimension(40, 40));
+        resetBetBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetBetBtnActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 150);
+        betBar.add(resetBetBtn, gridBagConstraints);
+
         add(betBar, java.awt.BorderLayout.PAGE_END);
 
         scoreInfo.setBackground(new java.awt.Color(0, 0, 0));
@@ -715,7 +728,7 @@ public class Table extends javax.swing.JPanel
         jTextArea.setBackground(new java.awt.Color(0, 0, 0));
         jTextArea.setColumns(20);
         jTextArea.setEditable(false);
-        jTextArea.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jTextArea.setFont(new java.awt.Font("Arial", 0, 12));
         jTextArea.setForeground(new java.awt.Color(255, 255, 204));
         jTextArea.setLineWrap(true);
         jTextArea.setRows(5);
@@ -728,6 +741,14 @@ public class Table extends javax.swing.JPanel
 
         add(jPanel1, java.awt.BorderLayout.LINE_END);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void resetBetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBetBtnActionPerformed
+        // TODO add your handling code here:
+        if(!dealt){
+            bet = 0;
+            updateBetAmount(bet);
+        }
+    }//GEN-LAST:event_resetBetBtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel betAmountLabel;
@@ -746,6 +767,7 @@ public class Table extends javax.swing.JPanel
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea;
+    private javax.swing.JButton resetBetBtn;
     private javax.swing.JPanel scoreInfo;
     private javax.swing.JLabel serverMessagesLabel;
     private javax.swing.JButton standButton;

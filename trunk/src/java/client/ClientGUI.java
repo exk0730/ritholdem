@@ -81,11 +81,6 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
         ipAddressTextField.setText("localhost");
         ipAddressTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         ipAddressTextField.setPreferredSize(new java.awt.Dimension(150, 25));
-        ipAddressTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ipAddressTextFieldActionPerformed(evt);
-            }
-        });
         ipAddressTextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 ipAddressTextFieldKeyPressed(evt);
@@ -202,10 +197,6 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void ipAddressTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ipAddressTextFieldActionPerformed
-        // TODO add your handling code here:
-}//GEN-LAST:event_ipAddressTextFieldActionPerformed
 
     private void connectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectBtnActionPerformed
         boolean ok = false;
