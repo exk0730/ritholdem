@@ -21,32 +21,41 @@ protected ServerAdminWebController server = new ServerAdminWebController();
 		<%
 		if(server.isConnected()){
 
+			ServerStatistics ss;
 			%>			
-			<p>Current server statistics:</p>
-			<%
-			ServerStatistics ss = server.getCurrentServerStats();
-			%>
+			<p>Server log:</p>
 			<table id = "server_stats">
-				<tr><th>New users</th><td><%= ss.getNumNewUsers() %></td></tr>
-				<tr><th>Total amount of bets</th><td><%= ss.getTotalAmtBet() %></td></tr>
-				<tr><th>Dealer's earnings</th><td><%= ss.getDealerEarnings() %></td></tr>
-				<tr><th>Number of dealer's wins</th><td><%= ss.getDealerWins() %></td></tr>
-				<tr><th>Number of users' wins</th><td><%= ss.getUserWins() %></td></tr>
-				<tr><th>Number of blackjacks</th><td><%= ss.getTotalBlackjacks() %></td></tr>
-				<tr><th>Last reboot:</th><td><%= ss.getLastServerReboot() %></td></tr>
+				<tr>
+					<th>Entry</th>
+					<th>New users</th>
+					<th>Total amount of bets</th>
+					<th>Dealer's earnings</th>
+					<th>Number of dealer's wins</th>
+					<th>Number of users' wins</th>
+					<th>Number of blackjacks</th>
+					<th>Last reboot</th>
+				</tr>
+
+				<%
+				ArrayList<Integer> entries = server.getServerStatsEntries();
+				for(Integer serverID : entries){
+					ss = server.getServerStats(serverID);
+					%>
+					<tr>
+						<td><%= serverID %></td>
+						<td><%= ss.getNumNewUsers() %></td>
+						<td><%= ss.getTotalAmtBet() %></td>
+						<td><%= ss.getDealerEarnings() %></td>
+						<td><%= ss.getDealerWins() %></td>
+						<td><%= ss.getUserWins() %></td>
+						<td><%= ss.getTotalBlackjacks() %></td>
+						<td><%= ss.getLastServerReboot() %></td>
+					</tr>
+				<%} %>
 			</table>
 
 			<p><a href = "server_stats.jsp">Click here to refresh</a></p>
 
-
-			<p>Server log:</p>
-			<ul>
-			<%
-			ArrayList<Integer> entries = server.getServerStatsEntries();
-			for(Integer serverID : entries){%>
-				<li><%= serverID %></li>
-			<%} %>
-			</ul>
 		<% 
 			} else { /* if !server.isConnected() */ %>
 			<p>Unable to connect to server.</p>

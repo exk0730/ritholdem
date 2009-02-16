@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `ServerStats` (
   `userWins` smallint(6) default '0',
   `dealerEarnings` double default '0',
   `totalBlackjacks` tinyint(4) default '0',
-  `lastServerReboot` date NOT NULL,
+  `lastServerReboot` datetime NOT NULL,
   PRIMARY KEY  (`serverID`)
 ) TYPE=MyISAM  AUTO_INCREMENT=2 ;
 

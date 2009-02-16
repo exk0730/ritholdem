@@ -57,6 +57,7 @@ protected ServerAdminWebController server = new ServerAdminWebController();
 				<p>No users currently logged in.</p>
 
 			<% } else { %>
+				<p>List of current users logged in:</p>
 				<table id = "current_users">
 					<tr>
 						<th>ID</th><th>Login</th><th>Name</th><th>Bank</th>
