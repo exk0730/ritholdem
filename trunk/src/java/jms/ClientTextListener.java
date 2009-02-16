@@ -17,6 +17,7 @@ public class ClientTextListener implements MessageListener {
 
     /**
      * Constructor
+     * @param c
      */
     public ClientTextListener(Client c) {
 		client = c;

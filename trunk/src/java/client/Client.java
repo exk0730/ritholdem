@@ -38,7 +38,9 @@ public class Client {
 
     /**
      * Singelton Design Pattern
+     * @param url 
      * @return the existing instance of Client or creats one
+     * @throws Exception
      */
     public static Client instance(String url) throws Exception {
         if(instance == null){
@@ -59,7 +61,8 @@ public class Client {
 
 	/**
 	 * Check that the client is connected to the server. Tries to reconnect. If it cannot, throw an exception.
-	 * @throws client.NotConnectedException
+     * @throws NotConnectedException
+     * @throws client.NotConnectedException
 	 */
 	protected void checkConnect() throws NotConnectedException {
 		if(!connected){
@@ -94,6 +97,7 @@ public class Client {
      * @param userName
      * @param pwd
      * @return int
+     * @throws NotConnectedException
      */
     public int login(String userName, String pwd) throws NotConnectedException {
         int userID = RMIInterface.LOGIN_FAILED;
@@ -111,7 +115,7 @@ public class Client {
 
 	/**
 	 * Log out the current user
-	 * @return
+     * @throws NotConnectedException
 	 */
 	public void logout() throws NotConnectedException {
 		checkConnect();
@@ -134,6 +138,7 @@ public class Client {
      * @param creditCard
      * @param startingCash
      * @return
+     * @throws NotConnectedException
      */
     public int register(String loginID, String password, String fName,
                             String lName, String email, String creditCard, double startingCash) throws NotConnectedException {
@@ -153,6 +158,8 @@ public class Client {
     /**
      * Returns this user's money
      * @return the user's money
+     * @throws UnknownUserException
+     * @throws RemoteException
      */
     public double getBank() throws UnknownUserException, RemoteException {
         double bank = 0;
@@ -165,6 +172,8 @@ public class Client {
      * @param userID
      * @param money
      * @return
+     * @throws RemoteException
+     * @throws UnknownUserException
      */
     public double updateBank(int userID, double money) throws RemoteException, UnknownUserException {
         double bank = 0;
@@ -176,6 +185,8 @@ public class Client {
      * Adds money to this user's account - used from login panel
      * @param money
      * @return
+     * @throws RemoteException
+     * @throws UnknownUserException
      */
    public double addMoney(double money) throws RemoteException, UnknownUserException {
         double bank = 0;
@@ -187,6 +198,7 @@ public class Client {
      * Update card stats based on a character
      * @param userID
      * @param character
+     * @throws RemoteException
      */
     public void updateUserCardStats(int userID, char character) throws RemoteException {
         server.updateUserCardStats(userID, character);
@@ -195,8 +207,9 @@ public class Client {
     /**
      * Deals a hand for the player
      * @param userID
-     * @param bet
      * @return
+     * @throws UnknownUserException
+     * @throws RemoteException
      */
     public Hand dealPlayer(int userID) throws UnknownUserException, RemoteException{
         Hand hand = null;
@@ -206,7 +219,9 @@ public class Client {
 
     /**
      * Deals a hand for the dealer (server)
+     * @param userID 
      * @return
+     * @throws RemoteException
      */
     public Hand dealDealer(int userID) throws RemoteException {
         Hand dealer = null;
@@ -218,6 +233,8 @@ public class Client {
      * User wants a new card
      * @param userID
      * @return
+     * @throws UnknownUserException
+     * @throws RemoteException
      */
     public Card hit(int userID) throws UnknownUserException, RemoteException {
         Card temp = null;
@@ -227,7 +244,9 @@ public class Client {
 
     /**
      * Server gets a new card
+     * @param userID 
      * @return
+     * @throws RemoteException
      */
     public Card dealerHit(int userID) throws RemoteException{
         Card temp = null;
@@ -240,6 +259,8 @@ public class Client {
      * @param userID
      * @param playerOrDealer
      * @return
+     * @throws UnknownUserException
+     * @throws RemoteException
      */
     public boolean bust(int userID, boolean playerOrDealer) throws UnknownUserException, RemoteException {
         boolean bool = false;
@@ -249,7 +270,9 @@ public class Client {
 
     /**
      * Checks if dealer needs to stand (at 16 or more)
+     * @param userID 
      * @return
+     * @throws RemoteException
      */
     public boolean dealerStand(int userID) throws RemoteException {
         boolean bool = false;
@@ -262,6 +285,8 @@ public class Client {
      * @param userID
      * @param bet
      * @return
+     * @throws UnknownUserException
+     * @throws RemoteException
      */
     public String checkWin(int userID, double bet) throws UnknownUserException, RemoteException {
         String s = "";
