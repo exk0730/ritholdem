@@ -429,8 +429,8 @@ public class Data {
     protected void updateServerInfo() throws SQLException {
         ServerStatistics ss = getCurrServerStats();
         PreparedStatement pst = db.newPreparedStatement(
-                "INSERT INTO ServerStats (numNewUsers, totalAmtBet, dealerWins, userWins, dealerEarnings, totalBlackjacks, lastServerReboot) " +
-				"VALUES (?,?,?,?,?,?,?)"
+                "INSERT INTO ServerStats (numNewUsers, totalAmtBet, dealerWins, userWins, dealerEarnings, totalBlackjacks) " +
+				"VALUES (?,?,?,?,?,?)"
                 );
 
         pst.setInt(1, ss.getNumNewUsers());
@@ -439,7 +439,6 @@ public class Data {
         pst.setInt(4, ss.getUserWins());
         pst.setDouble(5, ss.getDealerEarnings());
         pst.setInt(6, ss.getTotalBlackjacks());
-        pst.setDate(7, ss.getLastServerReboot());
         pst.executeUpdate();
     }
 
@@ -544,7 +543,7 @@ public class Data {
 										rs.getInt("userWins"),
 										rs.getDouble("dealerEarnings"),
 										rs.getInt("totalBlackjacks"),
-										rs.getDate("lastServerReboot"));
+										rs.getTimestamp("lastServerReboot"));
         }
         return ss;
     }
@@ -571,7 +570,7 @@ public class Data {
 										rs.getInt("userWins"),
 										rs.getDouble("dealerEarnings"),
 										rs.getInt("totalBlackjacks"),
-										rs.getDate("lastServerReboot"));
+										rs.getTimestamp("lastServerReboot"));
         }
         return ss;
     }

@@ -6,14 +6,14 @@
 package game;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 
 public class ServerStatistics implements Serializable
 {
     private int numNewUsers, dealerWins, userWins, totalBlackjacks;
     private double totalAmtBet, dealerEarnings;
-    private Date lastServerReboot;
+    private Timestamp lastServerReboot;
 
     /**
      *
@@ -26,7 +26,7 @@ public class ServerStatistics implements Serializable
      * @param lsr
      */
     public ServerStatistics(int nnu, double tab, int dw,
-                            int uw, double de , int tb, java.sql.Date lsr)
+                            int uw, double de , int tb, java.sql.Timestamp lsr)
     {
         numNewUsers = nnu;
         totalAmtBet = tab;
@@ -61,7 +61,7 @@ public class ServerStatistics implements Serializable
         return totalBlackjacks;
     }
 
-    public Date getLastServerReboot(){
+    public Timestamp getLastServerReboot(){
         return lastServerReboot;
     }
 }
