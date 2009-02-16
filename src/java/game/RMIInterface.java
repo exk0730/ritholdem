@@ -125,10 +125,25 @@ public interface RMIInterface extends Remote
 
 	/**
      * Retrieves the server stats
-     * @return
+     * @return server stats
      * @throws java.rmi.RemoteException
      */
-    public ServerStatistics getServerStats() throws RemoteException;
+    public ServerStatistics getCurrentServerStats() throws RemoteException;
+
+	/**
+     * Retrieves the server stats corresponding to a given entry
+     * @return server stats corresponding to a given entry
+     * @throws java.rmi.RemoteException
+     */
+    public ServerStatistics getServerStats(int serverID) throws RemoteException;
+
+	/**
+     * Get all the server stats entries
+     * @return server stats entries
+     * @throws SQLException
+     */
+    public ArrayList<Integer> getServerStatsEntries() throws  RemoteException;
+
 
     /**
      * Write a user's infos to the database

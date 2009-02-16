@@ -21,7 +21,21 @@ protected ServerAdminWebController server = new ServerAdminWebController();
 		<%
 		if(server.isConnected()){
 
-			ServerStatistics ss = server.getServerStats();
+			%>
+			<p>Server log:</p>
+			<ul>
+			<%
+			ArrayList<Integer> entries = server.getServerStatsEntries();
+			for(Integer serverID : entries){%>
+				<li><%= serverID %></li>
+			<%} %>
+			</ul>
+			
+			<p>Current server statistics:</p>
+			<%
+			ServerStatistics ss = server.getCurrentServerStats();
+			out.println("a: "+ss);
+			/*
 			%>
 			<table id = "server_stats">
 				<tr><th>New users</th><td><%= ss.getNumNewUsers() %></td></tr>
@@ -33,7 +47,8 @@ protected ServerAdminWebController server = new ServerAdminWebController();
 			</table>
 			<p><a href = "server_stats.jsp">Click here to refresh</a></p>
 
-		<% } else { /* if !server.isConnected() */ %>
+		<% */
+			} else { /* if !server.isConnected() */ %>
 			<p>Unable to connect to server.</p>
 		<% } %>
     </body>

@@ -6,6 +6,7 @@
 package database;
 import game.*;
 import java.sql.*;
+import java.util.ArrayList;
 
 
 public class Data {
@@ -43,8 +44,8 @@ public class Data {
     private Data() throws SQLException {
         db = new DBConnection();
 		serverID = getLastServerID();
-        serverID++;
         updateServerInfo();
+		serverID++;
     }
 
 
@@ -428,16 +429,15 @@ public class Data {
     protected void updateServerInfo() throws SQLException {
         ServerStatistics ss = getCurrServerStats();
         PreparedStatement pst = db.newPreparedStatement(
-                "INSERT INTO ServerStats VALUES (?,?,?,?,?,?,?,?)"
+                "INSERT INTO ServerStats VALUES (?,?,?,?,?,?,?)"
                 );
-        pst.setInt(1,serverID);
-        pst.setInt(2, ss.getNumNewUsers());
-        pst.setDouble(3, ss.getTotalAmtBet());
-        pst.setInt(4, ss.getDealerWins());
-        pst.setInt(5, ss.getUserWins());
-        pst.setDouble(6, ss.getDealerEarnings());
-        pst.setInt(7, ss.getTotalBlackjacks());
-        pst.setDate(8, ss.getLastServerReboot());
+        pst.setInt(1, ss.getNumNewUsers());
+        pst.setDouble(2, ss.getTotalAmtBet());
+        pst.setInt(3, ss.getDealerWins());
+        pst.setInt(4, ss.getUserWins());
+        pst.setDouble(5, ss.getDealerEarnings());
+        pst.setInt(6, ss.getTotalBlackjacks());
+        pst.setDate(7, ss.getLastServerReboot());
         pst.executeUpdate();
     }
 
@@ -528,7 +528,7 @@ public class Data {
     }
 
     /**
-     * Updates server with number of dealer wins
+     * Get the current stats
      * @return latest server stats
      * @throws SQLException
      */
@@ -549,6 +549,47 @@ public class Data {
 										rs.getDate("lastServerReboot"));
         }
         return ss;
+    }
+
+	/**
+     * Get the server stats corresponding to a given entry
+     * @return server stats
+     * @throws SQLException
+     */
+    public ServerStatistics getServerStats(int serverID) throws SQLException
+    {
+		ServerStatistics ss = null;
+        PreparedStatement pst = db.newPreparedStatement("SELECT numNewUsers, totalAmtBet, " +
+														  "dealerWins, userWins, dealerEarnings, " +
+														  "totalBlackjacks, lastServerReboot " +
+														  "FROM ServerStats WHERE serverID = ?");
+		pst.setInt(1, serverID);
+		ResultSet rs = pst.executeQuery();
+        if(rs.next()) {
+			ss = new ServerStatistics(	rs.getInt("numNewUsers"),
+										rs.getDouble("totalAmtBet"),
+										rs.getInt("dealerWins"),
+										rs.getInt("userWins"),
+										rs.getDouble("dealerEarnings"),
+										rs.getInt("totalBlackjacks"),
+										rs.getDate("lastServerReboot"));
+        }
+        return ss;
+    }
+
+	/**
+     * Get all the server stats entries
+     * @return server stats entries
+     * @throws SQLException
+     */
+    public ArrayList<Integer> getServerStatsEntries() throws SQLException
+    {
+		ResultSet rs = db.executeQuery("SELECT serverID FROM ServerStats ORDER BY serverID DESC");
+		ArrayList<Integer> res = new ArrayList<Integer>();
+        if(rs.next()) {
+			res.add(rs.getInt("serverID"));
+        }
+        return res;
     }
 
 }

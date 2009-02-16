@@ -132,14 +132,42 @@ public class ServerAdminWebController {
 	 * Get server stats
 	 * @return server stats or null if error
 	 */
-	public ServerStatistics getServerStats() {
+	public ServerStatistics getCurrentServerStats() {
 		ServerStatistics ss = null;
 		try {
-			ss = server.getServerStats();
+			ss = server.getCurrentServerStats();
 		} catch (Exception ex) {
 			exception = ex;
 		}
 		return ss;
+	}
+
+	/**
+	 * Get server stats for a given entry
+	 * @return server stats or null if error
+	 */
+	public ServerStatistics getServerStats(int serverID) {
+		ServerStatistics ss = null;
+		try {
+			ss = server.getServerStats(serverID);
+		} catch (Exception ex) {
+			exception = ex;
+		}
+		return ss;
+	}
+	
+	/**
+	 * Get server stats for a given entry
+	 * @return server stats or null if error
+	 */
+	public ArrayList<Integer> getServerStatsEntries() {
+		ArrayList<Integer> res = null;
+		try {
+			res = server.getServerStatsEntries();
+		} catch (Exception ex) {
+			exception = ex;
+		}
+		return res;
 	}
 
 	/**
