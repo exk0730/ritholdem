@@ -49,7 +49,6 @@ INSERT INTO `FinancialData` (`userID`, `bank`, `creditCardNum`) VALUES
 CREATE TABLE IF NOT EXISTS `ServerStats` (
   `serverID` smallint(6) NOT NULL auto_increment,
   `numNewUsers` smallint(6) default '0',
-  `numUsersPlayed` smallint(6) default '0',
   `totalAmtBet` double default '0',
   `dealerWins` smallint(6) default '0',
   `userWins` smallint(6) default '0',
@@ -63,8 +62,8 @@ CREATE TABLE IF NOT EXISTS `ServerStats` (
 -- Content of table `ServerStats`
 --
 
-INSERT INTO `ServerStats` (`serverID`, `numNewUsers`, `numUsersPlayed`, `totalAmtBet`, `dealerWins`, `userWins`, `dealerEarnings`, `totalBlackjacks`, `lastServerReboot`) VALUES
-(1, 7, 3, 13005, 46, 27, 473, 20, '2008-07-03');
+INSERT INTO `ServerStats` (`serverID`, `numNewUsers`, `totalAmtBet`, `dealerWins`, `userWins`, `dealerEarnings`, `totalBlackjacks`, `lastServerReboot`) VALUES
+(1, 7,13005, 46, 27, 473, 20, '2008-07-03');
 
 -- --------------------------------------------------------
 
