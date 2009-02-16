@@ -4,8 +4,6 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import game.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import jms.ClientTextListener;
 import jms.JMSAsyncSubscriber;
 import server.UnknownUserException;
@@ -199,9 +197,9 @@ public class Client {
      * @param bet
      * @return
      */
-    public Hand deal(int userID, double bet) throws UnknownUserException, RemoteException{
+    public Hand dealPlayer(int userID) throws UnknownUserException, RemoteException{
         Hand hand = null;
-        hand = server.deal(userID, bet);
+        hand = server.dealPlayer(userID);
         return hand;
     }
 
@@ -209,9 +207,9 @@ public class Client {
      * Deals a hand for the dealer (server)
      * @return
      */
-    public Hand deal() throws RemoteException {
+    public Hand dealDealer(int userID) throws RemoteException {
         Hand dealer = null;
-        dealer = server.deal();
+        dealer = server.dealDealer(userID);
         return dealer;
     }
 
@@ -230,9 +228,9 @@ public class Client {
      * Server gets a new card
      * @return
      */
-    public Card hit() throws RemoteException{
+    public Card dealerHit(int userID) throws RemoteException{
         Card temp = null;
-        temp = server.hit();
+        temp = server.dealerHit(userID);
         return temp;
     }
 
@@ -252,9 +250,9 @@ public class Client {
      * Checks if dealer needs to stand (at 16 or more)
      * @return
      */
-    public boolean dealerStand() throws RemoteException {
+    public boolean dealerStand(int userID) throws RemoteException {
         boolean bool = false;
-        bool = server.dealerStand();
+        bool = server.dealerStand(userID);
         return bool;
     }
 

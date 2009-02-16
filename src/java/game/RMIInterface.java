@@ -139,14 +139,14 @@ public interface RMIInterface extends Remote
      * @return
      * @throws java.rmi.RemoteException
      */
-    public Hand deal(int userID, double bet) throws RemoteException, UnknownUserException;
+    public Hand dealPlayer(int userID) throws RemoteException, UnknownUserException;
 
     /**
      * method to get dealer's cards
      * @return
      * @throws java.rmi.RemoteException
      */
-    public Hand deal() throws RemoteException;
+    public Hand dealDealer(int userID) throws RemoteException;
 
     /**
      * method to check if player or dealer busts
@@ -162,7 +162,7 @@ public interface RMIInterface extends Remote
      * @return
      * @throws java.rmi.RemoteException
      */
-    public boolean dealerStand() throws RemoteException;
+    public boolean dealerStand(int userID) throws RemoteException;
 
     /**
      * method to check win type
@@ -186,7 +186,7 @@ public interface RMIInterface extends Remote
      * @return
      * @throws java.rmi.RemoteException
      */
-    public Card hit() throws RemoteException;
+    public Card dealerHit(int userID) throws RemoteException;
 
 
     /**

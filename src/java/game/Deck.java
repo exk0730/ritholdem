@@ -24,7 +24,7 @@ public class Deck extends Cards implements Serializable
    private Deck()
 	{
 		createDeck();
-		shuffle();
+		//shuffle();
    }
    
 	/**

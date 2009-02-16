@@ -97,9 +97,9 @@ public class Table extends javax.swing.JPanel
 	private void dealButtonActionPerformed(java.awt.event.ActionEvent evt)
 	{
 		try {
-                //Update the client's money
-                initCash = client.getBank();
-            } 
+            //Update the client's money
+            initCash = client.getBank();
+        }
 		catch (RemoteException ex) {
                 JOptionPane.showMessageDialog(this, "Connection Problem. Error retreiving bank.", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -124,9 +124,9 @@ public class Table extends javax.swing.JPanel
 			this.setLayout(null);
             cardCount = 0;
             try{
-                playerHand = client.deal(userID, bet);
+                playerHand = client.dealPlayer(userID);
                 renderPlayerHand(playerHand);
-                dealerHand = client.deal();
+                dealerHand = client.dealDealer(userID);
                 renderDealerHand(dealerHand);
             }
             catch(UnknownUserException uue){
@@ -157,8 +157,8 @@ public class Table extends javax.swing.JPanel
 
                 try
                 {
-                temp = client.hit(userID);
-                ok = true;
+                    temp = client.hit(userID);
+                    ok = true;
                 }
                 catch(RemoteException re)
                 {
@@ -275,8 +275,8 @@ public class Table extends javax.swing.JPanel
 	private void dealerActions() {
         try{
             try {
-                while (!client.dealerStand()) {
-                    Card temp = client.hit();
+                while (!client.dealerStand(userID)) {
+                    Card temp = client.dealerHit(userID);
                     renderHitCard(temp, false);
                     //if dealer busts:
                     if (client.bust(userID, false)) {
