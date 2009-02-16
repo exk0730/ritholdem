@@ -49,7 +49,7 @@ protected ServerAdminWebController server = new ServerAdminWebController();
 						<td><%= ss.getDealerWins() %></td>
 						<td><%= ss.getUserWins() %></td>
 						<td><%= ss.getTotalBlackjacks() %></td>
-						<td><%= ss.getLastServerReboot() %></td>
+						<td><%= ss.getLastServerReboot() != null ? ss.getLastServerReboot() : ""%></td>
 					</tr>
 				<%} %>
 			</table>
