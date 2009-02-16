@@ -14,6 +14,9 @@ public class ServerExitThread extends Thread {
 	public void run(){
 		try {
 			Naming.unbind(Server.SERVER_NAME);
-		} catch (Exception ex) { }
+            Server.instance().updateLastServerReboot();
+		} catch (Exception ex){
+            System.err.println("Error unbinding server from ServerExitThread: " + ex.getMessage());
+        }
 	}
 }

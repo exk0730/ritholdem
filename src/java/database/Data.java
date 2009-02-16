@@ -310,22 +310,25 @@ public class Data {
         }
     }
 
+    /**
+     * Updates a user's total earnings
+     * @param userID
+     * @param moneyEarned
+     * @throws java.sql.SQLException
+     */
     public synchronized void updateUserEarnings(int userID, double moneyEarned) throws SQLException {
         double temp = -1;
-        PreparedStatement pst = db.newPreparedStatement("SELECT userEarnings, bank FROM UserMoneyStats" +
-                " NATURAL JOIN FinancialData WHERE usedID = (?)");
+        PreparedStatement pst = db.newPreparedStatement("SELECT userEarnings FROM UserMoneyStats" +
+                " WHERE usedID = (?)");
         pst.setInt(1,userID);
         ResultSet rs = pst.executeQuery();
         if(rs.next()){
-            double bank = rs.getDouble("bank");
-            if( (bank + moneyEarned) > bank){
-                temp = rs.getDouble("userEarnings");
-                temp += moneyEarned;
-                pst = db.newPreparedStatement("UPDATE UserMoneyStats SET userEarnings = (?) WHERE userID = (?)");
-                pst.setDouble(1, temp);
-                pst.setInt(2, userID);
-                pst.executeUpdate();
-            }
+            temp = rs.getDouble("userEarnings");
+            temp += moneyEarned;
+            pst = db.newPreparedStatement("UPDATE UserMoneyStats SET userEarnings = (?) WHERE userID = (?)");
+            pst.setDouble(1, temp);
+            pst.setInt(2, userID);
+            pst.executeUpdate();
         }
 
     }
@@ -415,7 +418,7 @@ public class Data {
     }
 
     /**
-     * Updates server with total amount bet in game
+     * Updates server with every bet made in game
      * @param money
      * @throws SQLException
      */
@@ -461,7 +464,7 @@ public class Data {
      * @param user
      * @throws SQLException
      */
-    public void updateNumOfNewUsers(int user) throws SQLException
+    public void incrementNumOfNewUsers() throws SQLException
     {
         int temp = -1;
         PreparedStatement pst = db.newPreparedStatement("SELECT ServerStats.numNewUsers FROM ServerStats WHERE serverID = (SELECT MAX(serverID) FROM ServerStats)");
@@ -470,28 +473,8 @@ public class Data {
         if(rs.next())
         {
             temp = rs.getInt("numNewUsers");
-            temp += user;
+            temp++;
             pst = db.newPreparedStatement("UPDATE ServerStats SET numNewUsers = (?) WHERE serverID = (SELECT MAX(serverID))");
-            pst.setInt(1, temp);
-            pst.executeUpdate();
-        }
-    }
-     /**
-     * Updates server with number of users played
-     * @param usersPlayed
-     * @throws SQLException
-     */
-    public void updateNumOfUsersPlayed(int usersPlayed) throws SQLException
-    {
-        int temp = -1;
-        PreparedStatement pst = db.newPreparedStatement("SELECT ServerStats.numUsersPlayed FROM ServerStats WHERE serverID = (SELECT MAX(serverID) FROM ServerStats)");
-        ResultSet rs = pst.executeQuery();
-
-        if(rs.next())
-        {
-            temp = rs.getInt("numUsersPlayed");
-            temp += usersPlayed;
-            pst = db.newPreparedStatement("UPDATE ServerStats SET numUsersPlayed = (?) WHERE serverID = (SELECT MAX(serverID))");
             pst.setInt(1, temp);
             pst.executeUpdate();
         }
@@ -502,7 +485,7 @@ public class Data {
      * @param blackjacks
      * @throws SQLException
      */
-    public void updateTotalBlackJacks(int blackjacks) throws SQLException
+    public void incrementTotalBlackjacks() throws SQLException
     {
         int temp = -1;
         PreparedStatement pst = db.newPreparedStatement("SELECT ServerStats.totalBlackjacks FROM ServerStats WHERE serverID = (SELECT MAX(serverID) FROM ServerStats)");
@@ -511,7 +494,7 @@ public class Data {
         if(rs.next())
         {
             temp = rs.getInt("totalBlackjacks");
-            temp += blackjacks;
+            temp++;
             pst = db.newPreparedStatement("UPDATE ServerStats SET totalBlackjacks = (?) WHERE serverID = (SELECT MAX(serverID))");
             pst.setInt(1, temp);
             pst.executeUpdate();
@@ -523,7 +506,7 @@ public class Data {
      * @param userWins
      * @throws SQLException
      */
-    public void updateUserWins(int userWins) throws SQLException
+    public void incrementUserWins() throws SQLException
     {
         int temp = -1;
         PreparedStatement pst = db.newPreparedStatement("SELECT ServerStats.userWins FROM ServerStats WHERE serverID = (SELECT MAX(serverID) FROM ServerStats)");
@@ -532,7 +515,7 @@ public class Data {
         if(rs.next())
         {
             temp = rs.getInt("totalBlackjacks");
-            temp += userWins;
+            temp++;
             pst = db.newPreparedStatement("UPDATE ServerStats SET userWins = (?) WHERE serverID = (SELECT MAX(serverID))");
             pst.setInt(1, temp);
             pst.executeUpdate();
@@ -544,7 +527,7 @@ public class Data {
      * @param dealerWins
      * @throws SQLException
      */
-    public void updateDealerWins(int dealerWins) throws SQLException
+    public void incrementDealerWins() throws SQLException
     {
         int temp = -1;
         PreparedStatement pst = db.newPreparedStatement("SELECT ServerStats.dealerWins FROM ServerStats WHERE serverID = (SELECT MAX(serverID) FROM ServerStats)");
@@ -553,7 +536,7 @@ public class Data {
         if(rs.next())
         {
             temp = rs.getInt("dealerWins");
-            temp += dealerWins;
+            temp++;
             pst = db.newPreparedStatement("UPDATE ServerStats SET dealerWins = (?) WHERE serverID = (SELECT MAX(serverID) FROM ServerStats)");
             pst.setInt(1, temp);
             pst.executeUpdate();
@@ -568,13 +551,12 @@ public class Data {
     public ServerStatistics getCurrServerStats() throws SQLException
     {
 		ServerStatistics ss = null;
-        ResultSet rs = db.executeQuery("SELECT numNewUsers, numUsersPlayed, totalAmtBet, " +
+        ResultSet rs = db.executeQuery("SELECT numNewUsers, totalAmtBet, " +
                                               "dealerWins, userWins, dealerEarnings, " +
                                               "totalBlackjacks, lastServerReboot " +
                                               "FROM ServerStats WHERE (SELECT serverID = MAX(serverID) FROM ServerStats)");
         if(rs.next()) {
 			ss = new ServerStatistics(	rs.getInt("numNewUsers"),
-										rs.getInt("numUsersPlayed"),
 										rs.getDouble("totalAmtBet"),
 										rs.getInt("dealerWins"),
 										rs.getInt("userWins"),

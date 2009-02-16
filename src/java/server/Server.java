@@ -65,7 +65,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         try {
 			//Start the stats reporter
 			statsreport.start();
-			
+
             //Bind the server to RMI
 			Naming.rebind(SERVER_NAME, this);
 
@@ -111,7 +111,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     public synchronized Card dealerHit(int userID) throws RemoteException {
         return gameMap.get(userID).dealerHit();
     }
-    
+
     /**
      * Return dealer's hand
      * @return
@@ -230,6 +230,9 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         int userID = RMIInterface.LOGIN_FAILED;
         try {
             userID = data.register(loginID, password, fName, lName, email, creditCard, startingCash);
+            if(userID != RMIInterface.LOGIN_FAILED){
+                incrementNumOfNewUsers();
+            }
         } catch(SQLException e) {
             System.err.println("Error in register(): " + e.getMessage());
         }
@@ -298,6 +301,14 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         if(userExists(userID)){
             try {
                 temp = data.updateBank(userID, money);
+                data.updateUserEarnings(userID, money);
+                updateDealerEarnings(money);
+                if(money < -1){
+                    updateServerTotalBet((money*-1));
+                }
+                else{
+                    updateServerTotalBet(money);
+                }
             }
             catch(SQLException sqle){
                 System.err.println("Error in updating bank: " + sqle.getMessage());
@@ -319,6 +330,15 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     public synchronized void updateUserCardStats(int userID, char character) throws RemoteException {
         try{
             data.updateUserCardStats(userID, character);
+            if(character == 'w'){
+                incrementUserWins();
+            }
+            else if(character == 'l'){
+                incrementDealerWins();
+            }
+            else if(character == 'b'){
+                incrementTotalBlackjacks();
+            }
         }
         catch(SQLException sqle){
             System.err.println("Error in updating user card stats: " + sqle.getMessage());
@@ -445,33 +465,6 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     }
 
     /**
-     * The main program
-     * /!\ Be sure to run rmiregistry in the class path before running this program
-     * @param args arguments
-     */
-    public static void main(String args[]){
-        Server server = null;
-        try {
-            server = instance();
-            startTime = new Date();
-        } catch(Exception e) {
-            System.err.println("The server encountered an error while trying to connect to the database.");
-            System.err.println("The error is: " + e.getMessage());
-            System.exit(1);
-        }
-        
-        System.out.println("Starting the server.");
-
-		//Add a hook to unbind the server when we close it
-		Runtime.getRuntime().addShutdownHook(new ServerExitThread());
-
-		//Bind the server
-        server.bind();
-		
-        System.out.println("Server started");
-    }
-
-    /**
     * method to get servers' start time
     * @return start time of the server in millis
     * @throws java.rmi.RemoteException
@@ -505,4 +498,123 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         }
         return removed;
 	}
+
+    /**
+     * Updates new server startup time
+     */
+    public void updateLastServerReboot() {
+        try{
+            data.updateLastServerReboot();
+        }
+        catch(SQLException sqle){
+            System.err.println("Error in updateLastServerReboot(): " + sqle.getMessage());
+        }
+    }
+
+    /**
+     * Updates total bets made by users
+     * @param money
+     * @throws RemoteException
+     */
+    public void updateServerTotalBet(double money) {
+        try{
+            data.updateServerTotalBet(money);
+        }
+        catch(SQLException sqle){
+            System.err.println("Error in updateServerTotalBet(): " + sqle.getMessage());
+        }
+    }
+
+    /**
+     * Updates total dealer earnings
+     * @param money
+     * @throws RemoteException
+     */
+    public void updateDealerEarnings(double money) {
+        try{
+            data.updateDealerEarnings(money);
+        }
+        catch(SQLException sqle){
+            System.err.println("Error in updateDealerEarnings(): " + sqle.getMessage());
+        }
+    }
+
+    /**
+     * Increments new users by one
+     * @throws RemoteException
+     */
+    public void incrementNumOfNewUsers() {
+        try {
+            data.incrementNumOfNewUsers();
+        }
+        catch(SQLException sqle){
+            System.err.println("Error in updateNumOfNewUsers(): " + sqle.getMessage());
+        }
+    }
+
+    /**
+     * Increments number of blackjacks dealt
+     * @throws RemoteException
+     */
+    public void incrementTotalBlackjacks() {
+        try {
+            data.incrementTotalBlackjacks();
+        }
+        catch(SQLException sqle){
+            System.err.println("Error in updateTotalBlackjacks(): " + sqle.getMessage());
+        }
+    }
+
+    /**
+     * Increments total user wins
+     * @throws RemoteException
+     */
+    public void incrementUserWins() {
+        try {
+            data.incrementUserWins();
+        }
+        catch(SQLException sqle){
+            System.err.println("Error in updateUserWins(): " + sqle.getMessage());
+        }
+    }
+
+    /**
+     * Increment total dealer wins
+     * @throws RemoteException
+     */
+    public void incrementDealerWins() {
+        try {
+            data.incrementDealerWins();
+        }
+        catch(SQLException sqle){
+            System.err.println("Error in updateDealerWins(): " + sqle.getMessage());
+        }
+    }
+
+    /**
+     * The main program
+     * /!\ Be sure to run rmiregistry in the class path before running this program
+     * @param args arguments
+     */
+    public static void main(String args[]){
+        Server server = null;
+        try {
+            server = instance();
+            startTime = new Date();
+        } catch(Exception e) {
+            System.err.println("The server encountered an error while trying to connect to the database.");
+            System.err.println("The error is: " + e.getMessage());
+            System.exit(1);
+        }
+
+        System.out.println("Starting the server.");
+
+		//Add a hook to unbind the server when we close it
+		Runtime.getRuntime().addShutdownHook(new ServerExitThread());
+
+		//Bind the server
+        server.bind();
+
+        System.out.println("Server started");
+    }
 }
