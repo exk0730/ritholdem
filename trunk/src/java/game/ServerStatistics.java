@@ -11,15 +11,14 @@ import java.sql.Date;
 
 public class ServerStatistics implements Serializable
 {
-    private int numNewUsers, numUsersPlayed, dealerWins, userWins, totalBlackjacks;
+    private int numNewUsers, dealerWins, userWins, totalBlackjacks;
     private double totalAmtBet, dealerEarnings;
     private Date lastServerReboot;
 
-    public ServerStatistics(int nnu, int nup, double tab, int dw,
+    public ServerStatistics(int nnu, double tab, int dw,
                             int uw, double de , int tb, java.sql.Date lsr)
     {
         numNewUsers = nnu;
-        numUsersPlayed = nup;
         totalAmtBet = tab;
         dealerWins = dw;
         userWins = uw;
@@ -30,10 +29,6 @@ public class ServerStatistics implements Serializable
 
     public int getNumNewUsers(){
         return numNewUsers;
-    }
-
-    public int getNumUsersPlayed(){
-        return numUsersPlayed;
     }
 
     public double getTotalAmtBet(){
