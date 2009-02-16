@@ -426,17 +426,9 @@ public class Data {
      */
     public void updateLastServerReboot() throws SQLException
     {
-        java.util.Date date = new java.util.Date();
-        PreparedStatement pst = db.newPreparedStatement("SELECT lastServerReboot FROM ServerStats WHERE serverID = ?");
-        pst.setDate(1,(Date)date);
-		pst.setInt(2, serverID);
-        ResultSet rs = pst.executeQuery();
-
-        if(rs.next())
-        {
-            pst = db.newPreparedStatement("UPDATE ServerStats SET lastServerReboot = (?)");
-            pst.executeUpdate();
-        }
+        PreparedStatement pst = db.newPreparedStatement("UPDATE ServerStats SET lastServerReboot = NOW() WHERE  serverID = ?");
+        pst.setInt(1, serverID);
+        pst.executeUpdate();
     }
 
     /**
