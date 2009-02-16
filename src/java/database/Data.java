@@ -588,7 +588,7 @@ public class Data {
     {
 		ResultSet rs = db.executeQuery("SELECT serverID FROM ServerStats ORDER BY serverID DESC");
 		ArrayList<Integer> res = new ArrayList<Integer>();
-        if(rs.next()) {
+        while(rs.next()) {
 			res.add(rs.getInt("serverID"));
         }
         return res;
