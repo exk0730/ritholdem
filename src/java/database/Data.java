@@ -429,8 +429,10 @@ public class Data {
     protected void updateServerInfo() throws SQLException {
         ServerStatistics ss = getCurrServerStats();
         PreparedStatement pst = db.newPreparedStatement(
-                "INSERT INTO ServerStats VALUES (?,?,?,?,?,?,?)"
+                "INSERT INTO ServerStats (numNewUsers, totalAmtBet, dealerWins, userWins, dealerEarnings, totalBlackjacks, lastServerReboot) " +
+				"VALUES (?,?,?,?,?,?,?)"
                 );
+
         pst.setInt(1, ss.getNumNewUsers());
         pst.setDouble(2, ss.getTotalAmtBet());
         pst.setInt(3, ss.getDealerWins());
@@ -538,7 +540,7 @@ public class Data {
         ResultSet rs = db.executeQuery("SELECT numNewUsers, totalAmtBet, " +
                                               "dealerWins, userWins, dealerEarnings, " +
                                               "totalBlackjacks, lastServerReboot " +
-                                              "FROM ServerStats WHERE (SELECT serverID = MAX(serverID) FROM ServerStats)");
+                                              "FROM ServerStats WHERE serverID = (SELECT MAX(serverID) FROM ServerStats)");
         if(rs.next()) {
 			ss = new ServerStatistics(	rs.getInt("numNewUsers"),
 										rs.getDouble("totalAmtBet"),
