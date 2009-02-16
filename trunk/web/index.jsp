@@ -69,6 +69,8 @@ protected void printCurrentUsers(PrintWriter out){
 		<% if(server.isConnected()){ %>
 
 		<% printCurrentUsers(new PrintWriter(out)); %>
+
+		<p><a href = "index.jsp">Click here to refresh</a></p>
 		
 
 		<% } else { /* if !server.isConnected() */ %>
