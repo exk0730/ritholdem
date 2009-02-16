@@ -23,9 +23,14 @@ protected ServerAdminWebController server = new ServerAdminWebController();
 
 			ServerStatistics ss = server.getServerStats();
 			%>
-
-			<p></p>
-
+			<table id = "server_stats">
+				<tr><th>New users</th><td><%= ss.getNumNewUsers() %></td></tr>
+				<tr><th>Total amount of bets</th><td><%= ss.getTotalAmtBet() %></td></tr>
+				<tr><th>Dealer's earnings</th><td><%= ss.getDealerEarnings() %></td></tr>
+				<tr><th>Number of dealer's wins</th><td><%= ss.getDealerWins() %></td></tr>
+				<tr><th>Number of users' wins</th><td><%= ss.getUserWins() %></td></tr>
+				<tr><th>Number of blackjacks</th><td><%= ss.getTotalBlackjacks() %></td></tr>
+			</table>
 			<p><a href = "server_stats.jsp">Click here to refresh</a></p>
 
 		<% } else { /* if !server.isConnected() */ %>
