@@ -19,12 +19,11 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * Database
      */
     public Data data; //TODO change into private
-    public Deck deck; //TODO catch IndexOutOfBoundsExceptions - deck runs out of cards
-    private Hand playerHand, dealerHand;
-    private CheckLogic checkLogic;
     private ArrayList<Integer> users = new ArrayList<Integer>();
+    private LinkedHashMap<Integer, Game> gameMap = new LinkedHashMap<Integer, Game>();
     private static Date startTime;
     private Date currentTime;
+    private Game game;
     /**
      * Unique instance (Singleton Design Pattern)
      */
@@ -77,16 +76,13 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         }
     }
 
-    private void initGame(boolean newHand){
-        try{
-            deck = Deck.instance();
-        }
-        catch(Exception e) { System.err.println("Error in retrieving isntance of deck"); }
-        if(newHand){
-            playerHand = new Hand();
-            dealerHand = new Hand();
-            checkLogic = new CheckLogic(playerHand, dealerHand);
-        }
+    /**
+     * Initiate game for userID
+     * @param userID
+     */
+    private void initGame(int userID){
+        game = new Game(userID);
+        gameMap.put(userID, game);
     }
 
     /**
@@ -95,19 +91,11 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @return
      * @throws java.rmi.RemoteException
      */
-    @Override
     public synchronized Card hit(int userID) throws RemoteException, UnknownUserException
     {
         Card temp = null;
         if(userExists(userID)){
-            try{
-                temp = deck.getNextCard();
-            }
-            catch(IndexOutOfBoundsException ioobe){
-                initGame(false);
-                temp = deck.getNextCard();
-            }
-            checkLogic.updatePlayer(temp);
+            temp = gameMap.get(userID).hit();
         }
         else{
             throw new UnknownUserException();
@@ -120,20 +108,8 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @return
      * @throws java.rmi.RemoteException
      */
-    public synchronized Card hit() throws RemoteException {
-        Card temp = null;
-    	/**
-    	 * TODO use userID somewhere
-    	 */
-        try{
-            temp = deck.getNextCard();
-        }
-        catch(IndexOutOfBoundsException ioobe){
-            initGame(false);
-            temp = deck.getNextCard();
-        }
-        checkLogic.updateDealer(temp);
-        return temp;
+    public synchronized Card dealerHit(int userID) throws RemoteException {
+        return gameMap.get(userID).dealerHit();
     }
     
     /**
@@ -141,19 +117,10 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @return
      * @throws java.rmi.RemoteException
      */
-    @Override
-    public synchronized Hand deal() throws RemoteException
+    public synchronized Hand dealDealer(int userID) throws RemoteException
     {
-        try{
-            dealerHand.nextHand();
-        }
-        catch(IndexOutOfBoundsException ioobe){
-            initGame(true);
-            dealerHand = new Hand();
-            dealerHand.nextHand();
-        }
-        checkLogic = new CheckLogic(playerHand, dealerHand);
-    	return dealerHand;
+        gameMap.get(userID).dealDealer();
+    	return gameMap.get(userID).getDealerHand();
     }
 
     /**
@@ -163,23 +130,15 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @return
      * @throws java.rmi.RemoteException
      */
-    @Override
-    public synchronized Hand deal(int userID, double bet)throws RemoteException, UnknownUserException
+    public synchronized Hand dealPlayer(int userID) throws RemoteException, UnknownUserException
     {
         if(userExists(userID)){
-            try{
-                playerHand.nextHand();
-            }
-            catch(IndexOutOfBoundsException ioobe){
-                initGame(true);
-                playerHand = new Hand();
-                playerHand.nextHand();
-            }
+            gameMap.get(userID).dealPlayer();
         }
         else{
             throw new UnknownUserException();
         }
-    	return playerHand;
+    	return gameMap.get(userID).getPlayerHand();
     }
 
     /**
@@ -190,17 +149,11 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @return
      * @throws java.rmi.RemoteException
      */
-    @Override
     public synchronized boolean bust(int userID, boolean playerOrDealer) throws RemoteException, UnknownUserException
     {
         boolean bust = false;
         if(userExists(userID)){
-            if(playerOrDealer){
-                bust = checkLogic.checkBust(true);
-            }
-            else{
-                bust = checkLogic.checkBust(false);
-            }
+            bust = gameMap.get(userID).bust(playerOrDealer);
         }
         else{
             throw new UnknownUserException();
@@ -213,12 +166,8 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @return true if dealer has a higher hand than 15
      * @throws java.rmi.RemoteException
      */
-    @Override
-    public synchronized boolean dealerStand() throws RemoteException {
-        if(checkLogic.getCombinedDealerHand() >= 16) {
-            return true;
-        }
-        else return false;
+    public synchronized boolean dealerStand(int userID) throws RemoteException {
+        return gameMap.get(userID).dealerStandsAtSixteen();
     }
 
     /**
@@ -228,31 +177,10 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @return
      * @throws java.rmi.RemoteException
      */
-    @Override
     public synchronized String checkWin(int userID, double bet) throws RemoteException, UnknownUserException {
         String s = "";
         if(userExists(userID)){
-            switch(checkLogic.returnTypeOfWin())
-            {
-                case -1:
-                    bet *= -1;
-                    s = "You lose.";
-                    break;
-                case 1:
-                    s = "You win!";
-                    break;
-                case 2:
-                    bet = bet * 1.5;
-                    s = "Winner, winner, chicken dinner!";
-                    break;
-                default:
-                    bet = 0;
-                    s = "Push.";
-                    break;
-            }
-            s = s + "_" + bet;
-            System.out.println("Just checked win - String s= " + s + " checklogic is as follows: " +
-                    checkLogic.toString());
+            s = gameMap.get(userID).returnWin(bet);
         }
         else{
             throw new UnknownUserException();
@@ -293,7 +221,6 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @return
      * @throws java.rmi.RemoteException
      */
-    @Override
     public synchronized int register(String loginID, String password, String fName,
                             String lName, String email, String creditCard, double startingCash) throws RemoteException {
         int userID = RMIInterface.LOGIN_FAILED;
@@ -312,7 +239,6 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @return LOGIN_FAILED if failed, otherwise the userID
      * @throws java.rmi.RemoteException
      */
-    @Override
     public synchronized int login(String userName, String password) throws RemoteException {
         int userID = LOGIN_FAILED;
         try {
@@ -321,10 +247,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
                 userID = LOGIN_FAILED;
             }
             else{
-                initGame(true);
-                playerHand = new Hand();
-                dealerHand = new Hand();
-                checkLogic = new CheckLogic(playerHand, dealerHand);
+                initGame(userID);
                 users.add(userID);
             }
         } catch(SQLException e) {
@@ -335,7 +258,6 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
 
 
 
-    @Override
     /**
      * returns the user's money
      * @param int userID
@@ -367,7 +289,6 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @return bank money
      * @throws java.rmi.RemoteException
      */
-    @Override
     public synchronized double updateBank(int userID, double money) throws RemoteException, UnknownUserException {
         double temp = -1;
         if(userExists(userID)){
@@ -391,7 +312,6 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @param character
      * @throws java.rmi.RemoteException
      */
-    @Override
     public synchronized void updateUserCardStats(int userID, char character) throws RemoteException {
         try{
             data.updateUserCardStats(userID, character);
@@ -424,7 +344,6 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @return
      * @throws java.rmi.RemoteException
      */
-    @Override
 	public synchronized boolean deleteAccount(int userID) throws RemoteException, UnknownUserException {
         boolean ok = false;
         if(userExists(userID)){
@@ -447,7 +366,6 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @return
      * @throws java.rmi.RemoteException
      */
-	@Override
     public synchronized AccountInformation getInfos(int userID) throws RemoteException, UnknownUserException {
         AccountInformation ai = null;
         if(userExists(userID)){
@@ -470,7 +388,6 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @param ai user's infos
      * @throws java.rmi.RemoteException
      */
-    @Override
     public synchronized void writeInfos(int userID, AccountInformation ai) throws RemoteException, UnknownUserException {
         if(userExists(userID)){
             try {

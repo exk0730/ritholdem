@@ -310,7 +310,23 @@ public class Data {
         }
     }
 
-    public synchronized void updateUserMoneyStats(int userID) throws SQLException {
+    public synchronized void updateUserEarnings(int userID, double moneyEarned) throws SQLException {
+        double temp = -1;
+        PreparedStatement pst = db.newPreparedStatement("SELECT userEarnings, bank FROM UserMoneyStats" +
+                " NATURAL JOIN FinancialData WHERE usedID = (?)");
+        pst.setInt(1,userID);
+        ResultSet rs = pst.executeQuery();
+        if(rs.next()){
+            double bank = rs.getDouble("bank");
+            if( (bank + moneyEarned) > bank){
+                temp = rs.getDouble("userEarnings");
+                temp += moneyEarned;
+                pst = db.newPreparedStatement("UPDATE UserMoneyStats SET userEarnings = (?) WHERE userID = (?)");
+                pst.setDouble(1, temp);
+                pst.setInt(2, userID);
+                pst.executeUpdate();
+            }
+        }
 
     }
 

@@ -208,7 +208,24 @@ public class CheckLogic
 		s += "\nblackjack: " + checkBlackJack() + "\npush: " + checkPush() +
 								 "\nwin: " + checkWin() + "\nloss: " + checkLoss();
 
-		s+= "\n\nWin Type: " + returnTypeOfWin();
+		s+= "\n\nWin Type: " + returnTypeOfWin() + "\nPlayerHand:::::::::";
+
+        for(int i = 0; i < playerHand.getSize(); i++){
+            s+= "\t" + playerHand.getCardAt(i);
+        }
+        s+= "\n\nDealerHand:::::::::";
+        for(int i = 0; i < dealerHand.getSize(); i++){
+            s+= "\t" + dealerHand.getCardAt(i);
+        }
+        s+= "\n\n\n\n----------------DECK------------------";
+        try{
+            Deck deck = Deck.instance();
+        for(int i = 0; i < deck.getSize(); i++){
+            s+= "\n" + deck.getCardAt(i);
+        }
+            s+= "\nSelectedIndex: " + deck.getIndex() + "\tCard at selected Index: " + deck.getCardAt(deck.getIndex()) +
+                    "\n";
+        }catch(Exception e){}
         return s;
     }
 }
