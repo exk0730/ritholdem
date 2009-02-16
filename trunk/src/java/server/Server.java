@@ -301,14 +301,9 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         if(userExists(userID)){
             try {
                 temp = data.updateBank(userID, money);
-                if(money < -1){
-                    updateServerTotalBet((money*-1));
-                    updateDealerEarnings((money*-1));
-                }
-                else{
-                    updateServerTotalBet(money);
-                    data.updateUserEarnings(userID, money);
-                }
+				updateServerTotalBet(money > 0 ? money : -money);
+				updateDealerEarnings(-money);
+				data.updateUserEarnings(userID, money);
             }
             catch(SQLException sqle){
                 System.err.println("Error in updating bank: " + sqle.getMessage());
