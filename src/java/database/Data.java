@@ -387,181 +387,186 @@ public class Data {
     public void updateLastServerReboot() throws SQLException
     {
         java.util.Date date = new java.util.Date();
-        PreparedStatement pst = db.newPreparedStatement("SELECT serverstats.lastServerReboot FROM serverstats WHERE MAX(serverID) = (?)");
+        PreparedStatement pst = db.newPreparedStatement("SELECT ServerStats.lastServerReboot FROM ServerStats WHERE (SELECT MAX(serverID) FROM ServerStats)");
         pst.setDate(1,(Date)date);
         ResultSet rs = pst.executeQuery();
 
         if(rs.next())
         {
-            pst = db.newPreparedStatement("UPDATE serverstats SET lastserverreboot = (?)");
+            pst = db.newPreparedStatement("UPDATE ServerStats SET lastserverreboot = (?)");
             pst.executeUpdate();
         }
     }
 
     /**
      * Updates server with total amount bet in game
-     * @param serverID
      * @param money
      * @throws SQLException
      */
-    public void updateServerTotalBet(int serverID, double money) throws SQLException
+    public void updateServerTotalBet(double money) throws SQLException
     {
         double temp = -1;
-        PreparedStatement pst = db.newPreparedStatement("SELECT serverstats.totalAmtBet FROM serverstats WHERE MAX(serverID) = (?)");
-        pst.setInt(1, serverID);
+        PreparedStatement pst = db.newPreparedStatement("SELECT ServerStats.totalAmtBet FROM ServerStats WHERE (SELECT MAX(serverID) FROM ServerStats)");
         ResultSet rs = pst.executeQuery();
 
         if(rs.next())
         {
             temp = rs.getDouble("totalAmtBet");
             temp += money;
-            pst = db.newPreparedStatement("UPDATE serverstats SET totalAmtBet = (?) WHERE serverID = (?)");
+            pst = db.newPreparedStatement("UPDATE ServerStats SET totalAmtBet = (?) WHERE (SELECT MAX(serverID))");
             pst.setDouble(1, temp);
-            pst.setInt(2, serverID);
             pst.executeUpdate();
         }
     }
     
     /**
      * Updates server with dealer earnings
-     * @param serverID
      * @param money
      * @throws SQLException
      */
-    public void updateDealerEarnings(int serverID, double money) throws SQLException
+    public void updateDealerEarnings(double money) throws SQLException
     {
         double temp = -1;
-        PreparedStatement pst = db.newPreparedStatement("SELECT serverstats.dealerEarnings FROM serverstats WHERE MAX(serverID) = (?)");
-        pst.setInt(1, serverID);
+        PreparedStatement pst = db.newPreparedStatement("SELECT ServerStats.dealerEarnings FROM ServerStats WHERE (SELECT MAX(serverID) FROM ServerStats)");
         ResultSet rs = pst.executeQuery();
 
         if(rs.next())
         {
             temp = rs.getDouble("dealerEarnings");
             temp += money;
-            pst = db.newPreparedStatement("UPDATE serverstats SET dearlerEarnings = (?) WHERE serverID = (?)");
+            pst = db.newPreparedStatement("UPDATE ServerStats SET dearlerEarnings = (?) WHERE (SELECT MAX(serverID))");
             pst.setDouble(1, temp);
-            pst.setInt(2, serverID);
             pst.executeUpdate();
         }
     }
 
     /**
      * Updates server with number of new users
-     * @param serverID
      * @param user
      * @throws SQLException
      */
-    public void updateNumOfNewUsers(int serverID, int user) throws SQLException
+    public void updateNumOfNewUsers(int user) throws SQLException
     {
         int temp = -1;
-        PreparedStatement pst = db.newPreparedStatement("SELECT serverstats.numNewUsers FROM serverstats WHERE MAX(serverID) = (?)");
-        pst.setInt(1, serverID);
+        PreparedStatement pst = db.newPreparedStatement("SELECT ServerStats.numNewUsers FROM ServerStats WHERE (SELECT MAX(serverID) FROM ServerStats)");
         ResultSet rs = pst.executeQuery();
 
         if(rs.next())
         {
             temp = rs.getInt("numNewUsers");
             temp += user;
-            pst = db.newPreparedStatement("UPDATE serverstats SET numNewUsers = (?) WHERE serverID = (?)");
+            pst = db.newPreparedStatement("UPDATE ServerStats SET numNewUsers = (?) WHERE (SELECT MAX(serverID))");
             pst.setInt(1, temp);
-            pst.setInt(2, serverID);
             pst.executeUpdate();
         }
     }
      /**
      * Updates server with number of users played
-     * @param serverID
      * @param usersPlayed
      * @throws SQLException
      */
-    public void updateNumOfUsersPlayed(int serverID, int usersPlayed) throws SQLException
+    public void updateNumOfUsersPlayed(int usersPlayed) throws SQLException
     {
         int temp = -1;
-        PreparedStatement pst = db.newPreparedStatement("SELECT serverstats.numUsersPlayed FROM serverstats WHERE MAX(serverID) = (?)");
-        pst.setInt(1, serverID);
+        PreparedStatement pst = db.newPreparedStatement("SELECT ServerStats.numUsersPlayed FROM ServerStats WHERE (SELECT MAX(serverID) FROM ServerStats)");
         ResultSet rs = pst.executeQuery();
 
         if(rs.next())
         {
             temp = rs.getInt("numUsersPlayed");
             temp += usersPlayed;
-            pst = db.newPreparedStatement("UPDATE serverstats SET numUsersPlayed = (?) WHERE serverID = (?)");
+            pst = db.newPreparedStatement("UPDATE ServerStats SET numUsersPlayed = (?) WHERE (SELECT MAX(serverID))");
             pst.setInt(1, temp);
-            pst.setInt(2, serverID);
             pst.executeUpdate();
         }
     }
 
         /**
      * Updates server with total blackjacks dealt
-     * @param serverID
      * @param blackjacks
      * @throws SQLException
      */
-    public void updateTotalBlackJacks(int serverID, int blackjacks) throws SQLException
+    public void updateTotalBlackJacks(int blackjacks) throws SQLException
     {
         int temp = -1;
-        PreparedStatement pst = db.newPreparedStatement("SELECT serverstats.totalBlackjacks FROM serverstats WHERE MAX(serverID) = (?)");
-        pst.setInt(1, serverID);
+        PreparedStatement pst = db.newPreparedStatement("SELECT ServerStats.totalBlackjacks FROM ServerStats WHERE (SELECT MAX(serverID) FROM ServerStats)");
         ResultSet rs = pst.executeQuery();
 
         if(rs.next())
         {
             temp = rs.getInt("totalBlackjacks");
             temp += blackjacks;
-            pst = db.newPreparedStatement("UPDATE serverstats SET totalBlackjacks = (?) WHERE serverID = (?)");
+            pst = db.newPreparedStatement("UPDATE ServerStats SET totalBlackjacks = (?) WHERE (SELECT MAX(serverID))");
             pst.setInt(1, temp);
-            pst.setInt(2, serverID);
             pst.executeUpdate();
         }
     }
 
     /**
      * Updates server with number of user wins
-     * @param serverID
      * @param userWins
      * @throws SQLException
      */
-    public void updateUserWins(int serverID, int userWins) throws SQLException
+    public void updateUserWins(int userWins) throws SQLException
     {
         int temp = -1;
-        PreparedStatement pst = db.newPreparedStatement("SELECT serverstats.userWins FROM serverstats WHERE MAX(serverID) = (?)");
-        pst.setInt(1, serverID);
+        PreparedStatement pst = db.newPreparedStatement("SELECT ServerStats.userWins FROM ServerStats WHERE (SELECT MAX(serverID) FROM ServerStats)");
         ResultSet rs = pst.executeQuery();
 
         if(rs.next())
         {
             temp = rs.getInt("totalBlackjacks");
             temp += userWins;
-            pst = db.newPreparedStatement("UPDATE serverstats SET userWins = (?) WHERE serverID = (?)");
+            pst = db.newPreparedStatement("UPDATE ServerStats SET userWins = (?) WHERE (SELECT MAX(serverID))");
             pst.setInt(1, temp);
-            pst.setInt(2, serverID);
             pst.executeUpdate();
         }
     }
 
     /**
      * Updates server with number of dealer wins
-     * @param serverID
      * @param dealerWins
      * @throws SQLException
      */
-    public void updateDealerWins(int serverID, int dealerWins) throws SQLException
+    public void updateDealerWins(int dealerWins) throws SQLException
     {
         int temp = -1;
-        PreparedStatement pst = db.newPreparedStatement("SELECT serverstats.dealerWins FROM serverstats WHERE MAX(serverID) = (?)");
-        pst.setInt(1, serverID);
+        PreparedStatement pst = db.newPreparedStatement("SELECT ServerStats.dealerWins FROM ServerStats WHERE (SELECT MAX(serverID) FROM ServerStats)");
         ResultSet rs = pst.executeQuery();
 
         if(rs.next())
         {
             temp = rs.getInt("dealerWins");
             temp += dealerWins;
-            pst = db.newPreparedStatement("UPDATE serverstats SET userWins = (?) WHERE serverID = (?)");
+            pst = db.newPreparedStatement("UPDATE ServerStats SET dealerWins = (?) WHERE (SELECT MAX(serverID))");
             pst.setInt(1, temp);
-            pst.setInt(2, serverID);
             pst.executeUpdate();
         }
+    }
+
+    /**
+     * Updates server with number of dealer wins
+     * @return latest server stats
+     * @throws SQLException
+     */
+    public String getCurrServerStats() throws SQLException
+    {
+        String str = "";
+        ResultSet rs = db.executeQuery("SELECT numNewUsers AS 'Number of New Users', " +
+                                              "numUsersPlayed AS 'Number of Users Played' " +
+                                              "totalAmtBet AS 'Total Amount Bet'" +
+                                              "dealerWins AS 'Dealer Wins'" +
+                                              "userWins AS 'User Wins'" +
+                                              "dealerEarnings AS 'Dealer Earnings'" +
+                                              "totalBlackjacks AS 'Total Blackjacks'" +
+                                              "lastServerReboot AS 'Last Server Reboot'" +
+                                              "FROM ServerStats WHERE (SELECT MAX(serverID))");
+        if(rs.next())
+        {
+            str = rs.getInt(1) + " " + rs.getInt(2) + " " + rs.getDouble(3) + " " +
+                  rs.getDouble(4) + " " + rs.getDouble(5) + " " + rs.getDouble(6) + " " +
+                  rs.getInt(7) + " " + rs.getDate(8);
+        }
+        return str;
     }
 }
