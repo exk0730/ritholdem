@@ -43,6 +43,8 @@ public class Data {
     private Data() throws SQLException {
         db = new DBConnection();
 		serverID = getLastServerID();
+        serverID++;
+        updateServerInfo();
     }
 
 
@@ -418,6 +420,26 @@ public class Data {
 		}
 		return res;
 	}
+
+    /**
+     * Updates the server log when a new server is started
+     * @throws java.sql.SQLException
+     */
+    protected void updateServerInfo() throws SQLException {
+        ServerStatistics ss = getCurrServerStats();
+        PreparedStatement pst = db.newPreparedStatement(
+                "INSERT INTO ServerStats VALUES (?,?,?,?,?,?,?,?)"
+                );
+        pst.setInt(1,serverID);
+        pst.setInt(2, ss.getNumNewUsers());
+        pst.setDouble(3, ss.getTotalAmtBet());
+        pst.setInt(4, ss.getDealerWins());
+        pst.setInt(5, ss.getUserWins());
+        pst.setDouble(6, ss.getDealerEarnings());
+        pst.setInt(7, ss.getTotalBlackjacks());
+        pst.setDate(8, ss.getLastServerReboot());
+        pst.executeUpdate();
+    }
 
 
     /**
