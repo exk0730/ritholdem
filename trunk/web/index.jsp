@@ -41,6 +41,7 @@ protected void printCurrentUsers(){
 		for (Integer userID : users) {
 			AccountInformation infos = server.getInfos(userID);
 			AccountCardStats cardStats = server.getCardStats(userID);
+			
 			o.println("<tr>");
 			o.println("<td>" + userID + "</td>");
 			o.println("<td>" + infos.getUserName() + "</td>");
