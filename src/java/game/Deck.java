@@ -12,16 +12,10 @@ public class Deck extends Cards implements Serializable
 	private final int MAX_CARD = 13;
     private static Deck instance;
 
-    public static Deck instance() throws Exception {
-        if(instance == null){
-            instance = new Deck();
-        }
-        return instance;
-    }
 	/**
 	*Default constructor
 	*/
-   private Deck()
+   public Deck()
 	{
 		createDeck();
 		shuffle();
@@ -41,24 +35,24 @@ public class Deck extends Cards implements Serializable
       }
    }
 
-   @Override
-   /**
-    * Overrides getNextCard in Cards class
-    * @return
+    /*@Override
+    /**
+     * Overrides getNextCard in Cards class
+     * @return
+     *
+    public Card getNextCard() {
+        Card c = null;
+        try {
+            c = getCardAt(getIndex());
+        } catch (IndexOutOfBoundsException ioobe) {
+            instance = new Deck();
+            c = getCardAt(getIndex());
+        }
+        increment();
+        return c;
+    }
     */
-   public Card getNextCard(){
-       Card c = null;
-       try{
-           c = getCardAt(getIndex());
-       }
-       catch(IndexOutOfBoundsException ioobe){
-           instance = new Deck();
-           c = getCardAt(getIndex());
-       }
-       increment();
-       return c;
-   }
-	
+   
 	/**
 	*Shuffle the deck
 	*/

@@ -154,6 +154,9 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         boolean bust = false;
         if(userExists(userID)){
             bust = gameMap.get(userID).bust(playerOrDealer);
+            if(bust && playerOrDealer){
+                gameMap.get(userID).initGame();
+            }
         }
         else{
             throw new UnknownUserException();
@@ -181,6 +184,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         String s = "";
         if(userExists(userID)){
             s = gameMap.get(userID).returnWin(bet);
+            gameMap.get(userID).initGame();
         }
         else{
             throw new UnknownUserException();
