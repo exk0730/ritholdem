@@ -26,8 +26,6 @@ CREATE TABLE IF NOT EXISTS `FinancialData` (
   `userID` smallint(6) NOT NULL,
   `bank` double(10,2) default '0.00',
   `creditCardNum` varchar(16) default NULL,
-  `allowEmergencyFunding` tinyint(1) default '0',
-  `emergencyFundAmt` double(10,2) default '0.00',
   PRIMARY KEY  (`userID`),
   KEY `acctID_Ind` (`bank`)
 ) TYPE=MyISAM;
