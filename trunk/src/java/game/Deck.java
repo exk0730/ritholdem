@@ -10,7 +10,6 @@ public class Deck extends Cards implements Serializable
 {
 	private final int MAX_SUIT = 4;
 	private final int MAX_CARD = 13;
-    private static Deck instance;
 
 	/**
 	*Default constructor
