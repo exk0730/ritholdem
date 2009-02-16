@@ -2,6 +2,16 @@
  * CSS for the JSP page
  */
 
+table {
+	border: solid 1px black;
+}
+
+
+th, td {
+	text-align: center;
+	padding: 0 12px 0 2px;
+}
+
 form {
 	display: inline;
 }

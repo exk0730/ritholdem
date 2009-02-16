@@ -6,6 +6,7 @@
  */
 
 package servlet;
+import game.AccountCardStats;
 import game.AccountInformation;
 import game.RMIInterface;
 import java.rmi.*;
@@ -105,6 +106,21 @@ public class ServerAdminWebController {
 		AccountInformation res = null;
 		try {
 			res = server.getInfos(userID);
+		} catch (Exception ex) {
+			exception = ex;
+		}
+		return res;
+	}
+
+	/**
+	 * Get card stats for a user ID
+	 * @param userID
+	 * @return
+	 */
+	public AccountCardStats getCardStats(int userID) {
+		AccountCardStats res = null;
+		try {
+			res = server.getCardStats(userID);
 		} catch (Exception ex) {
 			exception = ex;
 		}

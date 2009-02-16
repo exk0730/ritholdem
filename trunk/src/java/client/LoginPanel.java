@@ -316,9 +316,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 	public void logout(){
         try {
             client.logout();
-        } catch (RemoteException ex) {
-            JOptionPane.showMessageDialog(this, "Connection Problem. Error logging out.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        } catch (RemoteException ex) { }
 	}
 
 
