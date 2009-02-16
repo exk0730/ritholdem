@@ -211,7 +211,7 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
         boolean ok = false;
         url = ipAddressTextField.getText();
         
-        if(url.equals(""))
+        if(!url.equals(""))
         { 
             try
             {
