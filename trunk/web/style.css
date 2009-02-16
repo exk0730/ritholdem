@@ -16,13 +16,13 @@
 	padding: 2px;
 	margin: 0 2px 0 2px;
 	text-decoration: none;
-	border-top: solid 1px #888888;
-	border-left: solid 1px #888888;
-	border-right: solid 1px #888888;
 }
 
 #menu a.current{
 	color: black;
+	border-top: solid 1px #888888;
+	border-left: solid 1px #888888;
+	border-right: solid 1px #888888;
 }
 
 #menu a:hover {
@@ -33,10 +33,15 @@ table {
 	border: solid 1px black;
 }
 
-
 th, td {
-	text-align: center;
 	padding: 0 12px 0 2px;
+}
+
+table#current_users th, td {
+	text-align: center;
+}
+table#server_stats th {
+	text-align: left;
 }
 
 form {

@@ -57,42 +57,40 @@ protected ServerAdminWebController server = new ServerAdminWebController();
 				<p>No users currently logged in.</p>
 
 			<% } else { %>
-				<p>Current users logged: </p>
-				<table>
-
-				<tr>
-				<th>ID</th><th>Login</th><th>Name</th><th>Bank</th>
-				<th>Hits</th><th>Stands</th><th>Doubles</th><th>Wins</th><th>Loss</th><th>Blackjacks</th>
-				<th>Kick</th><th>Add money</th>
-				</tr>
-				<%
-				for (Integer userID : users) {
-					AccountInformation infos = server.getInfos(userID);
-					AccountCardStats cardStats = server.getCardStats(userID);
-					%>
+				<table id = "current_users">
 					<tr>
-					<td><%= userID %></td>
-					<td><%= infos.getUserName() %></td>
-					<td><%= infos.getFirstName() + " " + infos.getLastName() %></td>
-					<td>$<%= server.getBank(userID) %></td>
-
-					<td><%= cardStats.getNumOfHits() %></td>
-					<td><%= cardStats.getNumOfStands() %></td>
-					<td><%= cardStats.getNumOfDoubles() %></td>
-					<td><%= cardStats.getNumOfWins() %></td>
-					<td><%= cardStats.getNumOfLoss() %></td>
-					<td><%= cardStats.getNumOfBlackjacks() %></td>
-
-					<td><a href = "?userToKick=<%= userID %>">Kick</a></td>
-					<td>
-						<form method = "get" action = "">
-							<input type = "text" name = "amount" />
-							<input type = "hidden" name = "userToCredit" value = "<%= userID %>" />
-							<input type = "submit" value = "OK" />
-						</form>
-					</td>
+						<th>ID</th><th>Login</th><th>Name</th><th>Bank</th>
+						<th>Hits</th><th>Stands</th><th>Doubles</th><th>Wins</th><th>Loss</th><th>Blackjacks</th>
+						<th>Kick</th><th>Add money</th>
 					</tr>
-				<% } %>
+					<%
+					for (Integer userID : users) {
+						AccountInformation infos = server.getInfos(userID);
+						AccountCardStats cardStats = server.getCardStats(userID);
+						%>
+						<tr>
+						<td><%= userID %></td>
+						<td><%= infos.getUserName() %></td>
+						<td><%= infos.getFirstName() + " " + infos.getLastName() %></td>
+						<td>$<%= server.getBank(userID) %></td>
+
+						<td><%= cardStats.getNumOfHits() %></td>
+						<td><%= cardStats.getNumOfStands() %></td>
+						<td><%= cardStats.getNumOfDoubles() %></td>
+						<td><%= cardStats.getNumOfWins() %></td>
+						<td><%= cardStats.getNumOfLoss() %></td>
+						<td><%= cardStats.getNumOfBlackjacks() %></td>
+
+						<td><a href = "?userToKick=<%= userID %>">Kick</a></td>
+						<td>
+							<form method = "get" action = "">
+								<input type = "text" name = "amount" />
+								<input type = "hidden" name = "userToCredit" value = "<%= userID %>" />
+								<input type = "submit" value = "OK" />
+							</form>
+						</td>
+						</tr>
+					<% } %>
 				</table>
 
 			<% } %>
