@@ -16,7 +16,7 @@ import server.*;
 
 public class ServerAdminWebController {
 
-	protected RMIInterface server;
+	protected RMIInterface server = null;
 	protected Exception exception;
 
 	/**

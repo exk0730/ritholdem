@@ -2,6 +2,10 @@
  * CSS for the JSP page
  */
 
+* {
+	font-family: Arial;
+}
+
 table {
 	border: solid 1px black;
 }

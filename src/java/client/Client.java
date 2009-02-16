@@ -50,22 +50,27 @@ public class Client {
     /**
      * Constructor
      */
-    private Client(String host) throws Exception {
+    private Client(String host) throws NotConnectedException {
 		this.host = host;
-		reconnect();
+		checkConnect();
 		subscriber = new JMSAsyncSubscriber(new ClientTextListener(this));
         currentUserID = NOT_LOGGED_IN;
     }
 
 
-	protected void reconnect() throws RemoteException{
+	/**
+	 * Check that the client is connected to the server. Tries to reconnect. If it cannot, throw an exception.
+	 * @throws client.NotConnectedException
+	 */
+	protected void checkConnect() throws NotConnectedException {
 		if(!connected){
 			try {
 				server = (RMIInterface) Naming.lookup(PRE_HOST + host + POST_HOST + RMIInterface.SERVER_NAME);
+				connected = true;
 			}
-			catch (NotBoundException ex) {}
-			catch (MalformedURLException ex) {}
-			connected = true;
+			catch (Exception ex) {
+				throw new NotConnectedException();
+			}
 		}
 	}
 
@@ -91,15 +96,15 @@ public class Client {
      * @param pwd
      * @return int
      */
-    public int login(String userName, String pwd) throws RemoteException {
+    public int login(String userName, String pwd) throws NotConnectedException {
         int userID = RMIInterface.LOGIN_FAILED;
-		reconnect();
+		checkConnect();
 		try {
 			userID = server.login(userName, pwd);
 			currentUserID = userID;
 		} catch(RemoteException e) {
 			connected = false;
-			throw e;
+			throw new NotConnectedException();
 		}
         return userID;
     }
@@ -109,11 +114,14 @@ public class Client {
 	 * Log out the current user
 	 * @return
 	 */
-	public boolean logout() throws RemoteException{
-		boolean res = false;
-		res = server.logout(currentUserID);
-
-		return res;
+	public void logout() throws NotConnectedException {
+		checkConnect();
+		try {
+			server.logout(currentUserID);
+		} catch(RemoteException e) {
+			connected = false;
+			throw new NotConnectedException();
+		}
 	}
 
 
@@ -129,15 +137,15 @@ public class Client {
      * @return
      */
     public int register(String loginID, String password, String fName,
-                            String lName, String email, String creditCard, double startingCash) throws RemoteException{
+                            String lName, String email, String creditCard, double startingCash) throws NotConnectedException {
         int id = RMIInterface.LOGIN_FAILED;
-		reconnect();
+		checkConnect();
 		try {
 			id = server.register(loginID, password, fName, lName, email, creditCard, startingCash);
 			currentUserID = id;
 		} catch(RemoteException e){
 			connected = false;
-			throw e;
+			throw new NotConnectedException();
 		}
 
         return id;

@@ -316,7 +316,9 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 	public void logout(){
         try {
             client.logout();
-        } catch (RemoteException ex) { }
+        } catch (NotConnectedException ex) {
+			//Since we call this method when we close the client, we don't do nothing
+		}
 	}
 
 
@@ -339,7 +341,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
                 userID = client.login(userNameTextField.getText(), String.valueOf(passwordField.getPassword()));
 				connectionOK = true;
             }
-            catch(RemoteException e)
+            catch(NotConnectedException e)
             {
 				JOptionPane.showMessageDialog(this, "Unable to login due to a connection problem.", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -509,7 +511,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 	{
         try {
             userID = client.register(regUserNameTextField.getText(), String.valueOf(regPasswordField.getPassword()), firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), moneyTextField.getText(), initCash);
-        } catch (RemoteException ex) {
+        } catch (NotConnectedException ex) {
             JOptionPane.showMessageDialog(this, "Connection Problem. Error Registering", "Error", JOptionPane.ERROR_MESSAGE);
         }
 		return userID;
@@ -626,7 +628,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
     {
         try {
             client.logout();
-        } catch (RemoteException ex) {
+        } catch (NotConnectedException ex) {
             JOptionPane.showMessageDialog(this, "Connection Problem. Error Logging out.", "Error", JOptionPane.ERROR_MESSAGE);
         }
         this.removeAll();
