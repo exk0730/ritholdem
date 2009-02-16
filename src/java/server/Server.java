@@ -342,6 +342,23 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
         return acs;
     }
 
+	/**
+     * Retrieves the server stats
+     * @return
+     * @throws java.rmi.RemoteException
+     */
+    public synchronized ServerStatistics getServerStats() throws RemoteException {
+        ServerStatistics ss = null;
+        try{
+            ss = data.getCurrServerStats();
+        }
+        catch(SQLException sqle){
+            System.err.println("Error in getting server stats: " + sqle.getMessage());
+        }
+        return ss;
+    }
+
+
     /**
      * Delete a user account
      * @param userID

@@ -123,6 +123,13 @@ public interface RMIInterface extends Remote
      */
     public AccountCardStats getCardStats(int userID) throws RemoteException;
 
+	/**
+     * Retrieves the server stats
+     * @return
+     * @throws java.rmi.RemoteException
+     */
+    public ServerStatistics getServerStats() throws RemoteException;
+
     /**
      * Write a user's infos to the database
      * @param userID

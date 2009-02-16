@@ -9,6 +9,7 @@ package servlet;
 import game.AccountCardStats;
 import game.AccountInformation;
 import game.RMIInterface;
+import game.ServerStatistics;
 import java.rmi.*;
 import java.util.ArrayList;
 import server.*;
@@ -100,7 +101,7 @@ public class ServerAdminWebController {
 	/**
 	 * Get information from a user ID
 	 * @param userID
-	 * @return
+	 * @return informations or null if error
 	 */
 	public AccountInformation getInfos(int userID) {
 		AccountInformation res = null;
@@ -115,7 +116,7 @@ public class ServerAdminWebController {
 	/**
 	 * Get card stats for a user ID
 	 * @param userID
-	 * @return
+	 * @return user stats or null if error
 	 */
 	public AccountCardStats getCardStats(int userID) {
 		AccountCardStats res = null;
@@ -127,10 +128,23 @@ public class ServerAdminWebController {
 		return res;
 	}
 
+	/**
+	 * Get server stats
+	 * @return server stats or null if error
+	 */
+	public ServerStatistics getServerStats() {
+		ServerStatistics ss = null;
+		try {
+			ss = server.getServerStats();
+		} catch (Exception ex) {
+			exception = ex;
+		}
+		return ss;
+	}
 
 	/**
 	 * Get the server uptime
-	 * @return server uptime in minutes
+	 * @return server uptime in minutes or -1 if error
 	 */
 	public int getUptime(){
 		int uptime = -1;

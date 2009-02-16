@@ -1,11 +1,13 @@
-package game;
-
-import java.io.Serializable;
-import java.util.Date;
 /**
  * Information for the Server
  * @author Tyler Schindel
  */
+
+package game;
+
+import java.io.Serializable;
+import java.sql.Date;
+
 
 public class ServerStatistics implements Serializable
 {
@@ -14,7 +16,7 @@ public class ServerStatistics implements Serializable
     private Date lastServerReboot;
 
     public ServerStatistics(int nnu, int nup, double tab, int dw,
-                            int uw, double de , int tb, Date lsr)
+                            int uw, double de , int tb, java.sql.Date lsr)
     {
         numNewUsers = nnu;
         numUsersPlayed = nup;
