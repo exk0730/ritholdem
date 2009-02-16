@@ -102,7 +102,7 @@ public class Data {
         if(ok)
         {
             pst = db.newPreparedStatement(
-                    "INSERT INTO FinancialData (userID, bank, creditCardNum VALUES (?, ?, ?)"
+                    "INSERT INTO FinancialData (userID, bank, creditCardNum) VALUES (?, ?, ?)"
                     );
             pst.setInt(1, userID);
             pst.setDouble(2, initCash);
