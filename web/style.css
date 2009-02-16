@@ -6,6 +6,29 @@
 	font-family: Arial;
 }
 
+#menu{
+	padding: 0;
+	border-bottom: solid 1px #888888;
+}
+
+#menu a {
+	font-weight: bold;
+	padding: 2px;
+	margin: 0 2px 0 2px;
+	text-decoration: none;
+	border-top: solid 1px #888888;
+	border-left: solid 1px #888888;
+	border-right: solid 1px #888888;
+}
+
+#menu a.current{
+	color: black;
+}
+
+#menu a:hover {
+	color: blue;
+}
+
 table {
 	border: solid 1px black;
 }
