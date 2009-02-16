@@ -16,6 +16,7 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import server.UnknownUserException;
 import game.*;
+import javax.naming.NotContextException;
 
 /**
  *
