@@ -483,7 +483,6 @@ public class Data {
 
     /**
      * Updates server with number of new users
-     * @param user
      * @throws SQLException
      */
     public void incrementNumOfNewUsers() throws SQLException
@@ -495,7 +494,6 @@ public class Data {
 
         /**
      * Updates server with total blackjacks dealt
-     * @param blackjacks
      * @throws SQLException
      */
     public void incrementTotalBlackjacks() throws SQLException
@@ -507,7 +505,6 @@ public class Data {
 
     /**
      * Updates server with number of user wins
-     * @param userWins
      * @throws SQLException
      */
     public void incrementUserWins() throws SQLException
@@ -519,7 +516,6 @@ public class Data {
 
     /**
      * Updates server with number of dealer wins
-     * @param dealerWins
      * @throws SQLException
      */
     public void incrementDealerWins() throws SQLException
@@ -555,6 +551,7 @@ public class Data {
 
 	/**
      * Get the server stats corresponding to a given entry
+     * @param serverID
      * @return server stats
      * @throws SQLException
      */

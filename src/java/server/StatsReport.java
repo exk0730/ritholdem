@@ -43,7 +43,7 @@ public class StatsReport extends Thread {
 	/**
      * Return the unique instance of the class (Singleton Design Pattern)
      * @return StatsReport instance
-     * @throws Exception
+     * @throws SQLException
      */
     public static StatsReport instance() throws SQLException {
         if(instance == null){

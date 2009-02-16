@@ -90,6 +90,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @param userID
      * @return
      * @throws java.rmi.RemoteException
+     * @throws UnknownUserException
      */
     public synchronized Card hit(int userID) throws RemoteException, UnknownUserException
     {
@@ -105,6 +106,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
 
     /**
      * Hit method for new dealer card
+     * @param userID
      * @return
      * @throws java.rmi.RemoteException
      */
@@ -114,6 +116,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
 
     /**
      * Return dealer's hand
+     * @param userID
      * @return
      * @throws java.rmi.RemoteException
      */
@@ -126,9 +129,9 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     /**
      * Return player's hand
      * @param userID
-     * @param bet
      * @return
      * @throws java.rmi.RemoteException
+     * @throws UnknownUserException
      */
     public synchronized Hand dealPlayer(int userID) throws RemoteException, UnknownUserException
     {
@@ -148,6 +151,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @param playerOrDealer
      * @return
      * @throws java.rmi.RemoteException
+     * @throws UnknownUserException
      */
     public synchronized boolean bust(int userID, boolean playerOrDealer) throws RemoteException, UnknownUserException
     {
@@ -166,6 +170,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
 
     /**
      * Dealer must stand at 16 and above
+     * @param userID
      * @return true if dealer has a higher hand than 15
      * @throws java.rmi.RemoteException
      */
@@ -179,6 +184,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @param bet
      * @return
      * @throws java.rmi.RemoteException
+     * @throws UnknownUserException
      */
     public synchronized String checkWin(int userID, double bet) throws RemoteException, UnknownUserException {
         String s = "";
@@ -196,6 +202,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     /**
      * Remove a user from the server
      * @param userID The userID to remove
+     * @throws RemoteException
      */
     protected synchronized void removeUser(int userID) throws RemoteException {
         for(int i = 0; i < users.size(); i++){
@@ -267,8 +274,8 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
 
     /**
      * returns the user's money
-     * @param int userID
      * @return double
+     * @throws UnknownUserException
      */
     public synchronized double getBank(int userID) throws RemoteException, UnknownUserException {
         double bank = 0;
@@ -295,6 +302,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @param money
      * @return bank money
      * @throws java.rmi.RemoteException
+     * @throws UnknownUserException
      */
     public synchronized double updateBank(int userID, double money) throws RemoteException, UnknownUserException {
         double temp = -1;
@@ -375,8 +383,8 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
 
 	/**
      * Get the server stats corresponding to a given entry
+     * @param serverID
      * @return server stats
-     * @throws SQLException
      */
     public ServerStatistics getServerStats(int serverID) throws RemoteException {
 		ServerStatistics ss = null;
@@ -392,7 +400,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
 	/**
      * Get all the server stats entries
      * @return server stats entries
-     * @throws SQLException
+     * @throws RemoteException
      */
     public ArrayList<Integer> getServerStatsEntries() throws  RemoteException {
 		ArrayList<Integer> res = null;
@@ -411,6 +419,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @param userID
      * @return
      * @throws java.rmi.RemoteException
+     * @throws UnknownUserException
      */
 	public synchronized boolean deleteAccount(int userID) throws RemoteException, UnknownUserException {
         boolean ok = false;
@@ -433,6 +442,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @param userID
      * @return
      * @throws java.rmi.RemoteException
+     * @throws UnknownUserException
      */
     public synchronized AccountInformation getInfos(int userID) throws RemoteException, UnknownUserException {
         AccountInformation ai = null;
@@ -455,6 +465,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
      * @param userID
      * @param ai user's infos
      * @throws java.rmi.RemoteException
+     * @throws UnknownUserException 
      */
     public synchronized void writeInfos(int userID, AccountInformation ai) throws RemoteException, UnknownUserException {
         if(userExists(userID)){
@@ -541,7 +552,6 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     /**
      * Updates total bets made by users
      * @param money
-     * @throws RemoteException
      */
     public void updateServerTotalBet(double money) {
         try{
@@ -555,7 +565,6 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     /**
      * Updates total dealer earnings
      * @param money
-     * @throws RemoteException
      */
     public void updateDealerEarnings(double money) {
         try{
@@ -568,7 +577,6 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
 
     /**
      * Increments new users by one
-     * @throws RemoteException
      */
     public void incrementNumOfNewUsers() {
         try {
@@ -581,7 +589,6 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
 
     /**
      * Increments number of blackjacks dealt
-     * @throws RemoteException
      */
     public void incrementTotalBlackjacks() {
         try {
@@ -594,7 +601,6 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
 
     /**
      * Increments total user wins
-     * @throws RemoteException
      */
     public void incrementUserWins() {
         try {
@@ -607,7 +613,6 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
 
     /**
      * Increment total dealer wins
-     * @throws RemoteException
      */
     public void incrementDealerWins() {
         try {

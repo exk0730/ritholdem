@@ -15,6 +15,16 @@ public class ServerStatistics implements Serializable
     private double totalAmtBet, dealerEarnings;
     private Date lastServerReboot;
 
+    /**
+     *
+     * @param nnu
+     * @param tab
+     * @param dw
+     * @param uw
+     * @param de
+     * @param tb
+     * @param lsr
+     */
     public ServerStatistics(int nnu, double tab, int dw,
                             int uw, double de , int tb, java.sql.Date lsr)
     {

@@ -446,7 +446,9 @@ public class Table extends javax.swing.JPanel
 
 	/**
 	 * Update the textarea
-	 */
+     *
+     * @param s
+     */
     public void updateTextArea(String s){
 		jTextArea.setText(s);
 	}

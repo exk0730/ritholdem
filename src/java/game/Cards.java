@@ -32,7 +32,8 @@ public abstract class Cards implements Serializable
 	/**
 	*Gets a card at a specified index
 	*@param n The position where the card should be
-	*@return Card object
+     *@return Card object
+     * @throws IndexOutOfBoundsException
 	*/
 	public Card getCardAt(int n) throws IndexOutOfBoundsException
     {

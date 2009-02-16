@@ -9,6 +9,16 @@ public class AccountCardStats implements Serializable{
 
     private int numOfBlackjacks, numOfDoubles, numOfWins, numOfLoss, numOfStands, numOfHits, numOfPushes;
 
+    /**
+     * Default Constructor
+     * @param nob
+     * @param noh
+     * @param nos
+     * @param nod
+     * @param now
+     * @param nol
+     * @param nop
+     */
     public AccountCardStats(int nob, int noh, int nos, int nod, int now, int nol, int nop){
         numOfBlackjacks = nob;
         numOfHits = noh;

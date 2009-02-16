@@ -12,6 +12,10 @@ public class Game implements Serializable {
     private CheckLogic checkLogic;
     private Deck deck;
 
+    /**
+     *
+     * @param uID
+     */
     public Game(int uID){
         initGame();
         userID = uID;
@@ -60,10 +64,16 @@ public class Game implements Serializable {
     //
     //Update
     //
+    /**
+     * Updates checklogix to reflect new hands
+     */
     public void updateCheckLogic(){
         checkLogic = new CheckLogic(playerHand, dealerHand);
     }
 
+    /**
+     *Initializes a new game
+     */
     public void initGame(){
         deck = new Deck();
         playerHand = new Hand(deck);
@@ -76,7 +86,7 @@ public class Game implements Serializable {
     //
 
     /**
-     *
+     * Game method to return the next card from the deck for the player
      * @return
      */
     public Card hit() {
@@ -86,7 +96,7 @@ public class Game implements Serializable {
     }
 
     /**
-     *
+     * Game method to return the next card from the deck for the dealer
      * @return
      */
     public Card dealerHit() {
@@ -96,7 +106,7 @@ public class Game implements Serializable {
     }
 
     /**
-     *
+     * Deals a new hand for the dealer
      * @return
      */
     public Hand dealPlayer() {
@@ -105,7 +115,7 @@ public class Game implements Serializable {
     }
 
     /**
-     *
+     * Deals a new hand for the player
      * @return
      */
     public Hand dealDealer() {
@@ -114,7 +124,7 @@ public class Game implements Serializable {
     }
 
     /**
-     *
+     * Checks if player or dealer bust
      * @param playerOrDealer
      * @return
      */
@@ -130,7 +140,7 @@ public class Game implements Serializable {
     }
 
     /**
-     *
+     * Returns true if dealer has a hand greater than or equal to 16
      * @return
      */
     public boolean dealerStandsAtSixteen(){
@@ -138,7 +148,7 @@ public class Game implements Serializable {
     }
 
     /**
-     * 
+     * Returns the type of win for player
      * @param bet
      * @return
      */
