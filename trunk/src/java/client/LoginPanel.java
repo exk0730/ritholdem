@@ -1,5 +1,6 @@
 package client;
 
+import server.NotConnectedException;
 import game.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

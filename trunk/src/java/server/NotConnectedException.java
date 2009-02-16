@@ -1,9 +1,9 @@
 /**
  * Exception thrown when the connection is lost between client and server
  */
-package client;
+package server;
 
-class NotConnectedException extends Exception {
+public class NotConnectedException extends Exception {
 
 	String msg = "Lost the connection with server.";
 
