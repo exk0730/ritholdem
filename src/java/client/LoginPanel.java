@@ -4,6 +4,7 @@ import server.NotConnectedException;
 import game.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.rmi.RemoteException;
 import javax.swing.*; 
 import server.UnknownUserException;
@@ -76,6 +77,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         moneyTextField = new javax.swing.JTextField();
         creditCardLabel1 = new javax.swing.JLabel();
         creditCardTextField1 = new javax.swing.JTextField();
+        cancelBtn = new javax.swing.JButton();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -116,6 +118,11 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         passwordField.setFont(new java.awt.Font("Tahoma", 0, 18));
         passwordField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         passwordField.setPreferredSize(new java.awt.Dimension(150, 25));
+        passwordField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                passwordFieldKeyPressed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -175,6 +182,11 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         emailTextField.setFont(new java.awt.Font("Tahoma", 1, 14));
         emailTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         emailTextField.setPreferredSize(new java.awt.Dimension(150, 25));
+        emailTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                emailTextFieldKeyPressed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 7;
@@ -192,9 +204,8 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 9;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         registerPanel.add(finishBtn, gridBagConstraints);
 
         regPasswordField.setFont(new java.awt.Font("Tahoma", 1, 14));
@@ -305,6 +316,22 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         gridBagConstraints.gridy = 5;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         registerPanel.add(creditCardTextField1, gridBagConstraints);
+
+        cancelBtn.setBackground(new java.awt.Color(0, 153, 51));
+        cancelBtn.setForeground(new java.awt.Color(153, 255, 0));
+        cancelBtn.setText("Cancel");
+        cancelBtn.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        cancelBtn.setPreferredSize(new java.awt.Dimension(80, 25));
+        cancelBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelBtnActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        registerPanel.add(cancelBtn, gridBagConstraints);
 
         jSplitPane.setRightComponent(registerPanel);
 
@@ -520,7 +547,197 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 
 	private void userNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userNameTextFieldActionPerformed
 // TODO add your handling code here:
+      
+
 }//GEN-LAST:event_userNameTextFieldActionPerformed
+
+    private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
+        // TODO add your handling code here:
+        expanding = true;
+        if(expandTimer != null)
+        {
+            expandTimer.stop();
+        }
+        expandTimer = new Timer(10, this);
+        iterator =	10;
+        expandTimer.start();
+        //clearFields();
+}//GEN-LAST:event_cancelBtnActionPerformed
+
+    private void emailTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_emailTextFieldKeyPressed
+        // TODO add your handling code here:
+        int key = evt.getKeyCode();
+
+        if (key == KeyEvent.VK_ENTER)
+        {
+            boolean registerOk = true;
+
+            if(regUserNameTextField.getText().equals(""))
+            {
+                JOptionPane.showMessageDialog(this, "Enter your user name", "Error", JOptionPane.ERROR_MESSAGE);
+                registerOk = false;
+            }
+            else if(emailTextField.getText().equals(""))
+            {
+                JOptionPane.showMessageDialog(this, "Enter an email", "Error", JOptionPane.ERROR_MESSAGE);
+                registerOk = false;
+            }
+            else if(String.valueOf((regPasswordField.getPassword())).equals(""))
+            {
+                JOptionPane.showMessageDialog(this, "Enter a password", "Error", JOptionPane.ERROR_MESSAGE);
+                registerOk = false;
+            }
+            else if(String.valueOf((regPasswordTwoField.getPassword())).equals(""))
+            {
+                JOptionPane.showMessageDialog(this, "Repeat your password", "Error", JOptionPane.ERROR_MESSAGE);
+                registerOk = false;
+            }
+            else if(!(String.valueOf(regPasswordField.getPassword()).equals(String.valueOf((regPasswordTwoField.getPassword())))))
+            {
+                JOptionPane.showMessageDialog(this, "Your passwords don't match.", "Error", JOptionPane.ERROR_MESSAGE);
+                regPasswordField.setText(""); regPasswordTwoField.setText("");
+                registerOk = false;
+            }
+            else if(firstNameTextField.getText().equals(""))
+            {
+                JOptionPane.showMessageDialog(this, "Enter your first name", "Error", JOptionPane.ERROR_MESSAGE);
+                registerOk = false;
+            }
+            else if(moneyTextField.getText().equals(""))
+            {
+                JOptionPane.showMessageDialog(this, "Enter a credit card", "Error", JOptionPane.ERROR_MESSAGE);
+                registerOk = false;
+            }
+            else if(lastNameTextField.getText().equals(""))
+            {
+                JOptionPane.showMessageDialog(this, "Enter your last name", "Error", JOptionPane.ERROR_MESSAGE);
+                registerOk = false;
+            }
+            else
+            {
+                    String initCashStr = moneyTextField.getText();
+                    try
+                    {
+                        initCash = Double.parseDouble(initCashStr);
+                        if(initCash < 0)
+                        {
+                              JOptionPane.showMessageDialog(this, "You've entered negative money amount, please re-enter.", "Error", JOptionPane.ERROR_MESSAGE);
+                              registerOk = false;
+                        }
+                        if(initCash > 1000000)
+                        {
+                            JOptionPane.showMessageDialog(this, "You've maxed out your credit card! Maximum amount is 1000000. Please, re-enter.", "Error", JOptionPane.ERROR_MESSAGE);
+                            registerOk = false;
+                        }
+                    }
+                    catch(NumberFormatException nfe)
+                    {
+                        JOptionPane.showMessageDialog(this, "You have entered an invalid number for money amount.", "Error", JOptionPane.ERROR_MESSAGE);
+                        registerOk = false;
+                    }
+                    catch(NullPointerException npe)
+                    {
+                        JOptionPane.showMessageDialog(this, "You need to enter a number for money amount.", "Error", JOptionPane.ERROR_MESSAGE);
+                        registerOk = false;
+                    }
+                }
+
+
+
+                if(registerOk)
+                {
+                    if(methodRegistration()== RMIInterface.LOGIN_FAILED)
+                    {
+                        JOptionPane.showMessageDialog(this, "Impossible to register, this login is already taken. Try another", "Error", JOptionPane.ERROR_MESSAGE);
+                        registerOk = false;
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(this, "Registration successful!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                        expanding = true;
+                        if(expandTimer != null)
+                        {
+                            expandTimer.stop();
+                        }
+                        expandTimer =	new Timer(10, this);
+                        iterator =	10;
+                        expandTimer.start();
+                        clearFields();
+                    }
+                }
+     }
+    }//GEN-LAST:event_emailTextFieldKeyPressed
+
+    private void passwordFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordFieldKeyPressed
+        // TODO add your handling code here:
+        int key = evt.getKeyCode();
+        if (key == KeyEvent.VK_ENTER)
+        {
+            userID = 0;
+            if(userNameTextField.getText().equals(""))
+            {
+                JOptionPane.showMessageDialog(this, "Enter your user name", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else if(String.valueOf(passwordField.getPassword()).equals(""))
+            {
+                JOptionPane.showMessageDialog(this, "Enter your password", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                boolean connectionOK = false;
+                try
+                {
+                    userID = client.login(userNameTextField.getText(), String.valueOf(passwordField.getPassword()));
+                    connectionOK = true;
+                }
+                catch(NotConnectedException e)
+                {
+                    JOptionPane.showMessageDialog(this, "Unable to login due to a connection problem.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+
+                if(connectionOK){
+
+                    if(userID == RMIInterface.LOGIN_FAILED) {
+                        JOptionPane.showMessageDialog(this, "Invalid username or password!", "Error", JOptionPane.ERROR_MESSAGE);
+                        passwordField.setText("");
+                        userNameTextField.setText("");
+                    }
+                    else {
+
+                        try {
+                            initCash = client.getBank();
+                        } catch (RemoteException ex) {
+                            JOptionPane.showMessageDialog(this, "Connection Problem. Error retreiving bank.", "Error", JOptionPane.ERROR_MESSAGE);
+                        } catch (UnknownUserException ex) {
+                            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+
+                        this.removeAll();
+                        table1 = new Table(initCash, userID, client);
+
+                        jMenuBar.setVisible(true);
+                        logoutBtn.addActionListener(new java.awt.event.ActionListener() {
+                            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                logoutBtnActionPerformed(evt);
+                            }
+                        });
+
+                        addMoneyBtn.addActionListener(new java.awt.event.ActionListener() {
+                            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                    addMoneyBtnActionPerformed(evt);
+                            }
+                        });
+
+                        this.setLayout(new java.awt.BorderLayout());
+                        this.add(table1,	java.awt.BorderLayout.CENTER);
+                        //JLabel statusLabel = new JLabel("...");
+                        //this.add(statusLabel, java.awt.BorderLayout.SOUTH);
+                        this.revalidate();
+
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_passwordFieldKeyPressed
 
 	public void actionPerformed(ActionEvent e)
 	{		
@@ -642,6 +859,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 	
 	
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cancelBtn;
     private javax.swing.JLabel creditCardLabel1;
     private javax.swing.JTextField creditCardTextField1;
     private javax.swing.JLabel emailLabel;

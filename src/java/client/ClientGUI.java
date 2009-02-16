@@ -11,6 +11,7 @@
 
 package client;
 
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import javax.swing.JOptionPane;
@@ -71,7 +72,7 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
 
         guiPanel.setBackground(new java.awt.Color(0, 102, 0));
 
-        ipAddressLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        ipAddressLabel.setFont(new java.awt.Font("Tahoma", 0, 18));
         ipAddressLabel.setForeground(new java.awt.Color(153, 255, 0));
         ipAddressLabel.setText("Enter IP address: ");
 
@@ -83,6 +84,11 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
         ipAddressTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ipAddressTextFieldActionPerformed(evt);
+            }
+        });
+        ipAddressTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                ipAddressTextFieldKeyPressed(evt);
             }
         });
 
@@ -100,27 +106,27 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("(Ex: 129.234.13.13, localhost)");
 
-        titleLabel.setFont(new java.awt.Font("Tahoma", 2, 48)); // NOI18N
+        titleLabel.setFont(new java.awt.Font("Tahoma", 2, 48));
         titleLabel.setForeground(new java.awt.Color(255, 255, 255));
         titleLabel.setText("Blackjack Game ");
 
         teamName1.setBackground(new java.awt.Color(255, 255, 255));
-        teamName1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        teamName1.setFont(new java.awt.Font("Tahoma", 0, 18));
         teamName1.setForeground(new java.awt.Color(255, 255, 255));
         teamName1.setText("Emilien Girault");
 
         teamName2.setBackground(new java.awt.Color(255, 255, 255));
-        teamName2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        teamName2.setFont(new java.awt.Font("Tahoma", 0, 18));
         teamName2.setForeground(new java.awt.Color(255, 255, 255));
         teamName2.setText("Eric Kisner");
 
         teamName3.setBackground(new java.awt.Color(255, 255, 255));
-        teamName3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        teamName3.setFont(new java.awt.Font("Tahoma", 0, 18));
         teamName3.setForeground(new java.awt.Color(255, 255, 255));
         teamName3.setText("Daniyar Amanchin");
 
         teamName4.setBackground(new java.awt.Color(255, 255, 255));
-        teamName4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        teamName4.setFont(new java.awt.Font("Tahoma", 0, 18));
         teamName4.setForeground(new java.awt.Color(255, 255, 255));
         teamName4.setText("Tyler Schindel");
 
@@ -128,32 +134,32 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
         guiPanel.setLayout(guiPanelLayout);
         guiPanelLayout.setHorizontalGroup(
             guiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, guiPanelLayout.createSequentialGroup()
-                .addContainerGap(870, Short.MAX_VALUE)
+            .addGroup(guiPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(guiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(teamName2)
-                    .addComponent(teamName1))
-                .addGap(39, 39, 39))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, guiPanelLayout.createSequentialGroup()
-                .addContainerGap(870, Short.MAX_VALUE)
-                .addGroup(guiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(teamName4)
-                    .addComponent(teamName3))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, guiPanelLayout.createSequentialGroup()
-                .addContainerGap(280, Short.MAX_VALUE)
-                .addGroup(guiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(titleLabel)
-                    .addGroup(guiPanelLayout.createSequentialGroup()
-                        .addComponent(ipAddressLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, guiPanelLayout.createSequentialGroup()
                         .addGroup(guiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
+                            .addComponent(teamName2)
+                            .addComponent(teamName1))
+                        .addGap(39, 39, 39))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, guiPanelLayout.createSequentialGroup()
+                        .addGroup(guiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(teamName4)
+                            .addComponent(teamName3))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, guiPanelLayout.createSequentialGroup()
+                        .addGroup(guiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(titleLabel)
                             .addGroup(guiPanelLayout.createSequentialGroup()
-                                .addComponent(ipAddressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(ipAddressLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(connectBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(369, 369, 369))
+                                .addGroup(guiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addGroup(guiPanelLayout.createSequentialGroup()
+                                        .addComponent(ipAddressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(connectBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(369, 369, 369))))
         );
         guiPanelLayout.setVerticalGroup(
             guiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -174,7 +180,7 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
                     .addComponent(connectBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
-                .addContainerGap(144, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         connectionPanel.add(guiPanel, java.awt.BorderLayout.CENTER);
@@ -205,19 +211,61 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
         boolean ok = false;
         url = ipAddressTextField.getText();
         
-		try {
-			loginPanel1 = new client.LoginPanel(url, jMenuBar, addMoneyBtn, logoutBtn);
-			ok = true;
-		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(this, "Unable to connect to the server.", "Error", JOptionPane.ERROR_MESSAGE);
-		}
+        if(url.equals(""))
+        { 
+            try
+            {
+                loginPanel1 = new client.LoginPanel(url, jMenuBar, addMoneyBtn, logoutBtn);
+                ok = true;
+            } catch (Exception ex)
+            {
+                JOptionPane.showMessageDialog(this, "Unable to connect to the server.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
 
-		if(ok){
-			connectionPanel.removeAll();
-			connectionPanel.add(loginPanel1, java.awt.BorderLayout.CENTER);
-			connectionPanel.revalidate();
-		}
+            if(ok){
+                connectionPanel.removeAll();
+                connectionPanel.add(loginPanel1, java.awt.BorderLayout.CENTER);
+                connectionPanel.revalidate();
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "Please enter an IP address.", "Information", JOptionPane.INFORMATION_MESSAGE);
+        }
+     
 }//GEN-LAST:event_connectBtnActionPerformed
+
+    private void ipAddressTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ipAddressTextFieldKeyPressed
+        // TODO add your handling code here:
+        int key = evt.getKeyCode();
+        if (key == KeyEvent.VK_ENTER)
+        {
+            boolean ok = false;
+            url = ipAddressTextField.getText();
+
+            if(!url.equals(""))
+            {
+                try
+                {
+                    loginPanel1 = new client.LoginPanel(url, jMenuBar, addMoneyBtn, logoutBtn);
+                    ok = true;
+                } catch (Exception ex)
+                {
+                    JOptionPane.showMessageDialog(this, "Unable to connect to the server.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+
+                if(ok){
+                    connectionPanel.removeAll();
+                    connectionPanel.add(loginPanel1, java.awt.BorderLayout.CENTER);
+                    connectionPanel.revalidate();
+                }
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(this, "Please enter an IP address.", "Information", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_ipAddressTextFieldKeyPressed
 
     /**
     * @param args the command line arguments
