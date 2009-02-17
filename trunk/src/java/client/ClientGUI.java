@@ -182,6 +182,10 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Actions taken when connect button is pressed
+     * @param evt connect button clicked
+     */
     private void connectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectBtnActionPerformed
         boolean ok = false;
         url = ipAddressTextField.getText();
@@ -210,6 +214,10 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
      
 }//GEN-LAST:event_connectBtnActionPerformed
 
+    /**
+     * Actions taken when enter key is pressed on ip address textfield
+     * @param evt key pressed event.
+     */
     private void ipAddressTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ipAddressTextFieldKeyPressed
         // TODO add your handling code here:
         int key = evt.getKeyCode();
@@ -243,6 +251,7 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
     }//GEN-LAST:event_ipAddressTextFieldKeyPressed
 
     /**
+    * main method that runs the gui
     * @param args the command line arguments
     */
     public static void main(String args[]) {
@@ -267,13 +276,14 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
     private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables
 
+    //Not used
     public void windowOpened(WindowEvent e) {
         //throw new UnsupportedOperationException("Not supported yet.");
     }
 
 	/**
 	 * Called when we close the window
-	 * @param e
+	 * @param e window event
 	 */
     public void windowClosing(WindowEvent e) {
         if(loginPanel1 != null){
@@ -281,22 +291,27 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
 		}
     }
 
+    //Not used
     public void windowClosed(WindowEvent e) {
         //throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    //Not used
     public void windowIconified(WindowEvent e) {
         //throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    //Not used
     public void windowDeiconified(WindowEvent e) {
         //throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    //Not used
     public void windowActivated(WindowEvent e) {
         //throw new UnsupportedOperationException("Not supported yet.");
     }
-
+    
+    //Not used
     public void windowDeactivated(WindowEvent e) {
         //throw new UnsupportedOperationException("Not supported yet.");
     }
