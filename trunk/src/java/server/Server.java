@@ -145,8 +145,7 @@ public class Server extends java.rmi.server.UnicastRemoteObject implements RMIIn
     }
 
     /**
-     * Checks if the player or dealer busts
-     * TODO: use userID
+     * Checks if the player or dealer busts, then creates a new round
      * @param userID
      * @param playerOrDealer
      * @return
