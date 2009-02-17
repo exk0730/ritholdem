@@ -92,14 +92,9 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         userPanel.add(userNameLabel, new java.awt.GridBagConstraints());
 
         userNameTextField.setBackground(new java.awt.Color(51, 204, 0));
-        userNameTextField.setFont(new java.awt.Font("Tahoma", 1, 18));
+        userNameTextField.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         userNameTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         userNameTextField.setPreferredSize(new java.awt.Dimension(150, 25));
-        userNameTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                userNameTextFieldActionPerformed(evt);
-            }
-        });
         userPanel.add(userNameTextField, new java.awt.GridBagConstraints());
 
         passwordLabel.setBackground(new java.awt.Color(153, 255, 0));
@@ -112,7 +107,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         userPanel.add(passwordLabel, gridBagConstraints);
 
         passwordField.setBackground(new java.awt.Color(51, 204, 0));
-        passwordField.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        passwordField.setFont(new java.awt.Font("Tahoma", 0, 18));
         passwordField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         passwordField.setPreferredSize(new java.awt.Dimension(150, 25));
         passwordField.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -163,7 +158,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         registerPanel.setPreferredSize(new java.awt.Dimension(400, 300));
         registerPanel.setLayout(new java.awt.GridBagLayout());
 
-        enterUserNameLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        enterUserNameLabel.setFont(new java.awt.Font("Tahoma", 1, 14));
         enterUserNameLabel.setForeground(new java.awt.Color(255, 255, 204));
         enterUserNameLabel.setText("Enter username: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -224,7 +219,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         registerPanel.add(regPasswordTwoField, gridBagConstraints);
 
-        enterPasswordLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        enterPasswordLabel.setFont(new java.awt.Font("Tahoma", 1, 14));
         enterPasswordLabel.setForeground(new java.awt.Color(255, 255, 204));
         enterPasswordLabel.setText("Enter password: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -232,7 +227,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         gridBagConstraints.gridy = 1;
         registerPanel.add(enterPasswordLabel, gridBagConstraints);
 
-        reenterPasswordLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        reenterPasswordLabel.setFont(new java.awt.Font("Tahoma", 1, 14));
         reenterPasswordLabel.setForeground(new java.awt.Color(255, 255, 204));
         reenterPasswordLabel.setText("Re-enter password: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -241,7 +236,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         registerPanel.add(reenterPasswordLabel, gridBagConstraints);
 
-        emailLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        emailLabel.setFont(new java.awt.Font("Tahoma", 1, 14));
         emailLabel.setForeground(new java.awt.Color(255, 255, 204));
         emailLabel.setText("Enter email address: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -250,7 +245,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         registerPanel.add(emailLabel, gridBagConstraints);
 
-        firstNameLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        firstNameLabel.setFont(new java.awt.Font("Tahoma", 1, 14));
         firstNameLabel.setForeground(new java.awt.Color(255, 255, 204));
         firstNameLabel.setText("First name: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -268,7 +263,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         registerPanel.add(firstNameTextField, gridBagConstraints);
 
-        lastNameLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lastNameLabel.setFont(new java.awt.Font("Tahoma", 1, 14));
         lastNameLabel.setForeground(new java.awt.Color(255, 255, 204));
         lastNameLabel.setText("Last name: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -286,7 +281,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         registerPanel.add(lastNameTextField, gridBagConstraints);
 
-        moneyLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        moneyLabel.setFont(new java.awt.Font("Tahoma", 1, 14));
         moneyLabel.setForeground(new java.awt.Color(255, 255, 204));
         moneyLabel.setText("Money Amount: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -304,7 +299,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         registerPanel.add(moneyTextField, gridBagConstraints);
 
-        creditCardLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        creditCardLabel1.setFont(new java.awt.Font("Tahoma", 1, 14));
         creditCardLabel1.setForeground(new java.awt.Color(255, 255, 204));
         creditCardLabel1.setText("Credit Card No.:");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -354,7 +349,10 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 		}
 	}
 
-
+    /**
+     * Actions taken when login button is pressed.
+     * @param evt button clicked event
+     */
 	@SuppressWarnings("deprecation")
 	private void loginBtnActionPerformed(java.awt.event.ActionEvent evt)
 	{
@@ -413,6 +411,10 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         }
 	}                                        
 
+    /**
+     * Actions taken when register button is pressed.
+     * @param evt register button clicked
+     */
 	private void registerBtnActionPerformed(java.awt.event.ActionEvent evt)
 	{
 		minimizing	= true;
@@ -426,6 +428,10 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 		currentDividerLoc =	this.jSplitPane.getDividerLocation();
 	}                                           
 
+    /**
+     * Actions taken when finish button is pressed.
+     * @param evt finish button clicked
+     */
 	private void finishBtnActionPerformed(java.awt.event.ActionEvent evt)
 	{
         boolean registerOk = true;
@@ -528,7 +534,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 
     /**
      * Attempt to register a user
-     * @return
+     * @return of person registered
      */
 	private int methodRegistration()
 	{
@@ -540,12 +546,10 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 		return userID;
 	}
 
-	private void userNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userNameTextFieldActionPerformed
-// TODO add your handling code here:
-      
-
-}//GEN-LAST:event_userNameTextFieldActionPerformed
-
+    /**
+     * Actions taken when login button is pressed.
+     * @param evt cancel button clicked.
+     */
     private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
         // TODO add your handling code here:
         expanding = true;
@@ -559,6 +563,10 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         //clearFields();
 }//GEN-LAST:event_cancelBtnActionPerformed
 
+    /**
+     * Action taken when enter button pressed on email textfield.
+     * @param evt key pressed.
+     */
     private void emailTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_emailTextFieldKeyPressed
         // TODO add your handling code here:
         int key = evt.getKeyCode();
@@ -663,6 +671,10 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
      }
     }//GEN-LAST:event_emailTextFieldKeyPressed
 
+    /**
+     * Action taken when enter button pressed on email textfield.
+     * @param evt key pressed.
+     */
     private void passwordFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordFieldKeyPressed
         // TODO add your handling code here:
         int key = evt.getKeyCode();
@@ -724,6 +736,10 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         }
     }//GEN-LAST:event_passwordFieldKeyPressed
 
+    /**
+     * Action Performed for sliding register panel
+     * @param e Timer start.
+     */
 	public void actionPerformed(ActionEvent e)
 	{		
 		iterator++;
