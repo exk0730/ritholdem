@@ -1,8 +1,6 @@
 package client;
 import server.NotConnectedException;
-import java.net.MalformedURLException;
 import java.rmi.Naming;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import game.*;
 import jms.ClientTextListener;
