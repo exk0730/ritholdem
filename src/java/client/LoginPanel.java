@@ -771,7 +771,10 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 			}
 		}
 	}
-	
+
+    /**
+     * Clears all fields in register panel
+     */
 	private void clearFields()
 	{
 		moneyTextField.setText("");
@@ -783,7 +786,9 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 		regUserNameTextField.setText("");
 	}
 
-
+    /**
+     * creates menubar for addmoney and logout button
+     */
     public void createMenuBar()
     {
         menuBarPanel = new JPanel();
@@ -840,6 +845,10 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         add(menuBarPanel, java.awt.BorderLayout.PAGE_START);
     }
 
+    /**
+     * Actions taken when add money button clicked
+     * @param evt addmoney clicked
+     */
     private void addMoneyButtonActionPerformed(ActionEvent evt){
 
         Boolean validAmount = true;
@@ -889,6 +898,10 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         }
     }
 
+    /**
+     * Actions taken when logout button is pressed
+     * @param evt logout button pressed
+     */
     private void logoutButtonActionPerformed(ActionEvent evt) {
         try
         {
