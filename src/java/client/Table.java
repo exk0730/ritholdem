@@ -703,6 +703,11 @@ public class Table extends javax.swing.JPanel
         startGame.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/deckofcards.jpg"))); // NOI18N
         startGame.setBorder(null);
         startGame.setPreferredSize(new java.awt.Dimension(198, 194));
+        startGame.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startGameActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -748,6 +753,55 @@ public class Table extends javax.swing.JPanel
             updateBetAmount(bet);
         }
     }//GEN-LAST:event_resetBetBtnActionPerformed
+
+    private void startGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startGameActionPerformed
+        // TODO add your handling code here:
+        try {
+            //Update the client's money
+            initCash = client.getBank();
+        }
+		catch (RemoteException ex) {
+                JOptionPane.showMessageDialog(this, "Connection Problem. Error retreiving bank.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        catch (UnknownUserException uue) {
+			JOptionPane.showMessageDialog(this, uue.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		updateCashAmount(initCash);
+
+		if(bet == 0)
+		{
+			JOptionPane.showMessageDialog(this, "You have to enter a bet first", "Information", JOptionPane.INFORMATION_MESSAGE);
+		}
+        else if(initCash - bet < 0){
+            JOptionPane.showMessageDialog(this, "You don't have enough money to make this bet!", "Information", JOptionPane.INFORMATION_MESSAGE);
+            bet = 0;
+            updateBetAmount(bet);
+        }
+		else if(!dealt)
+		{
+			this.setLayout(null);
+            cardCount = 0;
+            try{
+                playerHand = client.dealPlayer(userID);
+                renderPlayerHand(playerHand);
+                dealerHand = client.dealDealer(userID);
+                renderDealerHand(dealerHand);
+            }
+            catch(UnknownUserException uue){
+                JOptionPane.showMessageDialog(this, uue.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            catch(RemoteException re)
+            {
+               JOptionPane.showMessageDialog(this, "Connection Problem. Error Dealing.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            dealt = true;
+		}
+        else{
+            JOptionPane.showMessageDialog(this, "You already have a hand", "Information", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_startGameActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel betAmountLabel;
