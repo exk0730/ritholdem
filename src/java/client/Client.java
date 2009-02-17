@@ -1,11 +1,12 @@
 package client;
-import server.NotConnectedException;
+import rmi.RMIInterface;
+import rmi.NotConnectedException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import game.*;
 import jms.ClientTextListener;
 import jms.JMSAsyncSubscriber;
-import server.UnknownUserException;
+import rmi.UnknownUserException;
 
 /**
  * Client is the class that will call server methods

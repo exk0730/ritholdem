@@ -1,7 +1,7 @@
 /**
  * Exception thrown when the connection is lost between client and server
  */
-package server;
+package rmi;
 
 public class NotConnectedException extends Exception {
 

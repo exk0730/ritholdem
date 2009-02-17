@@ -3,7 +3,7 @@
  * @author Tyler Schindel
  */
 
-package game;
+package rmi;
 
 import java.io.Serializable;
 import java.sql.Timestamp;

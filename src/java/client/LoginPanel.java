@@ -1,13 +1,14 @@
 package client;
 
-import server.NotConnectedException;
+import rmi.RMIInterface;
+import rmi.NotConnectedException;
 import game.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.rmi.RemoteException;
 import javax.swing.*; 
-import server.UnknownUserException;
+import rmi.UnknownUserException;
 
 /**
  *  Register and login panels

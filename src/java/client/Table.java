@@ -1,7 +1,7 @@
 package client;
 
 import game.*;
-import server.UnknownUserException;
+import rmi.UnknownUserException;
 import java.util.ArrayList;
 import javax.swing.*;
 import java.awt.Color;
