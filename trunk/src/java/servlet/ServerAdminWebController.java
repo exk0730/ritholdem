@@ -6,10 +6,11 @@
  */
 
 package servlet;
-import game.AccountCardStats;
-import game.AccountInformation;
-import game.RMIInterface;
-import game.ServerStatistics;
+import rmi.UnknownUserException;
+import rmi.AccountCardStats;
+import rmi.AccountInformation;
+import rmi.RMIInterface;
+import rmi.ServerStatistics;
 import java.rmi.*;
 import java.util.ArrayList;
 import server.*;

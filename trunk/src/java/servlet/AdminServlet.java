@@ -1,9 +1,12 @@
 /**
- * This is the old servlet, not using JSP. It has been used for devlierable 4, but should not be used anymore.
+ * This is the old servlet, not using JSP.
+ * It has been used for devlierable 4, but should not be used anymore.
  */
 
 package servlet;
 
+import rmi.AccountInformation;
+import rmi.RMIInterface;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -14,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.rmi.Naming;
 import java.rmi.RemoteException;
-import server.UnknownUserException;
+import rmi.UnknownUserException;
 import game.*;
 
 /**

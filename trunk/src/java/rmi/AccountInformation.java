@@ -1,4 +1,4 @@
-package game;
+package rmi;
 import java.io.*;
 import java.sql.Date;
 

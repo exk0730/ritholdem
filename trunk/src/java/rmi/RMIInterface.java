@@ -1,5 +1,6 @@
-package game;
-import server.UnknownUserException;
+package rmi;
+import game.*;
+import rmi.UnknownUserException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
