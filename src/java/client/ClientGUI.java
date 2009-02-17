@@ -59,6 +59,7 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
         teamName4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("RITBlackjack");
         setResizable(false);
 
         connectionPanel.setPreferredSize(new java.awt.Dimension(1050, 700));
@@ -71,7 +72,7 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
         ipAddressLabel.setText("Enter IP address: ");
 
         ipAddressTextField.setBackground(new java.awt.Color(51, 204, 0));
-        ipAddressTextField.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        ipAddressTextField.setFont(new java.awt.Font("Tahoma", 1, 18));
         ipAddressTextField.setText("localhost");
         ipAddressTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         ipAddressTextField.setPreferredSize(new java.awt.Dimension(150, 25));
@@ -95,17 +96,17 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("(Ex: 129.234.13.13, localhost)");
 
-        titleLabel.setFont(new java.awt.Font("Tahoma", 2, 48)); // NOI18N
+        titleLabel.setFont(new java.awt.Font("Tahoma", 2, 48));
         titleLabel.setForeground(new java.awt.Color(255, 255, 255));
         titleLabel.setText("Blackjack Game ");
 
         teamName1.setBackground(new java.awt.Color(255, 255, 255));
-        teamName1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        teamName1.setFont(new java.awt.Font("Tahoma", 0, 18));
         teamName1.setForeground(new java.awt.Color(255, 255, 255));
         teamName1.setText("Emilien Girault");
 
         teamName2.setBackground(new java.awt.Color(255, 255, 255));
-        teamName2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        teamName2.setFont(new java.awt.Font("Tahoma", 0, 18));
         teamName2.setForeground(new java.awt.Color(255, 255, 255));
         teamName2.setText("Eric Kisner");
 
@@ -115,7 +116,7 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
         teamName3.setText("Daniyar Amanchin");
 
         teamName4.setBackground(new java.awt.Color(255, 255, 255));
-        teamName4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        teamName4.setFont(new java.awt.Font("Tahoma", 0, 18));
         teamName4.setForeground(new java.awt.Color(255, 255, 255));
         teamName4.setText("Tyler Schindel");
 
