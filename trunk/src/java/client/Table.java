@@ -185,7 +185,6 @@ public class Table extends javax.swing.JPanel
             catch(UnknownUserException uue){
                 JOptionPane.showMessageDialog(this, uue.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
-
 		}
 	}
 
@@ -255,7 +254,7 @@ public class Table extends javax.swing.JPanel
     private void playerBust() {
         JOptionPane.showMessageDialog(this, "You busted", "Lose", JOptionPane.INFORMATION_MESSAGE);
         try {
-            initCash = client.updateBank(userID, bet);
+            initCash = client.updateBank(userID, (-bet));
         } catch (RemoteException ex) {
             JOptionPane.showMessageDialog(this, "Connection Problem. Error updating bank.", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (UnknownUserException ex) {
@@ -298,7 +297,6 @@ public class Table extends javax.swing.JPanel
 
             double betTemp = Double.parseDouble(s.substring(s.indexOf('_')+1, s.length()));
             
-            
             try {
                 initCash = client.updateBank(userID, betTemp);
             } catch (RemoteException ex) {
@@ -316,7 +314,6 @@ public class Table extends javax.swing.JPanel
             System.exit(1);
         }
     }
-
 
     /**
      * Private method to update user card stats

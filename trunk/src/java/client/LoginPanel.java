@@ -823,8 +823,9 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         add(menuBarPanel, java.awt.BorderLayout.PAGE_START);
     }
 
-     private void addMoneyButtonActionPerformed(ActionEvent evt) {
-                Boolean validAmount = true;
+    private void addMoneyButtonActionPerformed(ActionEvent evt){
+
+        Boolean validAmount = true;
         try {
             initCash = client.getBank();
         } catch (UnknownUserException uue) {
@@ -836,8 +837,8 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         }
         double moneyToAddDbl = 0;
         String moneyToAddString = JOptionPane.showInputDialog(this, "How much money would you like to put into your account?", "Information", JOptionPane.INFORMATION_MESSAGE);
-        if(!moneyToAddString.equals("")) {
-            try {
+        try{
+            if(moneyToAddString != null && !moneyToAddString.equals("")) {
                 moneyToAddDbl = Double.parseDouble(moneyToAddString);
 
                 if(moneyToAddDbl < 0) {
@@ -859,35 +860,31 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
                     }
                     initCash += moneyToAddDbl;
                     table1.updateCashAmount(initCash);
-
                     JOptionPane.showMessageDialog(this, "You have successfully added $" + moneyToAddDbl + " to your account.", "Information", JOptionPane.INFORMATION_MESSAGE);
                 }
-            } catch(NumberFormatException nfe) {
-                JOptionPane.showMessageDialog(this, "You have entered an invalid number.", "Error", JOptionPane.ERROR_MESSAGE);
-                validAmount = false;
-            } catch(NullPointerException npe) {
-                JOptionPane.showMessageDialog(this, "You need to enter a number.", "Error", JOptionPane.ERROR_MESSAGE);
-                validAmount = false;
             }
-
+        } catch(NumberFormatException nfe) {
+            JOptionPane.showMessageDialog(this, "You have entered an invalid number.", "Error", JOptionPane.ERROR_MESSAGE);
+            validAmount = false;
+        } catch(NullPointerException npe) {
+            JOptionPane.showMessageDialog(this, "You need to enter a number.", "Error", JOptionPane.ERROR_MESSAGE);
+            validAmount = false;
         }
-            }
-
-
-private void logoutButtonActionPerformed(ActionEvent evt) {
-
-    try
-    {
-        client.logout();
-    }
-    catch (NotConnectedException ex) {
-        JOptionPane.showMessageDialog(this, "Connection Problem. Error Logging out.", "Error", JOptionPane.ERROR_MESSAGE);
     }
 
-    this.removeAll();
-    initComponents();
-    this.revalidate();
-}
+    private void logoutButtonActionPerformed(ActionEvent evt) {
+        try
+        {
+            client.logout();
+        }
+        catch (NotConnectedException ex) {
+            JOptionPane.showMessageDialog(this, "Connection Problem. Error Logging out.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        this.removeAll();
+        initComponents();
+        this.revalidate();
+    }
 	
 	
     // Variables declaration - do not modify//GEN-BEGIN:variables
