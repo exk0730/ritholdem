@@ -53,7 +53,11 @@ public class Table extends javax.swing.JPanel
 		cardCount = 0;
 		dealt = false;
    }
-	
+
+   /**
+    * Adding $1 to the current bet
+    * @param evt button pressed event
+    */
 	private void betBtn1ActionPerformed(java.awt.event.ActionEvent evt)
 	{
         if(!dealt){
@@ -61,7 +65,11 @@ public class Table extends javax.swing.JPanel
             updateBetAmount(bet);
         }
 	}
-	
+
+   /**
+    * Adding $10 to the current bet
+    * @param evt button pressed event
+    */
 	private void betBtn10ActionPerformed(java.awt.event.ActionEvent evt)
 	{
         if(!dealt){
@@ -69,7 +77,11 @@ public class Table extends javax.swing.JPanel
             updateBetAmount(bet);
         }
 	}
-	
+
+   /**
+    * Adding $25 to the current bet
+    * @param evt button pressed event
+    */
 	private void betBtn25ActionPerformed(java.awt.event.ActionEvent evt)
 	{
 		if(!dealt){
@@ -78,6 +90,10 @@ public class Table extends javax.swing.JPanel
         }
 	}
 
+   /**
+    * Adding $50 to the current bet
+    * @param evt button pressed event
+    */
 	private void betBtn50ActionPerformed(java.awt.event.ActionEvent evt)
 	{
         if(!dealt){
@@ -86,6 +102,10 @@ public class Table extends javax.swing.JPanel
         }
 	}
 
+   /**
+    * Adding $100 to the current bet
+    * @param evt button pressed event
+    */
 	private void betBtnx100ActionPerformed(java.awt.event.ActionEvent evt)
 	{
         if(!dealt){
@@ -94,6 +114,10 @@ public class Table extends javax.swing.JPanel
         }
 	}
 
+   /**
+    * Actions taken when deal button is pressed
+    * @param evt button pressed event
+    */
 	private void dealButtonActionPerformed(java.awt.event.ActionEvent evt)
 	{
 		try {
@@ -143,6 +167,10 @@ public class Table extends javax.swing.JPanel
         }
 	}
 
+   /**
+    * Actions taken when hit button is pressed
+    * @param evt button pressed event
+    */
 	private void hitButtonActionPerformed(java.awt.event.ActionEvent evt)
 	{
 		if(!dealt)
@@ -206,6 +234,10 @@ public class Table extends javax.swing.JPanel
         }
 	}
 
+   /**
+    * Actions taken when double button is pressed
+    * @param evt button pressed event
+    */
 	private void doubleButtonActionPerformed(java.awt.event.ActionEvent evt)
 	{
         if(!dealt){
@@ -251,6 +283,9 @@ public class Table extends javax.swing.JPanel
         }
 	}
 
+    /**
+     * Method called when player gets busted
+     */
     private void playerBust() {
         JOptionPane.showMessageDialog(this, "You busted", "Information", JOptionPane.INFORMATION_MESSAGE);
         try {
@@ -317,6 +352,7 @@ public class Table extends javax.swing.JPanel
 
     /**
      * Private method to update user card stats
+     * @param s round end message
      */
     private void updateDatabaseWin(String s){
         char c = ' ';
@@ -341,7 +377,7 @@ public class Table extends javax.swing.JPanel
 
     /**
      * Render's this player's hand
-     * @param hand
+     * @param hand players hand
      */
 	private void renderPlayerHand(Hand hand)
 	{
@@ -360,7 +396,7 @@ public class Table extends javax.swing.JPanel
 
     /**
      * Render the dealer's hand
-     * @param dealer
+     * @param dealer dealers hand
      */
 	private void renderDealerHand(Hand dealer)
 	{
@@ -427,7 +463,7 @@ public class Table extends javax.swing.JPanel
 
 	/**
 	 * Update cash
-	 * @param cashAmount
+	 * @param cashAmount cash amount to be displayed
 	 */
     public void updateCashAmount(double cashAmount)
     {
@@ -436,27 +472,33 @@ public class Table extends javax.swing.JPanel
 
 	/**
 	 * Update bet
-	 * @param amount
+	 * @param amount new amount of money
 	 */
 	public void updateBetAmount(double amount){
 		this.betAmountLabel.setText("" + amount);
 	}
 
 	/**
-	 * Update the textarea
-     *
-     * @param s
+	 * Update the textarea used for jms messages
+     * @param s text to update textarea with
      */
     public void updateTextArea(String s){
 		jTextArea.setText(s);
 	}
 
+    /**
+     * updating gui to prevent possible display error related to layout
+     */
 	private void update()
 	{
 		this.validate();
 		this.update(this.getGraphics());
 	}
 
+    /**
+     * Paint green table area using graphics2d
+     * @param g
+     */
 	@Override
 	public void paintComponent(Graphics g)
 	{
@@ -749,6 +791,10 @@ public class Table extends javax.swing.JPanel
         add(jPanel1, java.awt.BorderLayout.LINE_END);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Resetting bet to 0
+     * @param evt button pressed event
+     */
     private void resetBetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBetBtnActionPerformed
         // TODO add your handling code here:
         if(!dealt){
@@ -757,6 +803,10 @@ public class Table extends javax.swing.JPanel
         }
     }//GEN-LAST:event_resetBetBtnActionPerformed
 
+     /**
+     * Actions taken when card image deal button is pressed on the gui.
+     * @param evt button pressed event
+     */
     private void startGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startGameActionPerformed
         // TODO add your handling code here:
         try {
@@ -806,11 +856,19 @@ public class Table extends javax.swing.JPanel
         }
     }//GEN-LAST:event_startGameActionPerformed
 
+    /**
+     * Changing deck image when mouse is clicked on it.
+     * @param evt MouseClick event
+     */
     private void startGameMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startGameMousePressed
         // TODO add your handling code here:
         startGame.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/deckofcardspressed.jpg"))); // NOI18N
     }//GEN-LAST:event_startGameMousePressed
 
+    /**
+     * Changing deck image when mouse is released from it.
+     * @param evt MouseClick event
+     */
     private void startGameMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startGameMouseReleased
         // TODO add your handling code here:
         startGame.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/deckofcards.jpg"))); // NOI18N
