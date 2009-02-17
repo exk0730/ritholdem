@@ -159,11 +159,12 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 
         jSplitPane.setTopComponent(userPanel);
 
-        registerPanel.setBackground(new java.awt.Color(102, 255, 102));
+        registerPanel.setBackground(new java.awt.Color(51, 204, 0));
         registerPanel.setPreferredSize(new java.awt.Dimension(400, 300));
         registerPanel.setLayout(new java.awt.GridBagLayout());
 
-        enterUserNameLabel.setFont(new java.awt.Font("Tahoma", 1, 14));
+        enterUserNameLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        enterUserNameLabel.setForeground(new java.awt.Color(255, 255, 204));
         enterUserNameLabel.setText("Enter username: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
@@ -223,14 +224,16 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         registerPanel.add(regPasswordTwoField, gridBagConstraints);
 
-        enterPasswordLabel.setFont(new java.awt.Font("Tahoma", 1, 14));
+        enterPasswordLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        enterPasswordLabel.setForeground(new java.awt.Color(255, 255, 204));
         enterPasswordLabel.setText("Enter password: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         registerPanel.add(enterPasswordLabel, gridBagConstraints);
 
-        reenterPasswordLabel.setFont(new java.awt.Font("Tahoma", 1, 14));
+        reenterPasswordLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        reenterPasswordLabel.setForeground(new java.awt.Color(255, 255, 204));
         reenterPasswordLabel.setText("Re-enter password: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -238,7 +241,8 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         registerPanel.add(reenterPasswordLabel, gridBagConstraints);
 
-        emailLabel.setFont(new java.awt.Font("Tahoma", 1, 14));
+        emailLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        emailLabel.setForeground(new java.awt.Color(255, 255, 204));
         emailLabel.setText("Enter email address: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -246,7 +250,8 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         registerPanel.add(emailLabel, gridBagConstraints);
 
-        firstNameLabel.setFont(new java.awt.Font("Tahoma", 1, 14));
+        firstNameLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        firstNameLabel.setForeground(new java.awt.Color(255, 255, 204));
         firstNameLabel.setText("First name: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -263,7 +268,8 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         registerPanel.add(firstNameTextField, gridBagConstraints);
 
-        lastNameLabel.setFont(new java.awt.Font("Tahoma", 1, 14));
+        lastNameLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lastNameLabel.setForeground(new java.awt.Color(255, 255, 204));
         lastNameLabel.setText("Last name: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -280,7 +286,8 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         registerPanel.add(lastNameTextField, gridBagConstraints);
 
-        moneyLabel.setFont(new java.awt.Font("Tahoma", 1, 14));
+        moneyLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        moneyLabel.setForeground(new java.awt.Color(255, 255, 204));
         moneyLabel.setText("Money Amount: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -297,7 +304,8 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         registerPanel.add(moneyTextField, gridBagConstraints);
 
-        creditCardLabel1.setFont(new java.awt.Font("Tahoma", 1, 14));
+        creditCardLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        creditCardLabel1.setForeground(new java.awt.Color(255, 255, 204));
         creditCardLabel1.setText("Credit Card No.:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -768,7 +776,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         menuBarPanel.setBackground(new java.awt.Color(0, 0, 0));
 
         addMoneyButton.setBackground(new java.awt.Color(0, 151, 53));
-        addMoneyButton.setForeground(new java.awt.Color(153, 255, 0));
+        addMoneyButton.setForeground(new java.awt.Color(255, 255, 255));
         addMoneyButton.setText("Add Money");
         addMoneyButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         addMoneyButton.addActionListener(new java.awt.event.ActionListener() {
@@ -780,7 +788,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         });
 
         logoutButton.setBackground(new java.awt.Color(0, 151, 53));
-        logoutButton.setForeground(new java.awt.Color(153, 255, 0));
+        logoutButton.setForeground(new java.awt.Color(255, 255, 255));
         logoutButton.setText("Logout");
         logoutButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         logoutButton.setPreferredSize(new java.awt.Dimension(59, 19));

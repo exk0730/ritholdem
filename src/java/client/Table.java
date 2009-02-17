@@ -703,6 +703,14 @@ public class Table extends javax.swing.JPanel
         startGame.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/deckofcards.jpg"))); // NOI18N
         startGame.setBorder(null);
         startGame.setPreferredSize(new java.awt.Dimension(198, 194));
+        startGame.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                startGameMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                startGameMouseReleased(evt);
+            }
+        });
         startGame.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 startGameActionPerformed(evt);
@@ -802,6 +810,16 @@ public class Table extends javax.swing.JPanel
             JOptionPane.showMessageDialog(this, "You already have a hand", "Information", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_startGameActionPerformed
+
+    private void startGameMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startGameMousePressed
+        // TODO add your handling code here:
+        startGame.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/deckofcardspressed.jpg"))); // NOI18N
+    }//GEN-LAST:event_startGameMousePressed
+
+    private void startGameMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startGameMouseReleased
+        // TODO add your handling code here:
+        startGame.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/deckofcards.jpg"))); // NOI18N
+    }//GEN-LAST:event_startGameMouseReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel betAmountLabel;
