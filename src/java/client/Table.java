@@ -252,7 +252,7 @@ public class Table extends javax.swing.JPanel
 	}
 
     private void playerBust() {
-        JOptionPane.showMessageDialog(this, "You busted", "Lose", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "You busted", "Information", JOptionPane.INFORMATION_MESSAGE);
         try {
             initCash = client.updateBank(userID, (-bet));
         } catch (RemoteException ex) {
@@ -293,7 +293,7 @@ public class Table extends javax.swing.JPanel
             }
             String message = s.substring(0, s.indexOf('_'));
             updateDatabaseWin(message);
-            JOptionPane.showMessageDialog(this, message, "", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, message, "Information", JOptionPane.INFORMATION_MESSAGE);
 
             double betTemp = Double.parseDouble(s.substring(s.indexOf('_')+1, s.length()));
             
