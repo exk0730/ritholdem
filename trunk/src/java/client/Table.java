@@ -254,7 +254,6 @@ public class Table extends javax.swing.JPanel
 
     private void playerBust() {
         JOptionPane.showMessageDialog(this, "You busted", "Lose", JOptionPane.INFORMATION_MESSAGE);
-        bet *= -1;
         try {
             initCash = client.updateBank(userID, bet);
         } catch (RemoteException ex) {
@@ -296,7 +295,7 @@ public class Table extends javax.swing.JPanel
             String message = s.substring(0, s.indexOf('_'));
             updateDatabaseWin(message);
             JOptionPane.showMessageDialog(this, message, "", JOptionPane.INFORMATION_MESSAGE);
-            bet = Double.parseDouble(s.substring(s.indexOf('_')+1, s.length()));
+            //bet = Double.parseDouble(s.substring(s.indexOf('_')+1, s.length()));
             try {
                 initCash = client.updateBank(userID, bet);
             } catch (RemoteException ex) {
@@ -466,7 +465,7 @@ public class Table extends javax.swing.JPanel
 		Graphics2D graphics = (Graphics2D)g;
 		
 		RadialGradientPaint p = new RadialGradientPaint(new Point2D.Double(getWidth() / 2,
-		getHeight()/2.15), getWidth() / 3.2f, new float[]{0.0f, 1.0f},
+		getHeight()/2.15), getWidth() / 3.45f, new float[]{0.0f, 1.0f},
 		new Color[]{Color.GREEN, Color.BLACK});
 	      
 		graphics.setPaint(p);

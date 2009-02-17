@@ -18,10 +18,10 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 	private double initCash;
     private int userID;
     private Client client;
-    public JMenuBar jMenuBar;
-    public JMenuItem addMoneyBtn;
-    public JMenuItem logoutBtn;
     public Table table1;
+    public JPanel menuBarPanel;
+    public JButton addMoneyButton;
+    public JButton logoutButton;
 	 
 	//---------------------------
 	//Variables for sliding panel
@@ -33,11 +33,8 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 	int iterator =	0;
 	 
 	/** Creates new form LoginPanel	*/
-	public LoginPanel(String host, JMenuBar _jMenuBar, JMenuItem _addMoneyBtn, JMenuItem _logoutBtn) throws Exception {
+	public LoginPanel(String host) throws Exception {
         client = Client.instance(host);
-        jMenuBar = _jMenuBar;
-        addMoneyBtn = _addMoneyBtn;
-        logoutBtn = _logoutBtn;
 		initComponents();
 	}
 	
@@ -115,7 +112,7 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
         userPanel.add(passwordLabel, gridBagConstraints);
 
         passwordField.setBackground(new java.awt.Color(51, 204, 0));
-        passwordField.setFont(new java.awt.Font("Tahoma", 0, 18));
+        passwordField.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         passwordField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         passwordField.setPreferredSize(new java.awt.Dimension(150, 25));
         passwordField.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -392,22 +389,12 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 					}
 
 					this.removeAll();
+
+                    this.setLayout(new java.awt.BorderLayout());
 					table1 = new Table(initCash, userID, client);
 
-					jMenuBar.setVisible(true);
-					logoutBtn.addActionListener(new java.awt.event.ActionListener() {
-						public void actionPerformed(java.awt.event.ActionEvent evt) {
-							logoutBtnActionPerformed(evt);
-						}
-					});
-
-					addMoneyBtn.addActionListener(new java.awt.event.ActionListener() {
-						public void actionPerformed(java.awt.event.ActionEvent evt) {
-								addMoneyBtnActionPerformed(evt);
-						}
-					});
-
-					this.setLayout(new java.awt.BorderLayout());
+					createMenuBar();
+                    this.add(menuBarPanel,	java.awt.BorderLayout.PAGE_START);
 					this.add(table1,	java.awt.BorderLayout.CENTER);
 					//JLabel statusLabel = new JLabel("...");
 					//this.add(statusLabel, java.awt.BorderLayout.SOUTH);
@@ -712,22 +699,12 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
                         }
 
                         this.removeAll();
-                        table1 = new Table(initCash, userID, client);
-
-                        jMenuBar.setVisible(true);
-                        logoutBtn.addActionListener(new java.awt.event.ActionListener() {
-                            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                logoutBtnActionPerformed(evt);
-                            }
-                        });
-
-                        addMoneyBtn.addActionListener(new java.awt.event.ActionListener() {
-                            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                    addMoneyBtnActionPerformed(evt);
-                            }
-                        });
 
                         this.setLayout(new java.awt.BorderLayout());
+                        table1 = new Table(initCash, userID, client);
+
+                        createMenuBar();
+                        this.add(menuBarPanel,	java.awt.BorderLayout.PAGE_START);
                         this.add(table1,	java.awt.BorderLayout.CENTER);
                         //JLabel statusLabel = new JLabel("...");
                         //this.add(statusLabel, java.awt.BorderLayout.SOUTH);
@@ -781,40 +758,90 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 		regUserNameTextField.setText("");
 	}
 
-    public void addMoneyBtnActionPerformed(ActionEvent evt)
+
+    public void createMenuBar()
     {
-        Boolean validAmount = true;
-		try {
-			initCash = client.getBank();
-		} catch (UnknownUserException uue) {
-			 JOptionPane.showMessageDialog(this, uue.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-			 return;
-		}
-        catch (RemoteException uue) {
-			 JOptionPane.showMessageDialog(this, "Connection Problem. Error retreiving bank.", "Error", JOptionPane.ERROR_MESSAGE);
-			 return;
-		}
+        menuBarPanel = new JPanel();
+        addMoneyButton = new JButton();
+        logoutButton = new JButton();
+
+        menuBarPanel.setBackground(new java.awt.Color(0, 0, 0));
+
+        addMoneyButton.setBackground(new java.awt.Color(0, 151, 53));
+        addMoneyButton.setForeground(new java.awt.Color(153, 255, 0));
+        addMoneyButton.setText("Add Money");
+        addMoneyButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        addMoneyButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addMoneyButtonActionPerformed(evt);
+            }
+
+
+        });
+
+        logoutButton.setBackground(new java.awt.Color(0, 151, 53));
+        logoutButton.setForeground(new java.awt.Color(153, 255, 0));
+        logoutButton.setText("Logout");
+        logoutButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        logoutButton.setPreferredSize(new java.awt.Dimension(59, 19));
+        logoutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutButtonActionPerformed(evt);
+            }
+
+        });
+
+        javax.swing.GroupLayout menuBarPanelLayout = new javax.swing.GroupLayout(menuBarPanel);
+        menuBarPanel.setLayout(menuBarPanelLayout);
+        menuBarPanelLayout.setHorizontalGroup(
+            menuBarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(menuBarPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(addMoneyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(235, 235, 235))
+        );
+        menuBarPanelLayout.setVerticalGroup(
+            menuBarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menuBarPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(menuBarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addMoneyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        add(menuBarPanel, java.awt.BorderLayout.PAGE_START);
+    }
+
+     private void addMoneyButtonActionPerformed(ActionEvent evt) {
+                Boolean validAmount = true;
+        try {
+            initCash = client.getBank();
+        } catch (UnknownUserException uue) {
+            JOptionPane.showMessageDialog(this, uue.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        } catch (RemoteException uue) {
+            JOptionPane.showMessageDialog(this, "Connection Problem. Error retreiving bank.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         double moneyToAddDbl = 0;
         String moneyToAddString = JOptionPane.showInputDialog(this, "How much money would you like to put into your account?", "Information", JOptionPane.INFORMATION_MESSAGE);
-        if(!moneyToAddString.equals(""))
-        {
-            try
-            {
+        if(!moneyToAddString.equals("")) {
+            try {
                 moneyToAddDbl = Double.parseDouble(moneyToAddString);
 
-                if(moneyToAddDbl < 0)
-                {
-                      JOptionPane.showMessageDialog(this, "You've entered negative money amount to add, please re-enter a positive amount.", "Error", JOptionPane.ERROR_MESSAGE);
-                      validAmount = false;
+                if(moneyToAddDbl < 0) {
+                    JOptionPane.showMessageDialog(this, "You've entered negative money amount to add, please re-enter a positive amount.", "Error", JOptionPane.ERROR_MESSAGE);
+                    validAmount = false;
                 }
-                if(1000000 - initCash < moneyToAddDbl)
-                {
+                if(1000000 - initCash < moneyToAddDbl) {
                     JOptionPane.showMessageDialog(this, "You've maxed out the addable amount. Maximum amount you can have is 1000000. Please, re-enter.", "Error", JOptionPane.ERROR_MESSAGE);
                     validAmount = false;
                 }
 
-                if(validAmount)
-                {
+                if(validAmount) {
                     try {
                         client.addMoney(moneyToAddDbl);
                     } catch (RemoteException ex) {
@@ -827,35 +854,32 @@ public class LoginPanel	extends javax.swing.JPanel	implements ActionListener
 
                     JOptionPane.showMessageDialog(this, "You have successfully added $" + moneyToAddDbl + " to your account.", "Information", JOptionPane.INFORMATION_MESSAGE);
                 }
-            }
-            catch(NumberFormatException nfe)
-            {
+            } catch(NumberFormatException nfe) {
                 JOptionPane.showMessageDialog(this, "You have entered an invalid number.", "Error", JOptionPane.ERROR_MESSAGE);
                 validAmount = false;
-            }
-            catch(NullPointerException npe)
-            {
+            } catch(NullPointerException npe) {
                 JOptionPane.showMessageDialog(this, "You need to enter a number.", "Error", JOptionPane.ERROR_MESSAGE);
                 validAmount = false;
             }
 
         }
-    }
+            }
 
-    public void logoutBtnActionPerformed(ActionEvent evt)
+
+private void logoutButtonActionPerformed(ActionEvent evt) {
+
+    try
     {
-        try {
-            client.logout();
-        } catch (NotConnectedException ex) {
-            JOptionPane.showMessageDialog(this, "Connection Problem. Error Logging out.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        this.removeAll();
-        initComponents();
-        jMenuBar.setVisible(false);
-        this.revalidate();
+        client.logout();
     }
-		
+    catch (NotConnectedException ex) {
+        JOptionPane.showMessageDialog(this, "Connection Problem. Error Logging out.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
 
+    this.removeAll();
+    initComponents();
+    this.revalidate();
+}
 	
 	
     // Variables declaration - do not modify//GEN-BEGIN:variables

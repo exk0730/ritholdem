@@ -33,7 +33,6 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
 
 		loginPanel1 = null;
         initComponents();
-        jMenuBar.setVisible(false);
 		this.addWindowListener(this);
         
     }
@@ -58,11 +57,6 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
         teamName2 = new javax.swing.JLabel();
         teamName3 = new javax.swing.JLabel();
         teamName4 = new javax.swing.JLabel();
-        jMenuBar = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        addMoneyBtn = new javax.swing.JMenuItem();
-        jSeparator1 = new javax.swing.JSeparator();
-        logoutBtn = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -101,17 +95,17 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("(Ex: 129.234.13.13, localhost)");
 
-        titleLabel.setFont(new java.awt.Font("Tahoma", 2, 48));
+        titleLabel.setFont(new java.awt.Font("Tahoma", 2, 48)); // NOI18N
         titleLabel.setForeground(new java.awt.Color(255, 255, 255));
         titleLabel.setText("Blackjack Game ");
 
         teamName1.setBackground(new java.awt.Color(255, 255, 255));
-        teamName1.setFont(new java.awt.Font("Tahoma", 0, 18));
+        teamName1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         teamName1.setForeground(new java.awt.Color(255, 255, 255));
         teamName1.setText("Emilien Girault");
 
         teamName2.setBackground(new java.awt.Color(255, 255, 255));
-        teamName2.setFont(new java.awt.Font("Tahoma", 0, 18));
+        teamName2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         teamName2.setForeground(new java.awt.Color(255, 255, 255));
         teamName2.setText("Eric Kisner");
 
@@ -121,7 +115,7 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
         teamName3.setText("Daniyar Amanchin");
 
         teamName4.setBackground(new java.awt.Color(255, 255, 255));
-        teamName4.setFont(new java.awt.Font("Tahoma", 0, 18));
+        teamName4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         teamName4.setForeground(new java.awt.Color(255, 255, 255));
         teamName4.setText("Tyler Schindel");
 
@@ -134,16 +128,6 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
                 .addGroup(guiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, guiPanelLayout.createSequentialGroup()
                         .addGroup(guiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(teamName2)
-                            .addComponent(teamName1))
-                        .addGap(39, 39, 39))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, guiPanelLayout.createSequentialGroup()
-                        .addGroup(guiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(teamName4)
-                            .addComponent(teamName3))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, guiPanelLayout.createSequentialGroup()
-                        .addGroup(guiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(titleLabel)
                             .addGroup(guiPanelLayout.createSequentialGroup()
                                 .addComponent(ipAddressLabel)
@@ -154,11 +138,23 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
                                         .addComponent(ipAddressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(connectBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(369, 369, 369))))
+                        .addGap(369, 369, 369))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, guiPanelLayout.createSequentialGroup()
+                        .addGroup(guiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, guiPanelLayout.createSequentialGroup()
+                                .addGroup(guiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(teamName2)
+                                    .addComponent(teamName1))
+                                .addGap(29, 29, 29))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, guiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(teamName4)
+                                .addComponent(teamName3)))
+                        .addContainerGap())))
         );
         guiPanelLayout.setVerticalGroup(
             guiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(guiPanelLayout.createSequentialGroup()
+                .addGap(28, 28, 28)
                 .addComponent(teamName1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(teamName2)
@@ -166,7 +162,7 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
                 .addComponent(teamName3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(teamName4)
-                .addGap(56, 56, 56)
+                .addGap(89, 89, 89)
                 .addComponent(titleLabel)
                 .addGap(88, 88, 88)
                 .addGroup(guiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -175,25 +171,12 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
                     .addComponent(connectBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         connectionPanel.add(guiPanel, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(connectionPanel, java.awt.BorderLayout.CENTER);
-
-        jMenu1.setText("File");
-
-        addMoneyBtn.setText("Add money");
-        jMenu1.add(addMoneyBtn);
-        jMenu1.add(jSeparator1);
-
-        logoutBtn.setText("Logout");
-        jMenu1.add(logoutBtn);
-
-        jMenuBar.add(jMenu1);
-
-        setJMenuBar(jMenuBar);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -206,7 +189,7 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
         { 
             try
             {
-                loginPanel1 = new client.LoginPanel(url, jMenuBar, addMoneyBtn, logoutBtn);
+                loginPanel1 = new client.LoginPanel(url);
                 ok = true;
             } catch (Exception ex)
             {
@@ -238,7 +221,7 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
             {
                 try
                 {
-                    loginPanel1 = new client.LoginPanel(url, jMenuBar, addMoneyBtn, logoutBtn);
+                    loginPanel1 = new client.LoginPanel(url);
                     ok = true;
                 } catch (Exception ex)
                 {
@@ -270,17 +253,12 @@ public class ClientGUI extends javax.swing.JFrame implements WindowListener{
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem addMoneyBtn;
     private javax.swing.JButton connectBtn;
     private javax.swing.JPanel connectionPanel;
     private javax.swing.JPanel guiPanel;
     private javax.swing.JLabel ipAddressLabel;
     private javax.swing.JTextField ipAddressTextField;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuBar jMenuBar;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JMenuItem logoutBtn;
     private javax.swing.JLabel teamName1;
     private javax.swing.JLabel teamName2;
     private javax.swing.JLabel teamName3;
