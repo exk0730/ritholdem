@@ -295,15 +295,17 @@ public class Table extends javax.swing.JPanel
             String message = s.substring(0, s.indexOf('_'));
             updateDatabaseWin(message);
             JOptionPane.showMessageDialog(this, message, "", JOptionPane.INFORMATION_MESSAGE);
-            //bet = Double.parseDouble(s.substring(s.indexOf('_')+1, s.length()));
+
+            double betTemp = Double.parseDouble(s.substring(s.indexOf('_')+1, s.length()));
+            
+            
             try {
-                initCash = client.updateBank(userID, bet);
+                initCash = client.updateBank(userID, betTemp);
             } catch (RemoteException ex) {
                 JOptionPane.showMessageDialog(this, "Connection Problem. Error updating bank.", "Error", JOptionPane.ERROR_MESSAGE);
             }
             cashAmountLabel.setText("" + initCash );
-            //bet = 0;
-            updateBetAmount(bet);
+
             wipe();
         }
         catch(UnknownUserException uue){
@@ -471,11 +473,7 @@ public class Table extends javax.swing.JPanel
 		graphics.setPaint(p);
        
 		graphics.fillRect(0, 0, getWidth(), getHeight());
-    
-	 	//graphics.setPaint(new GradientPaint(0, getHeight()/2, Color.WHITE, getWidth(), getHeight()/2, Color.GREEN));
-		//RadialGradientPaint p = new RadialGradientPaint(new Point2D.Double(getWidth() / 2.0,
-		//								getHeight() / 2.0), getWidth() / 2.0f, new float[]{0.0f, 1.0f},
-		//								new Color[]{Color.GREEN, Color.BLACK}); 
+ 
 	}
 	
 	/** This method is called from within the constructor to
